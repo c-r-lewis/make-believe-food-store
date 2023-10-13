@@ -25,6 +25,15 @@ nav a {
     padding: 5vh;
 }
 
+.right div {
+    position: absolute;
+    margin-left: 3vw;
+    margin-top: 4vh;
+    background-color: white;
+    height: 89%;
+    width: 84%;
+}
+
 
 header {
     width: 85vw;
