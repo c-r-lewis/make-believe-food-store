@@ -6,6 +6,8 @@ html, body {
 
 body {
     background-color: #E0E4F2;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 nav {
@@ -18,10 +20,16 @@ nav {
     justify-content: center;
 }
 
+nav a {
+    text-align: center;
+    padding: 5vh;
+}
+
 
 header {
-    background: radial-gradient(110.61% 2.45% at -126.80% 1.28%,
-    #9C45E6 50%,
-    rgba(158, 107, 202, 0.42) 100%);
+    width: 85vw;
+    height: fit-content;
+    padding: 2vh;
+    background: radial-gradient(110.61% 2.45% at -126.80% 1.28%, #9C45E6 50%, rgba(158, 107, 202, 0.42) 100%);
 }
 
