@@ -13,8 +13,21 @@
 
     <div>
         <main>
-            <section>
-                <img src="" alt="Produit">
+            <section class="grille-produits">
+                <div class="article">
+                    <img src="" alt="Produit">
+                    <button>Modifier</button>
+                </div>
+
+                <div class="article">
+                    <img src="" alt="Produit">
+                    <button>Modifier</button>
+                </div>
+
+                <div class="article">
+                    <img src="" alt="Produit">
+                    <button>Modifier</button>
+                </div>
             </section>
         </main>
     </div>

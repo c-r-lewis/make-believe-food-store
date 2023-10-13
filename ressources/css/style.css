@@ -25,15 +25,6 @@ nav a {
     padding: 5vh;
 }
 
-.right div {
-    position: absolute;
-    margin-left: 3vw;
-    margin-top: 4vh;
-    background-color: white;
-    height: 89%;
-    width: 84%;
-}
-
 
 header {
     width: 85vw;
@@ -42,3 +33,25 @@ header {
     background: radial-gradient(110.61% 2.45% at -126.80% 1.28%, #9C45E6 50%, rgba(158, 107, 202, 0.42) 100%);
 }
 
+main .grille-produits {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: absolute;
+    margin-left: 3vw;
+    margin-top: 4vh;
+    background-color: white;
+    height: 89%;
+    width: 84%;
+}
+
+.right .article {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
