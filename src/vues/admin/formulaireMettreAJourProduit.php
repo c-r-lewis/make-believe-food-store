@@ -26,6 +26,6 @@
             <label>Images</label>
             <input type="file" accept=".jpg, .jpeg, .png">
         </fieldset>
-
     </form>
+    <button>Annuler</button>
 </div>
