@@ -28,4 +28,5 @@
         </fieldset>
     </form>
     <button>Annuler</button>
+    <button>Supprimer Produit</button>
 </div>
