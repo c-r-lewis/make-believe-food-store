@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #E0E4F2;
+}
+
+nav {
+    height: 100vh;
+    background-color: #242B3D;
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+header {
+    background: radial-gradient(110.61% 2.45% at -126.80% 1.28%,
+    #9C45E6 50%,
+    rgba(158, 107, 202, 0.42) 100%);
+}
+
