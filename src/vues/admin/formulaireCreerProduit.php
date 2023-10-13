@@ -1,5 +1,5 @@
 <div>
-    <form>
+    <form enctype="multipart/form-data">
         <fieldset>
             <legend>Présentation générale</legend>
             <p>
@@ -24,6 +24,7 @@
         </fieldset>
         <fieldset>
             <label>Images</label>
+            <input type="file" accept=".jpg, .jpeg, .png">
         </fieldset>
 
     </form>
