@@ -5,5 +5,5 @@ namespace App\Covoiturage\Modele\Repository;
 abstract class UtilisateurGeneriqueRepository extends AbstractRepository
 {
 
-    protected abstract static function getOngletsMenus();
+    protected abstract static function getOngletsMenu();
 }

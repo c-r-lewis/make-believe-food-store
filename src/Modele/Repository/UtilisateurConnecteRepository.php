@@ -6,7 +6,7 @@ use AbstractDataObject;
 use App\Covoiturage\Modele\Repository\AbstractRepository;
 use UtilisateurConnecte;
 
-class UtilisateurConnecteRepository extends AbstractRepository
+abstract class UtilisateurConnecteRepository extends UtilisateurGeneriqueRepository
 {
 
 

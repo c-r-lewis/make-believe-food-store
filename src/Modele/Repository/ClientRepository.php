@@ -2,7 +2,7 @@
 
 namespace App\Covoiturage\Modele\Repository;
 
-class ClientRepository
+class ClientRepository extends UtilisateurConnecteRepository
 {
     protected function construireDepuisTableau(array $objetFormatTableau): Client
     {
@@ -12,6 +12,10 @@ class ClientRepository
         $utilisateur->setEmail($objetFormatTableau['email']);
         $utilisateur->setPrenom($objetFormatTableau['prenom']);
         return $utilisateur;
+    }
+
+    protected static function getOngletsMenu() {
+        $sql = "SELECT";
     }
 
 }
