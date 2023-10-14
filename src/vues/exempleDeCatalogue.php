@@ -16,17 +16,17 @@
             <section class="grille-produits">
                 <div class="article">
                     <img src="" alt="Produit">
-                    <button>Modifier</button>
+                    <button>Voir produit</button>
                 </div>
 
                 <div class="article">
                     <img src="" alt="Produit">
-                    <button>Modifier</button>
+                    <button>Voir produit</button>
                 </div>
 
                 <div class="article">
                     <img src="" alt="Produit">
-                    <button>Modifier</button>
+                    <button>Voir produit</button>
                 </div>
             </section>
         </main>
