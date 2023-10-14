@@ -14,6 +14,8 @@
     <div>
         <main>
             <!-- Télécharger la vue correspondante ic -->
+            <?php
+            ?>
         </main>
     </div>
 </div>

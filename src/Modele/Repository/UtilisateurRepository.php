@@ -4,7 +4,7 @@ namespace App\Covoiturage\Modele\Repository;
 
 use AbstractDataObject;
 use App\Covoiturage\Modele\Repository\AbstractRepository;
-use Utilisateur;
+use UtilisateurConnectee;
 
 class UtilisateurRepository extends AbstractRepository
 {
@@ -20,9 +20,9 @@ class UtilisateurRepository extends AbstractRepository
 
     }
 
-    protected function construireDepuisTableau(array $objetFormatTableau): Utilisateur
+    protected function construireDepuisTableau(array $objetFormatTableau): UtilisateurConnectee
     {
-        $utilisateur = new Utilisateur();
+        $utilisateur = new UtilisateurConnectee();
         $utilisateur->setNom($objetFormatTableau['nom']);
         $utilisateur->setMdp($objetFormatTableau['mdp']);
         $utilisateur->setEmail($objetFormatTableau['email']);
