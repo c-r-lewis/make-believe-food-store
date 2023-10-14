@@ -1,0 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #E0E4F2;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+nav {
+    height: 100vh;
+    background-color: #242B3D;
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+nav a {
+    text-align: center;
+    padding: 5vh;
+}
+
+
+header {
+    width: 85vw;
+    height: fit-content;
+    padding: 2vh;
+    background: radial-gradient(110.61% 2.45% at -126.80% 1.28%, #9C45E6 50%, rgba(158, 107, 202, 0.42) 100%);
+}
+
+main .grille-produits {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: absolute;
+    margin-left: 3vw;
+    margin-top: 4vh;
+    background-color: white;
+    height: 89%;
+    width: 84%;
+}
+
+.right .article {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
