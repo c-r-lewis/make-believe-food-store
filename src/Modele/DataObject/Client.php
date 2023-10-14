@@ -1,6 +1,6 @@
 <?php
 
-class Client extends UtilisateurConnectee
+class Client extends UtilisateurConnecte
 {
 
 }

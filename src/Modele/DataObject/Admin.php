@@ -1,6 +1,6 @@
 <?php
 
-class Admin extends UtilisateurConnectee
+class Admin extends UtilisateurConnecte
 {
 
 }

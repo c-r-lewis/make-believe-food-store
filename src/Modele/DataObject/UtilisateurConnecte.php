@@ -1,6 +1,6 @@
 <?php
 
-class UtilisateurConnectee extends AbstractDataObject
+abstract class UtilisateurConnecte extends UtilisateurGenerique
 {
     private string $email;
     private string $nom;
