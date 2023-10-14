@@ -26,5 +26,6 @@
     </aside>
 </div>
 
+<script src="../../ressources/scripts/fonctionsBasiques.js"></script>
 </body>
 </html>
