@@ -20,13 +20,5 @@ class UtilisateurConnecteRepository extends AbstractRepository
 
     }
 
-    protected function construireDepuisTableau(array $objetFormatTableau): UtilisateurConnecte
-    {
-        $utilisateur = new UtilisateurConnecte();
-        $utilisateur->setNom($objetFormatTableau['nom']);
-        $utilisateur->setMdp($objetFormatTableau['mdp']);
-        $utilisateur->setEmail($objetFormatTableau['email']);
-        $utilisateur->setPrenom($objetFormatTableau['prenom']);
-        return $utilisateur;
-    }
+    protected abstract function construireDepuisTableau(array $objetFormatTableau): UtilisateurConnecte;
 }
