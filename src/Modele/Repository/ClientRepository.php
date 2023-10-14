@@ -17,8 +17,9 @@ class ClientRepository extends UtilisateurConnecteRepository
         return $utilisateur;
     }
 
-    protected static function getOngletsMenu() {
-        $sql = "SELECT";
+
+    protected function getRole() : String {
+        return "Client";
     }
 
 }

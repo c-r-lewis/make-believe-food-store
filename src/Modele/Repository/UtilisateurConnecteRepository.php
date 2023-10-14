@@ -12,6 +12,8 @@ abstract class UtilisateurConnecteRepository extends UtilisateurGeneriqueReposit
         return "Site_Utilisateurs";
     }
 
+    protected abstract function getRole() : String;
+
     protected function sauvegarder(AbstractDataObject $dataObject)
     {
 
