@@ -2,9 +2,12 @@
 
 namespace App\Covoiturage\Modele\Repository;
 
+use App\Covoiturage\Modele\DataObject\Client as Client;
+
+
 class ClientRepository extends UtilisateurConnecteRepository
 {
-    protected function construireDepuisTableau(array $objetFormatTableau): Client
+    protected function construireDepuisTableau(array $objetFormatTableau) : Client
     {
         $utilisateur = new Client();
         $utilisateur->setNom($objetFormatTableau['nom']);

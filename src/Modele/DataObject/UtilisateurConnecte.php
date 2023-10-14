@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Covoiturage\Modele\DataObject;
 abstract class UtilisateurConnecte extends UtilisateurGenerique
 {
     private string $email;

@@ -2,7 +2,7 @@
 
 namespace App\Covoiturage\Modele\Repository;
 
-use AbstractDataObject;
+use App\Covoiturage\Modele\DataObject\AbstractDataObject as AbstractDataObject;
 
 abstract class AbstractRepository
 {
