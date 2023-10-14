@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>A changer en fonction de la vue</title>
-    <link rel="stylesheet" type="text/css" href="../../../ressources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../ressources/css/style.css">
 </head>
 <body>
 <div class="right">
@@ -14,8 +14,6 @@
     <div>
         <main>
             <!-- Télécharger la vue correspondante ic -->
-            <?php
-            ?>
         </main>
     </div>
 </div>
@@ -23,7 +21,9 @@
 <div class="left">
     <aside>
         <nav>
-            <!-- Télécharger le menu correspondant ici -->
+            <?php
+            /** @var string $cheminVue */
+            require __DIR__ ."/{$cheminVue}";?>
         </nav>
     </aside>
 </div>
