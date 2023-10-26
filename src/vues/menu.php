@@ -3,4 +3,3 @@
 foreach ($onglets as $onglet) {
     echo '<a href="">' . $onglet . '</a>';
 }
-?>

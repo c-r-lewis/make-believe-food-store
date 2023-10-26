@@ -12,7 +12,7 @@ class ControleurClient {
     }
 
     public static function loadMenu() : void {
-        ControleurClient::afficherVue('../vue/vueGenerale.php', ["cheminVue" => 'menu.php', "onglets" => (new ClientRepository())->getOngletsMenus()]);
+        ControleurClient::afficherVue('vueGenerale.php', ["cheminBody" => 'menu.php', "onglets" => (new ClientRepository())->getOngletsMenus()]);
     }
 
 
