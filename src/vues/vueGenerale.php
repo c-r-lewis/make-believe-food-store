@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>A changer en fonction de la vue</title>
-    <!--<link rel="stylesheet" type="text/css" href="../../ressources/css/style.css">-->
+    <link rel="stylesheet" type="text/css" href="../../ressources/css/style.css">
 </head>
 <body>
 <div class="right">

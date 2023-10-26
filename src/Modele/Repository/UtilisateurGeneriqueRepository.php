@@ -5,7 +5,7 @@ namespace App\Magasin\Modele\Repository;
 abstract class UtilisateurGeneriqueRepository extends AbstractRepository
 {
 
-    public function getOngletsMenus() {
+    public function getOngletsMenus() : array {
         $sql = "SELECT M.nomOnglet 
                 FROM Site_OngletsMenus M
                 JOIN Site_AvoirAcces A ON A.nomOnglet = M.nomOnglet
@@ -18,7 +18,14 @@ abstract class UtilisateurGeneriqueRepository extends AbstractRepository
 
         $pdoStatement -> execute($values);
 
-        return $pdoStatement->fetch();
+        $resultat = [];
+        $i=0;
+
+        foreach ($pdoStatement as $ligne) {
+            $resultat[$i] = $ligne["nomOnglet"];
+            $i++;
+        }
+        return $resultat;
 
     }
 }
