@@ -79,5 +79,11 @@ class Produit
         $this->prixProduit = $prixProduit;
     }
 
-
+    public function __toString() : string {
+        return "
+            <p> idProduit : $this->idProduit \n
+            Nom produit : $this->nomProduit \n
+            Description produit : $this->descriptionProduit \n
+            Prix Produit : $this->prixProduit \n";
+    }
 }
