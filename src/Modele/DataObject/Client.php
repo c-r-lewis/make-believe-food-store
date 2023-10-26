@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\DataObject;
+namespace App\Magasin\Modele\DataObject;
 
-use App\Covoiturage\Modele\DataObject\UtilisateurConnecte as UtilisateurConnecte;
+use App\Magasin\Modele\DataObject\UtilisateurConnecte as UtilisateurConnecte;
 class Client extends UtilisateurConnecte
 {
 

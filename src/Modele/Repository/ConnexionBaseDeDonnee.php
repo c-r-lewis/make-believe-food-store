@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modele\Repository;
 
-use App\Covoiturage\Configuration\Configuration as Configuration;
+use App\Magasin\Configuration\Configuration as Configuration;
 use PDO;
 
 class ConnexionBaseDeDonnee

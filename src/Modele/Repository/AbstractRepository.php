@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modele\Repository;
 
-use App\Covoiturage\Modele\DataObject\AbstractDataObject as AbstractDataObject;
+use App\Magasin\Modele\DataObject\AbstractDataObject as AbstractDataObject;
 
 abstract class AbstractRepository
 {

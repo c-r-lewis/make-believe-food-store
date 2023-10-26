@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
-use App\Covoiturage\Modele\DataObject\AbstractDataObject as AbstractDataObject;
-use App\Covoiturage\Modele\DataObject\UtilisateurConnecte as UtilisateurConnecte;
+namespace App\Magasin\Modele\Repository;
+use App\Magasin\Modele\DataObject\AbstractDataObject as AbstractDataObject;
+use App\Magasin\Modele\DataObject\UtilisateurConnecte as UtilisateurConnecte;
 abstract class UtilisateurConnecteRepository extends UtilisateurGeneriqueRepository
 {
 

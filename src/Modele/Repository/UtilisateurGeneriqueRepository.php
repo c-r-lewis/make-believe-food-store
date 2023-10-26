@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modele\Repository;
 
 abstract class UtilisateurGeneriqueRepository extends AbstractRepository
 {

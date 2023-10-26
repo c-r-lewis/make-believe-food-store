@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modele\Repository;
 
-use App\Covoiturage\Modele\DataObject\Client as Client;
+use App\Magasin\Modele\DataObject\Client as Client;
 
 
 class ClientRepository extends UtilisateurConnecteRepository
