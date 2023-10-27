@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
 
 class ControleurUtilisateurGenerique {
@@ -14,7 +15,17 @@ class ControleurUtilisateurGenerique {
     }
 
     public static function loadPage() : void{
-        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+
+
+        if (!ConnexionUtilisateur::estConnecte()) {
+            $onglets = array("Catalogue", "Panier");
+        }
+        else {
+            $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+        }
+
+
 
         self::afficherVue("vueGenerale.php", []);
     }

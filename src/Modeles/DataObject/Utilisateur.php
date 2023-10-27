@@ -8,6 +8,7 @@ class Utilisateur extends AbstractDataObject
     private string $nom;
     private string $prenom;
     private string $mdp;
+    private bool $estAdmin;
 
     public function getEmail(): string
     {
@@ -47,6 +48,16 @@ class Utilisateur extends AbstractDataObject
     public function setMdp(string $mdp): void
     {
         $this->mdp = $mdp;
+    }
+
+    public function estAdmin(): bool
+    {
+        return $this->estAdmin;
+    }
+
+    public function setEstAdmin(bool $estAdmin): void
+    {
+        $this->estAdmin = $estAdmin;
     }
 
 
