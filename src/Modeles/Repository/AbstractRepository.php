@@ -3,7 +3,6 @@
 namespace App\Magasin\Modeles\Repository;
 
 use AbstractDataObject;
-use App\Magasin\Modeles\Repository\ConnexionBaseDeDonnee;
 use PDOException;
 
 abstract class AbstractRepository

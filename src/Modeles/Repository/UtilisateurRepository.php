@@ -2,8 +2,6 @@
 
 namespace App\Magasin\Modeles\Repository;
 
-use AbstractDataObject;
-use App\Magasin\Modeles\Repository\AbstractRepository;
 use Utilisateur;
 
 class UtilisateurRepository extends AbstractRepository

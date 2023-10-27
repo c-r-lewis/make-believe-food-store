@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 // initialisation
-$loader = new App\Covoiturage\Lib\Psr4AutoloaderClass();
+$loader = new App\Magasin\Lib\Psr4AutoloaderClass();
 $loader->register();
 // enregistrement d'une association "espace de nom" → "dossier"
 $loader->addNamespace('App\Covoiturage', __DIR__ . '/../src');
@@ -29,7 +29,5 @@ if (class_exists($nomDeClasseControleur)) {
         $nomDeClasseControleur::$action();
     }
 }
-else {
-    ControleurVoiture::afficherErreur(" Le controleur n'existe pas !");
-}
+
 
