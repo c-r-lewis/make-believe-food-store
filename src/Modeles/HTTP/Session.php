@@ -1,7 +1,7 @@
 <?php
-namespace App\Magasin\Modele\HTTP;
+namespace App\Magasin\Modeles\HTTP;
 
-use App\Magasin\Modele\DataObject\Produit;
+use App\Magasin\Modeles\DataObject\Produit;
 use Exception;
 
 class Session

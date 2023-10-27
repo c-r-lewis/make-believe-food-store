@@ -1,5 +1,5 @@
 <?php
-namespace App\Magasin\Modele\DataObject;
+namespace App\Magasin\Modeles\DataObject;
 
 class Produit
 {
