@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modeles\Repository\AbstractRepository;
 
 class ControleurUtilisateurGenerique {
 
@@ -14,6 +15,7 @@ class ControleurUtilisateurGenerique {
 
     public static function loadPage() : void{
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $utilisateur =
 
         self::afficherVue("vueGenerale.php", []);
     }

@@ -5,6 +5,7 @@ use PDOException;
 
 use App\Magasin\Modeles\DataObject\AbstractDataObject as AbstractDataObject;
 use App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
+use App\Magasin\Modeles\Repository\ConnexionBaseDeDonnee as ConnexionBaseDeDonnee;
 
 
 
