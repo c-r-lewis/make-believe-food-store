@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Magasin\Modele\DataObject;
-abstract class UtilisateurConnecte extends UtilisateurGenerique
+namespace App\Magasin\Modeles\DataObject;
+
+class Utilisateur extends AbstractDataObject
 {
     private string $email;
     private string $nom;
@@ -49,4 +50,13 @@ abstract class UtilisateurConnecte extends UtilisateurGenerique
     }
 
 
+    public function formatTableau(): array    {
+        return
+            [
+                "email" => $this->getEmail(),
+                "nom" => $this->getNom(),
+                "prenom" => $this->getPrenom(),
+                "mdp" => $this->getMdp()
+            ];
+    }
 }

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Magasin\Controleurs;
-use App\Magasin\Modele\Repository\ClientRepository as ClientRepository;
 
-class ControleurClient {
+use App\Magasin\Lib\ConnexionUtilisateur;
+
+
+class ControleurUtilisateurGenerique {
 
     private static function afficherVue(string $cheminVue, array $parametres = []): void
     {
@@ -11,11 +13,10 @@ class ControleurClient {
         require __DIR__ ."/../vues/$cheminVue"; // Charge la vue
     }
 
-    public static function loadMenu() : void {
-        ControleurClient::afficherVue('vueGenerale.php', ["cheminBody" => 'menu.php', "onglets" => (new ClientRepository())->getOngletsMenus()]);
+    public static function loadPage() : void{
+        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+
+        self::afficherVue("vueGenerale.php", []);
     }
-
-
-
 
 }

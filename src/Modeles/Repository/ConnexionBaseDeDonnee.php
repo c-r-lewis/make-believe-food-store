@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Magasin\Modele\Repository;
+namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Configuration\Configuration as Configuration;
 use PDO;
@@ -50,5 +50,3 @@ class ConnexionBaseDeDonnee
     }
 
 }
-
-?>

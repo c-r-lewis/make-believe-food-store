@@ -22,8 +22,10 @@
     <aside>
         <nav>
             <?php
-            /** @var string $cheminBody */
-            require __DIR__ ."/{$cheminBody}";
+            /** @var array $onglets */
+            foreach ($onglets as $onglet) {
+                echo '<a href="">' . $onglet . '</a>';
+            }
             ?>
         </nav>
     </aside>
