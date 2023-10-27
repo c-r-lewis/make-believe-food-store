@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Modele\HTTP;
+namespace App\Magasin\Modele\HTTP;
 
 class Cookie
 {
