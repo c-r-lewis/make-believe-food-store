@@ -2,6 +2,9 @@
 
 namespace App\Magasin\Controleurs;
 
+use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modele\Repository\AbstractRepository as AbstractRepository;
+
 class ControleurUtilisateurGenerique {
 
     private static function afficherVue(string $cheminVue, array $parametres = []): void
@@ -11,6 +14,7 @@ class ControleurUtilisateurGenerique {
     }
 
     public static function loadPage() : void{
+        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
 
         self::afficherVue("vueGenerale.php", []);
     }

@@ -3,6 +3,7 @@
 namespace App\Magasin\Modele\Repository;
 
 use App\Magasin\Modele\DataObject\AbstractDataObject as AbstractDataObject;
+use App\Magasin\Modele\DataObject\Admin as Admin;
 
 abstract class AbstractRepository
 {
@@ -21,4 +22,10 @@ abstract class AbstractRepository
         }
         return $objets;
     }
+
+    public static function recupererParClePrimaire(): ?AbstractDataObject {
+        return new Admin();
+    }
+
+
 }
