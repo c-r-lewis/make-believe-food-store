@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modeles\Repository;
 
 use AbstractDataObject;
-use App\Covoiturage\Modele\Repository\AbstractRepository;
+use App\Magasin\Modeles\Repository\AbstractRepository;
 use Utilisateur;
 
 class UtilisateurRepository extends AbstractRepository
@@ -35,5 +35,10 @@ class UtilisateurRepository extends AbstractRepository
                 "prenomUtilisateur",
                 "mdpUtilisateur"
             ];
+    }
+
+    protected function getClePrimaire(): string
+    {
+        return "idUtilisateur";
     }
 }

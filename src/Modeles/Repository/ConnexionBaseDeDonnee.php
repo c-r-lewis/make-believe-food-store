@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Configuration\Configuration;
 use PDO;

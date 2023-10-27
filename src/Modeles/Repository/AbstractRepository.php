@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\Magasin\Modeles\Repository;
 
 use AbstractDataObject;
+use App\Magasin\Modeles\Repository\ConnexionBaseDeDonnee;
 use PDOException;
 
 abstract class AbstractRepository
@@ -10,6 +11,8 @@ abstract class AbstractRepository
     abstract protected function getNomTable(): string;
 
     abstract protected function getNomsColonnes(): array;
+
+    abstract protected function getClePrimaire(): string;
 
     protected function sauvegarder(AbstractDataObject $object): void
     {
@@ -46,6 +49,10 @@ abstract class AbstractRepository
     }
 
     public function recupererParClePrimaire(string $clePrimaire): AbstractDataObject {
-
+        $nomTable = $this->getNomTable();
+        $nomClePrimaire = $this->getClePrimaire();
+        $sql = "SELECT * FROM $nomTable WHERE $nomClePrimaire = $clePrimaire";
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query($sql);
+        return $this->construireDepuisTableau($pdoStatement->fetch());
     }
 }
