@@ -3,7 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
-use App\Magasin\Modeles\Repository\AbstractRepository;
+
 
 class ControleurUtilisateurGenerique {
 
