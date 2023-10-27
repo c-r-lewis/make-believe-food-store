@@ -15,7 +15,6 @@ class ControleurUtilisateurGenerique {
 
     public static function loadPage() : void{
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
-        $utilisateur =
 
         self::afficherVue("vueGenerale.php", []);
     }
