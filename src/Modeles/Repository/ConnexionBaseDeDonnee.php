@@ -2,7 +2,7 @@
 
 namespace App\Covoiturage\Modele\Repository;
 
-use App\Covoiturage\Configuration\Configuration as Configuration;
+use App\Magasin\Configuration\Configuration;
 use PDO;
 
 class ConnexionBaseDeDonnee

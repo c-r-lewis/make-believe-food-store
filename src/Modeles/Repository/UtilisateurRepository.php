@@ -15,11 +15,6 @@ class UtilisateurRepository extends AbstractRepository
         return "Site_Utilisateurs";
     }
 
-    protected function sauvegarder(AbstractDataObject $dataObject)
-    {
-
-    }
-
     protected function construireDepuisTableau(array $objetFormatTableau): Utilisateur
     {
         $utilisateur = new Utilisateur();
@@ -28,5 +23,17 @@ class UtilisateurRepository extends AbstractRepository
         $utilisateur->setEmail($objetFormatTableau['email']);
         $utilisateur->setPrenom($objetFormatTableau['prenom']);
         return $utilisateur;
+    }
+
+    protected function getNomsColonnes(): array
+    {
+        return
+            [
+                "idUtilisateur",
+                "emailUtilisateur",
+                "nomUtilisateur",
+                "prenomUtilisateur",
+                "mdpUtilisateur"
+            ];
     }
 }
