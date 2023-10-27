@@ -90,4 +90,7 @@ class Session
     {
         $this->supprimer('panier');
     }
+
+
+
 }
