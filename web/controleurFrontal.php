@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
 use App\Magasin\Controleurs\ControleurClient as ControleurClient;
-use App\Magasin\Controleur\ControleurGenerique as ControleurGenerique;
+use App\Magasin\Controleurs\ControleurGenerique as ControleurGenerique;
 
 $loader = new App\Magasin\Lib\Psr4AutoloaderClass();
 $loader->register();
