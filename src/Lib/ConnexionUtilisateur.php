@@ -2,7 +2,7 @@
 
 namespace App\Magasin\Lib;
 
-use App\Covoiturage\Modele\HTTP\Session;
+use App\Magasin\Modeles\HTTP\Session;
 
 class ConnexionUtilisateur
 {
