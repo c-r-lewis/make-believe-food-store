@@ -23,11 +23,14 @@ class ControleurUtilisateurGenerique {
         else {
             $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+            if ($utilisateur->estAdmin()) {
+                $onglets = array("Catalogue");
+            }
+            else {
+                $onglets = array("Catalogue", "Panier", "Historique");
+            }
         }
-
-
-
-        self::afficherVue("vueGenerale.php", []);
+        self::afficherVue("vueGenerale.php", ["onglets"=>$onglets]);
     }
 
 }
