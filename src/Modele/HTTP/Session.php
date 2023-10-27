@@ -1,6 +1,7 @@
 <?php
 namespace App\Covoiturage\Modele\HTTP;
 
+use App\Magasin\Modele\DataObject\Produit;
 use Exception;
 
 class Session
@@ -61,12 +62,13 @@ class Session
         $_SESSION['derniereActivite'] = time();
     }
 
-    public function ajouterAuPanier($produitId, $quantite = 1)
+    public function ajouterAuPanier(Produit $produit, $quantite = 1)
     {
         if (!$this->contient('panier')) {
             $_SESSION['panier'] = [];
         }
 
+        $produitId = $produit->getIdProduit();
         if (isset($_SESSION['panier'][$produitId])) {
             $_SESSION['panier'][$produitId] += $quantite;
         } else {
@@ -74,8 +76,9 @@ class Session
         }
     }
 
-    public function supprimerDuPanier($produitId)
+    public function supprimerDuPanier(Produit $produit)
     {
+        $produitId = $produit->getIdProduit();
         if ($this->contient('panier') && isset($_SESSION['panier'][$produitId])) {
             unset($_SESSION['panier'][$produitId]);
         }
