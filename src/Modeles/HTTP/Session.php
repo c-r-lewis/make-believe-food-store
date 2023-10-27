@@ -10,9 +10,13 @@ class Session
 
     private function __construct()
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        session_start([
+            'cookie_lifetime' => 0,  // Set the cookie lifetime to 0, which makes it a session cookie
+            'cookie_path' => '/',
+            'cookie_domain' => null,
+            'cookie_secure' => false,
+            'cookie_httponly' => true,
+        ]);
         register_shutdown_function([$this, 'detruire']);
     }
 
@@ -47,7 +51,7 @@ class Session
 
     public function verifierDerniereActivite()
     {
-        if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ConfigurationSite::DUREE_EXPIRATION_SESSION)) {
+        if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > 0)) {
             $this->detruire();
         }
         $_SESSION['derniereActivite'] = time();
