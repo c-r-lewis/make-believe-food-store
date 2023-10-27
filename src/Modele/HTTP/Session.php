@@ -1,5 +1,5 @@
 <?php
-namespace App\Covoiturage\Modele\HTTP;
+namespace App\Magasin\Modele\HTTP;
 
 use App\Magasin\Modele\DataObject\Produit;
 use Exception;
@@ -13,6 +13,7 @@ class Session
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
+        register_shutdown_function([$this, 'detruire']);
     }
 
     public static function getInstance(): Session
@@ -44,19 +45,9 @@ class Session
         unset($_SESSION[$nom]);
     }
 
-    public function detruire(): void
-    {
-        session_unset();
-        session_destroy();
-        session_write_close();
-        Cookie::supprimer(session_name());
-        $instance = null;
-    }
-
     public function verifierDerniereActivite()
     {
         if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ConfigurationSite::DUREE_EXPIRATION_SESSION)) {
-            // La session a expiré, donc nous la détruisons
             $this->detruire();
         }
         $_SESSION['derniereActivite'] = time();
@@ -92,5 +83,23 @@ class Session
     public function viderPanier()
     {
         $this->supprimer('panier');
+    }
+
+    public function modifierQuantiteDansPanier(Produit $produit, $nouvelleQuantite)
+    {
+        if ($this->contient('panier')) {
+            $produitId = $produit->getIdProduit();
+            if (isset($_SESSION['panier'][$produitId])) {
+                $_SESSION['panier'][$produitId] = $nouvelleQuantite;
+            }
+        }
+    }
+
+    public function detruire()
+    {
+        session_unset();
+        session_destroy();
+        session_write_close();
+        $instance = null;
     }
 }
