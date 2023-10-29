@@ -16,7 +16,6 @@ class ControleurUtilisateurGenerique {
 
     public static function loadPage() : void{
 
-
         if (!ConnexionUtilisateur::estConnecte()) {
             $onglets = array("Catalogue", "Panier");
         }
@@ -30,7 +29,12 @@ class ControleurUtilisateurGenerique {
                 $onglets = array("Catalogue", "Panier", "Historique");
             }
         }
-        self::afficherVue("vueGenerale.php", ["onglets"=>$onglets]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"exempleDeCatalogue.php", "onglets"=>$onglets]);
+    }
+
+
+    public static function afficherConnexion(): void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>array("Catalogue", "Panier") ]);
     }
 
 }

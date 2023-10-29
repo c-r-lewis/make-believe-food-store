@@ -9,4 +9,8 @@ $loader->addNamespace('App\Magasin', __DIR__ . '/../src');
 
 use App\Magasin\Controleurs\ControleurUtilisateurGenerique as ControleurUtilisateurGenerique;
 
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+    ControleurUtilisateurGenerique::$action();
+}
 ControleurUtilisateurGenerique::loadPage();
