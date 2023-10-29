@@ -15,7 +15,7 @@
         <main>
             <?php
             /** @var string $cheminVueBody */
-            require __DIR__ ."/{$cheminVueBody}";
+            require __DIR__ ."/$cheminVueBody";
             ?>
         </main>
     </div>

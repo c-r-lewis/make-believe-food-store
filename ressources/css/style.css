@@ -1,9 +1,11 @@
 html, body {
     height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 }
+
 
 body {
     background-color: #E0E4F2;
@@ -11,10 +13,25 @@ body {
     flex-direction: row-reverse;
 }
 
+header {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #B997DF;
+    width: 85vw;
+    height: fit-content;
+    padding: 2vh;
+}
+
+header img {
+    height : 40px;
+    width : 40px;
+
+}
+
 nav {
     height: 100vh;
-    background-color: #242B3D;
     width: 15vw;
+    background-color: #242B3D;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +40,8 @@ nav {
 
 nav a {
     text-align: center;
-    padding: 5vh;
+    padding: 5vh 0;
+    width: 100%;
     color: #FFFFFF;
     text-decoration: none;
     transition: 0.3s;
@@ -33,11 +51,6 @@ nav a:hover, nav a:focus {
     background-color: #3a4562;
 }
 
-header {
-    width: 85vw;
-    height: fit-content;
-    padding: 2vh;
-}
 
 main .grille-produits {
     display: grid;
