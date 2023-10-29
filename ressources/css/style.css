@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 body {
@@ -23,35 +24,80 @@ nav {
 nav a {
     text-align: center;
     padding: 5vh;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
+nav a:hover, nav a:focus {
+    background-color: #3a4562;
+}
 
 header {
     width: 85vw;
     height: fit-content;
     padding: 2vh;
-    background: radial-gradient(110.61% 2.45% at -126.80% 1.28%, #9C45E6 50%, rgba(158, 107, 202, 0.42) 100%);
 }
 
 main .grille-produits {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    position: absolute;
+    gap: 1rem; /* Add gap between grid items */
+    position: relative;
     margin-left: 3vw;
     margin-top: 4vh;
     background-color: white;
     height: 89%;
     width: 84%;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .right .article {
     display: flex;
     flex-direction: column;
     width: 30%;
+    margin: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
 }
 
 .article img {
     max-width: 100%;
     height: auto;
     margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* Ajduster pour le rendre responsive plus tard */
+@media only screen and (max-width: 1024px) {
+    main .grille-produits {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    nav {
+        width: 20vw;
+    }
+    header {
+        width: 80vw;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    nav {
+        width: 100vw;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    header, main .grille-produits {
+        width: 100vw;
+    }
+    main .grille-produits {
+        grid-template-columns: 1fr;
+        margin-left: 0;
+    }
 }
