@@ -14,8 +14,7 @@ class ControleurUtilisateurGenerique {
         require __DIR__ ."/../vues/$cheminVue"; // Charge la vue
     }
 
-    public static function loadPage() : void{
-
+    private static function recupererOnglets() : array {
         if (!ConnexionUtilisateur::estConnecte()) {
             $onglets = array("Catalogue", "Panier");
         }
@@ -29,6 +28,12 @@ class ControleurUtilisateurGenerique {
                 $onglets = array("Catalogue", "Panier", "Historique");
             }
         }
+
+        return $onglets;
+    }
+
+    public static function loadPage() : void{
+        $onglets = self::recupererOnglets();
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"exempleDeCatalogue.php", "onglets"=>$onglets]);
     }
 
