@@ -26,9 +26,10 @@
         <nav>
             <?php
             /** @var array $onglets */
-            foreach ($onglets as $onglet) {
-                echo '<a href="">' . $onglet . '</a>';
+            foreach($onglets as $onglet => $lien) {
+                echo '<a href="'.$lien .'">' . $onglet. '</a>';
             }
+
             ?>
         </nav>
     </aside>

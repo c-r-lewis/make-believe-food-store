@@ -13,4 +13,4 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
     ControleurUtilisateurGenerique::$action();
 }
-ControleurUtilisateurGenerique::loadPage();
+ControleurUtilisateurGenerique::afficherCatalogue();

@@ -16,30 +16,41 @@ class ControleurUtilisateurGenerique {
 
     private static function recupererOnglets() : array {
         if (!ConnexionUtilisateur::estConnecte()) {
-            $onglets = array("Catalogue", "Panier");
+            $onglets = array("Catalogue" => "controleurFrontal.php?action=afficherCatalogue",
+                "Panier" => "controleurFrontal.php?action=afficherPanier");
         }
         else {
             $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
             if ($utilisateur->estAdmin()) {
-                $onglets = array("Catalogue");
+                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue");
             }
             else {
-                $onglets = array("Catalogue", "Panier", "Historique");
+                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
+                    "Panier" => "controleurFrontal.php?action=afficherPanier",
+                    "Historique" => "controleurFrontal.php?action=afficherHistorique");
             }
         }
 
         return $onglets;
     }
 
-    public static function loadPage() : void{
+    public static function afficherCatalogue() : void {
         $onglets = self::recupererOnglets();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"exempleDeCatalogue.php", "onglets"=>$onglets]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>$onglets]);
+    }
+
+    public static function afficherPanier() : void {
+
+    }
+
+    public static function afficherHistorique(): void {
+
     }
 
 
     public static function afficherConnexion(): void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>array("Catalogue", "Panier") ]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>self::recupererOnglets()]);
     }
 
 }
