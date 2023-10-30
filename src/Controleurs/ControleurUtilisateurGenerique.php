@@ -54,6 +54,10 @@ class ControleurUtilisateurGenerique {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>self::recupererOnglets()]);
     }
 
+    public static function afficherInscription() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"inscription.php", "onglets"=>self::recupererOnglets()]);
+    }
+
     public static function afficherComptes(): void {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"admin/comptes.php", "onglets"=>self::recupererOnglets()]);
     }
