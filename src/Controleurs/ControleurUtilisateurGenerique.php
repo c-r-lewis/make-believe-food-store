@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
 
@@ -71,6 +72,21 @@ class ControleurUtilisateurGenerique {
 
     public static function afficherComptes(): void {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"admin/comptes.php", "onglets"=>self::recupererOnglets()]);
+    }
+
+
+    public static function  inscription() : void {
+        if ($_SERVER["REQUEST_METHOD"]=="GET") {
+            if (!(new UtilisateurRepository())->emailExiste($_GET["email"])) {
+                $utilisateur = new Utilisateur($_GET["email"], $_GET["nom"], $_GET["prenom"], $_GET["mdp"]);
+                (new UtilisateurRepository())->sauvegarder($utilisateur);
+                //self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>self::recupererOnglets()]);
+            }
+            else {
+                echo "L'utilisateur existe déjà";
+            }
+
+        }
     }
 
 }

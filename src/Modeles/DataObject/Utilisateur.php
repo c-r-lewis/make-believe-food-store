@@ -10,6 +10,14 @@ class Utilisateur extends AbstractDataObject
     private string $mdp;
     private bool $estAdmin;
 
+    public function __construct(string $email, string $nom, string $prenom, string $mdp, bool $estAdmin = false) {
+        $this->email = $email;
+        $this->nom = $nom;
+        $this->prenom =  $prenom;
+        $this->mdp = $mdp;
+        $this->estAdmin = $estAdmin;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
@@ -62,12 +70,19 @@ class Utilisateur extends AbstractDataObject
 
 
     public function formatTableau(): array    {
+        if ($this->estAdmin) {
+            $admin = 1;
+        }
+        else {
+            $admin = 0;
+        }
         return
             [
-                "email" => $this->getEmail(),
-                "nom" => $this->getNom(),
-                "prenom" => $this->getPrenom(),
-                "mdp" => $this->getMdp()
+                "emailTag" => $this->getEmail(),
+                "nomTag" => $this->getNom(),
+                "prenomTag" => $this->getPrenom(),
+                "mdpTag" => $this->getMdp(),
+                "estAdminTag" => $admin
             ];
     }
 }

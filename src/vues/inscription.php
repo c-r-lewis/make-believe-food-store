@@ -3,31 +3,34 @@
         <p>BIENVENUE</p>
     </div>
     <div class="infos-compte">
-        <form>
+        <form method="get" action="../web/controleurFrontal.php">
             <p>S'inscrire</p>
             <p>
-                <input type="text" placeholder="Email">
+                <input type="text" placeholder="Email" name="email">
             </p>
             <div class="info-details">
                 <p>
-                    <input type="text" placeholder="Nom">
+                    <input type="text" placeholder="Nom" name="nom">
                 </p>
                 <p>
-                    <input type="text" placeholder="Prenom">
+                    <input type="text" placeholder="Prenom" name="prenom">
                 </p>
             </div>
             <div class="info-details">
-                <p>
-                    <input type="text" placeholder="Mot de passe">
+                <p class="InputAddOn">
+                    <input class="InputAddOn-field" type="password" placeholder="Mot de passe" name="mdp" required>
                 </p>
-                <p>
-                    <input type="text" placeholder="Confirmer mot de passe">
+                <p class="InputAddOn">
+                    <input class="InputAddOn-field" type="password" placeholder="Confirmer mot de passe" name="mdp2" required>
                 </p>
+
             </div>
             <p>
                 <input class="button" type="submit" value="S'inscrire">
             </p>
             <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion">Connectez-vous</a></p>
+
+            <input type="hidden" name="action" value="inscription">
         </form>
     </div>
 </section>

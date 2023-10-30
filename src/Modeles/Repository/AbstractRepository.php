@@ -12,7 +12,7 @@ abstract class AbstractRepository
 
     abstract protected function getClePrimaire(): string;
 
-    protected function sauvegarder(AbstractDataObject $object): void
+    public function sauvegarder(AbstractDataObject $object): void
     {
         try {
             $sql = "INSERT INTO " . $this -> getNomTable() . "(";
@@ -25,9 +25,10 @@ abstract class AbstractRepository
             $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag);";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
 
-            $values = $object ->formatTableau();
+            $values = $object->formatTableau();
             $pdoStatement->execute($values);
-        } catch (PDOException) {
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
             return;
         }
     }

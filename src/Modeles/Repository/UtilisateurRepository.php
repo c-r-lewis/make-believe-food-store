@@ -10,16 +10,12 @@ class UtilisateurRepository extends AbstractRepository
 
     protected function getNomTable(): string
     {
-        return "Site_Utilisateurs";
+        return "Site_UtilisateursConnectes";
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): Utilisateur
     {
-        $utilisateur = new Utilisateur();
-        $utilisateur->setNom($objetFormatTableau['nom']);
-        $utilisateur->setMdp($objetFormatTableau['mdp']);
-        $utilisateur->setEmail($objetFormatTableau['email']);
-        $utilisateur->setPrenom($objetFormatTableau['prenom']);
+        $utilisateur = new Utilisateur($objetFormatTableau['email'],$objetFormatTableau['nom'],$objetFormatTableau['prenom'],$objetFormatTableau['mdp']);
         return $utilisateur;
     }
 
@@ -27,16 +23,27 @@ class UtilisateurRepository extends AbstractRepository
     {
         return
             [
-                "idUtilisateur",
-                "emailUtilisateur",
-                "nomUtilisateur",
-                "prenomUtilisateur",
-                "mdpUtilisateur"
+                "email",
+                "nom",
+                "prenom",
+                "mdp",
+                "estAdmin"
             ];
     }
 
     protected function getClePrimaire(): string
     {
-        return "idUtilisateur";
+        return "email";
+    }
+
+    public function emailExiste(String $email): bool {
+        $sql = "SELECT * FROM Site_UtilisateursConnectes WHERE email=:emailTag";
+        $pdostatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+
+        $values = array("emailTag"=>$email);
+
+        $pdostatment->execute($values);
+
+        return $pdostatment->fetch()!==false;
     }
 }
