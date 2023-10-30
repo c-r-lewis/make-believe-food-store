@@ -50,8 +50,16 @@ abstract class AbstractRepository
     public function recupererParClePrimaire(string $clePrimaire): AbstractDataObject {
         $nomTable = $this->getNomTable();
         $nomClePrimaire = $this->getClePrimaire();
-        $sql = "SELECT * FROM $nomTable WHERE $nomClePrimaire = $clePrimaire";
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query($sql);
+        $tag = $nomClePrimaire . "Tag";
+        $sql = "SELECT * FROM $nomTable WHERE $nomClePrimaire = :$tag";
+
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+
+        $values = array(
+            $tag => $clePrimaire
+        );
+
+        $pdoStatement ->execute($values);
         return $this->construireDepuisTableau($pdoStatement->fetch());
     }
 }

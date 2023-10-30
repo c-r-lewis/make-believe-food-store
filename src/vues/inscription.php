@@ -27,10 +27,11 @@
             </div>
             <p>
                 <input class="button" type="submit" value="S'inscrire">
+                <input type="hidden" name="action" value="inscription">
             </p>
             <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion">Connectez-vous</a></p>
 
-            <input type="hidden" name="action" value="inscription">
+
         </form>
     </div>
 </section>

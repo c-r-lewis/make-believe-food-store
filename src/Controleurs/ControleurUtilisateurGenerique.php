@@ -80,13 +80,27 @@ class ControleurUtilisateurGenerique {
             if (!(new UtilisateurRepository())->emailExiste($_GET["email"])) {
                 $utilisateur = new Utilisateur($_GET["email"], $_GET["nom"], $_GET["prenom"], $_GET["mdp"]);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);
-                //self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>self::recupererOnglets()]);
+                self::connexion();
             }
             else {
-                echo "L'utilisateur existe déjà";
+                //Gérer l'erreur
             }
 
         }
     }
+
+    public static function connexion() : void {
+        if ($_SERVER["REQUEST_METHOD"]=="GET") {
+            if ((new UtilisateurRepository())->emailExiste($_GET["email"])){
+                ConnexionUtilisateur::connecter($_GET["email"]);
+                self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>self::recupererOnglets()]);
+            }
+            else {
+                // Gérer l'erreur
+            }
+        }
+    }
+
+
 
 }
