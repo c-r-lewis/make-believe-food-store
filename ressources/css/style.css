@@ -52,10 +52,13 @@ nav a:hover, nav a:focus {
 }
 
 
-main .grille-produits {
+.grille-produits {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem; /* Add gap between grid items */
+    gap: 1rem;
+}
+
+section {
     position: relative;
     margin-left: 3vw;
     margin-top: 4vh;
@@ -80,6 +83,11 @@ main .grille-produits {
     height: auto;
     margin-bottom: 10px;
     border-radius: 5px;
+}
+
+.line{
+    height: 1px;
+    background: black;
 }
 
 /* Ajduster pour le rendre responsive plus tard */

@@ -41,7 +41,8 @@ class ControleurUtilisateurGenerique {
     }
 
     public static function afficherPanier() : void {
-
+        $onglets = self::recupererOnglets();
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"client/panier.php", "onglets"=>$onglets]);
     }
 
     public static function afficherHistorique(): void {
