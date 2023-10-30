@@ -1,4 +1,7 @@
 <section class="block-connexion">
+    <div class="bienvenue">
+        <p>BIENVENUE</p>
+    </div>
     <div class="infos-compte">
         <form>
             <p>S'inscrire</p>
@@ -26,8 +29,5 @@
             </p>
             <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion">Connectez-vous</a></p>
         </form>
-    </div>
-    <div class="bienvenue">
-        <p>BIENVENUE</p>
     </div>
 </section>
