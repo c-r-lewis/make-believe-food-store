@@ -68,7 +68,7 @@ nav a:hover, nav a:focus {
     align-items: center;
 }
 
-.infos-compte form #button {
+.infos-compte form .button {
     background-color: #242B3D;
     color: white;
     border: none;

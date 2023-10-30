@@ -25,7 +25,7 @@
                 </p>
             </div>
             <p>
-                <input id="button" type="submit" value="S'inscrire">
+                <input class="button" type="submit" value="S'inscrire">
             </p>
             <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion">Connectez-vous</a></p>
         </form>

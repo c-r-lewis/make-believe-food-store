@@ -11,7 +11,7 @@
                 <input class="input" type="text" placeholder="Mot de passe" required/>
             </p>
             <p>
-                <input id="button" type="submit" value="Se connecter">
+                <input class="button" type="submit" value="Se connecter">
             </p>
             <p><span id="detail">Pas de compte ? <a href="controleurFrontal.php?action=afficherInscription">Inscrivez-vous</a></p>
         </form>
