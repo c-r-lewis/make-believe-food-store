@@ -49,7 +49,7 @@ class Session
         unset($_SESSION[$nom]);
     }
 
-    public function verifierDerniereActivite()
+    public function verifierDerniereActivite() : void
     {
         if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > 0)) {
             $this->detruire();
@@ -57,7 +57,7 @@ class Session
         $_SESSION['derniereActivite'] = time();
     }
 
-    public function ajouterAuPanier(Produit $produit, $quantite = 1)
+    public function ajouterAuPanier(Produit $produit, $quantite = 1) : void
     {
         if (!$this->contient('panier')) {
             $_SESSION['panier'] = [];
@@ -71,7 +71,7 @@ class Session
         }
     }
 
-    public function supprimerDuPanier(Produit $produit)
+    public function supprimerDuPanier(Produit $produit) : void
     {
         $produitId = $produit->getIdProduit();
         if ($this->contient('panier') && isset($_SESSION['panier'][$produitId])) {
@@ -84,12 +84,12 @@ class Session
         return $this->lire('panier');
     }
 
-    public function viderPanier()
+    public function viderPanier() : void
     {
         $this->supprimer('panier');
     }
 
-    public function modifierQuantiteDansPanier(Produit $produit, $nouvelleQuantite)
+    public function modifierQuantiteDansPanier(Produit $produit, $nouvelleQuantite) : void
     {
         if ($this->contient('panier')) {
             $produitId = $produit->getIdProduit();
