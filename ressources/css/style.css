@@ -1,4 +1,4 @@
-/* General */
+/* Paramètrage global */
 html, body {
     height: 100%;
     width: 100%;
@@ -54,7 +54,7 @@ nav a:hover, nav a:focus {
     background-color: #3a4562;
 }
 
-/* Contenu général */
+/* Contenu général main */
 .article img {
     max-width: 100%;
     height: auto;
@@ -95,20 +95,38 @@ button {
 }
 
 /* Panier */
+.panier {
+    display: flex;
+}
+
 .items {
+    width: 80%;
+}
+
+.item {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .panier-supprimer img {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
+}
+
+.block {
+    padding: 20px;
+}
+
+.sommaire {
+    width : 20%;
+    height: 100%;
+    background-color: #DDDDDD;
 }
 
 .line{
-    height: 1px;
-    background: black;
+    height: 0.5px;
+    background: #DDDDDD;
 }
 
 /* Ajduster pour le rendre responsive plus tard */
