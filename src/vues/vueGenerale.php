@@ -8,12 +8,15 @@
 <body>
 <div class="right">
     <header>
-        Hello world
+        <a href="controleurFrontal.php?action=afficherConnexion"><img src="../ressources/images/connexion-logo.png" alt="Se connecter"/></a>
     </header>
 
     <div>
         <main>
-            <!-- Télécharger la vue correspondante ic -->
+            <?php
+            /** @var string $cheminVueBody */
+            require __DIR__ ."/$cheminVueBody";
+            ?>
         </main>
     </div>
 </div>
@@ -23,9 +26,10 @@
         <nav>
             <?php
             /** @var array $onglets */
-            foreach ($onglets as $onglet) {
-                echo '<a href="">' . $onglet . '</a>';
+            foreach($onglets as $onglet => $lien) {
+                echo '<a href="'.$lien .'">' . $onglet. '</a>';
             }
+
             ?>
         </nav>
     </aside>
