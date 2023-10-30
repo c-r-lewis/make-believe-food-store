@@ -13,7 +13,6 @@ class Session
         session_start([
             'cookie_lifetime' => 0,  // Set the cookie lifetime to 0, which makes it a session cookie
             'cookie_path' => '/',
-            'cookie_domain' => null,
             'cookie_secure' => false,
             'cookie_httponly' => true,
         ]);
