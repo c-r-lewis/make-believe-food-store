@@ -96,6 +96,15 @@ nav a:hover, nav a:focus {
 .bienvenue > p {
     color: white;
 }
+
+.info-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-details p:first-child {
+    margin-right: 15px;
+}
 /* ------------------------------- Contenu général main -------------------------------*/
 .article img {
     max-width: 100%;
