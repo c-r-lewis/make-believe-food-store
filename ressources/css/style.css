@@ -106,12 +106,6 @@ nav a:hover, nav a:focus {
     margin-right: 15px;
 }
 /* ------------------------------- Contenu général main -------------------------------*/
-.article img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
 
 section {
     position: relative;
@@ -119,18 +113,13 @@ section {
     margin-top: 4vh;
     background-color: white;
     height: 89%;
-    width: 84%;
+    width: 90%;
     padding: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.right .article {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    margin: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+.right {
+    flex-grow: 1;
 }
 
 button {
@@ -143,6 +132,22 @@ button {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+}
+
+.right .article {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 /* ---------------------------------------- Panier -----------------------------------*/
