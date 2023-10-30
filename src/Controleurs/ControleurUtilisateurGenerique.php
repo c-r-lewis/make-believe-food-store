@@ -23,12 +23,14 @@ class ControleurUtilisateurGenerique {
             $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
             if ($utilisateur->estAdmin()) {
-                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue");
+                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
+                    "Paramètres"=>"controleurFrontal.php?action=afficherParametresAdmin");
             }
             else {
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
                     "Panier" => "controleurFrontal.php?action=afficherPanier",
-                    "Historique" => "controleurFrontal.php?action=afficherHistorique");
+                    "Historique" => "controleurFrontal.php?action=afficherHistorique",
+                    "Paramètres" => "controleurFrontal.php?action=afficherParametresClient");
             }
         }
 
@@ -52,6 +54,14 @@ class ControleurUtilisateurGenerique {
 
     public static function afficherConnexion(): void {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>self::recupererOnglets()]);
+    }
+
+    public static function afficherParametresClient() : void {
+
+    }
+
+    public static function afficherParametresAdmin() : void {
+
     }
 
 }
