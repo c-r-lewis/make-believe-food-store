@@ -1,3 +1,4 @@
+/* General */
 html, body {
     height: 100%;
     width: 100%;
@@ -13,6 +14,7 @@ body {
     flex-direction: row-reverse;
 }
 
+/* Header */
 header {
     display: flex;
     justify-content: flex-end;
@@ -28,6 +30,7 @@ header img {
 
 }
 
+/* Menu */
 nav {
     height: 100vh;
     width: 15vw;
@@ -51,17 +54,12 @@ nav a:hover, nav a:focus {
     background-color: #3a4562;
 }
 
-
-.grille-produits {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
-
-.items {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Contenu général */
+.article img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 section {
@@ -75,15 +73,6 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-button {
-    background-color: transparent;
-    border: none;
-}
-
-.panier-supprimer img {
-    width: 25px;
-    height: 25px;
-}
 .right .article {
     display: flex;
     flex-direction: column;
@@ -93,11 +82,28 @@ button {
     padding: 1rem;
 }
 
-.article img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    border-radius: 5px;
+button {
+    background-color: transparent;
+    border: none;
+}
+
+/* Catalogue */
+.grille-produits {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+/* Panier */
+.items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panier-supprimer img {
+    width: 25px;
+    height: 25px;
 }
 
 .line{
