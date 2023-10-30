@@ -8,7 +8,9 @@
             <input type="number" min="1" value="1" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
             <p><span id="prixTotal"></span></p>
 
-            <button>Supprimer</button>
+            <button class="panier-supprimer">
+                <img src="../../../ressources/images/logo-fermer.png"/>
+            </button>
         </div>
     </div>
 </section>
