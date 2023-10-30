@@ -58,6 +58,12 @@ nav a:hover, nav a:focus {
     gap: 1rem;
 }
 
+.items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 section {
     position: relative;
     margin-left: 3vw;

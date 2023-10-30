@@ -1,14 +1,15 @@
 <section>
     <div class="line"></div>
-    <div class="grille-panier">
-        <img src="" alt="Produit">
-        <p>Nom produit</p>
-        <label>Quantité</label>
-        <!-- Il faudra récupérer le prix unitaire stocké dans la base de données -->
-        <input type="number" min="1" id="quantite" oninput="mettreAJourPrixTotal(10, this.value)">
-        <p>Prix : <span id="prixTotal"></span></p>
+    <div class="panier">
+        <div class="items">
+            <img src="" alt="Produit">
+            <p>Nom produit</p>
+            <!-- Il faudra récupérer le prix unitaire stocké dans la base de données -->
+            <input type="number" min="1" value="1" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
+            <p><span id="prixTotal"></span></p>
 
-        <button>Supprimer</button>
+            <button>Supprimer</button>
+        </div>
     </div>
 </section>
 
