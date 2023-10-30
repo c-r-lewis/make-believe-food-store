@@ -1,4 +1,4 @@
-/* Paramètrage global */
+/* -------------------------- Paramètrage global ----------------------------------*/
 html, body {
     height: 100%;
     width: 100%;
@@ -14,7 +14,7 @@ body {
     flex-direction: row-reverse;
 }
 
-/* Header */
+/* ------------------------------------------- Header --------------------------------*/
 header {
     display: flex;
     justify-content: flex-end;
@@ -30,7 +30,7 @@ header img {
 
 }
 
-/* Menu */
+/* ---------------------------------------- Menu ----------------------------------------*/
 nav {
     height: 100vh;
     width: 15vw;
@@ -54,7 +54,58 @@ nav a:hover, nav a:focus {
     background-color: #3a4562;
 }
 
-/* Contenu général main */
+/* ------------------------------- Se connecter/S'inscrire -----------------------------*/
+.block-connexion {
+    display: flex;
+}
+.infos-compte {
+    width: 50%;
+}
+
+.infos-compte > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infos-compte form #button {
+    background-color: #242B3D;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+}
+
+.infos-compte form a {
+    text-decoration: none;
+    color: #242B3D;
+}
+
+#detail {
+    color: #BEC6D8;
+}
+
+.bienvenue {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #242B3D;
+}
+
+.bienvenue > p {
+    color: white;
+}
+
+.info-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-details p:first-child {
+    margin-right: 15px;
+}
+/* ------------------------------- Contenu général main -------------------------------*/
 .article img {
     max-width: 100%;
     height: auto;
@@ -87,14 +138,14 @@ button {
     border: none;
 }
 
-/* Catalogue */
+/* ---------------------------------- Catalogue -------------------------------------*/
 .grille-produits {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
-/* Panier */
+/* ---------------------------------------- Panier -----------------------------------*/
 .panier {
     display: flex;
 }
@@ -130,7 +181,7 @@ button {
     background: #DDDDDD;
 }
 
-/* Ajduster pour le rendre responsive plus tard */
+/* ----------------- Ajduster pour le rendre responsive plus tard ---------------------*/
 @media only screen and (max-width: 1024px) {
     main .grille-produits {
         grid-template-columns: repeat(2, 1fr);
