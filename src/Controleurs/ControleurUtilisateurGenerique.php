@@ -57,6 +57,7 @@ class ControleurUtilisateurGenerique {
     }
 
     public static function afficherParametresClient() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"client/parametres.php", "onglets"=>self::recupererOnglets()]);
 
     }
 
