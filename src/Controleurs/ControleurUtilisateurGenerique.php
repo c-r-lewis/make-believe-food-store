@@ -38,12 +38,12 @@ class ControleurUtilisateurGenerique {
 
     public static function afficherCatalogue() : void {
         $onglets = self::recupererOnglets();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>$onglets]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/catalogue.php", "onglets"=>$onglets]);
     }
 
     public static function afficherPanier() : void {
         $onglets = self::recupererOnglets();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"client/panier.php", "onglets"=>$onglets]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/client/panier.php", "onglets"=>$onglets]);
     }
 
     public static function afficherHistorique(): void {
@@ -52,20 +52,20 @@ class ControleurUtilisateurGenerique {
 
 
     public static function afficherConnexion(): void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/connexion.php","onglets"=>self::recupererOnglets()]);
     }
 
     public static function afficherParametres() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"parametres.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/parametres.php", "onglets"=>self::recupererOnglets()]);
 
     }
 
     public static function afficherInscription() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"inscription.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/inscription.php", "onglets"=>self::recupererOnglets()]);
     }
 
     public static function afficherComptes(): void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"admin/comptes.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/comptes.php", "onglets"=>self::recupererOnglets()]);
     }
 
 
@@ -87,7 +87,7 @@ class ControleurUtilisateurGenerique {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
             if ((new UtilisateurRepository())->emailExiste($_GET["email"])){
                 ConnexionUtilisateur::connecter($_GET["email"]);
-                self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"catalogue.php", "onglets"=>self::recupererOnglets()]);
+                self::afficherCatalogue();
             }
             else {
                 // Gérer l'erreur
