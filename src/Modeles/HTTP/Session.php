@@ -16,7 +16,7 @@ class Session
             'cookie_secure' => false,
             'cookie_httponly' => true,
         ]);
-        register_shutdown_function([$this, 'detruire']);
+        //register_shutdown_function([$this, 'detruire']);
     }
 
     public static function getInstance(): Session
@@ -50,7 +50,7 @@ class Session
 
     public function verifierDerniereActivite() : void
     {
-        if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > 0)) {
+        if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > 900)) {
             $this->detruire();
         }
         $_SESSION['derniereActivite'] = time();
