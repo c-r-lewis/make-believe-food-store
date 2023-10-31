@@ -22,4 +22,15 @@ class ProduitRepository extends AbstractRepository
         $produit = new Produit($objetFormatTableau["idProduit"], $objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
         return $produit;
     }
+
+    protected function getNomsColonnes(): array
+    {
+        return [
+            "idProduit",
+            "nomProduit",
+            "descriptionProduit",
+            "prixProduit",
+            "image"
+        ];
+    }
 }

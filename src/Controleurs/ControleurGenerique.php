@@ -15,7 +15,7 @@ class ControleurGenerique
 
     protected static function recupererOnglets() : array {
         if (!ConnexionUtilisateur::estConnecte()) {
-            $onglets = array("Catalogue" => "controleurFrontal.php?action=afficherCatalogue",
+            $onglets = array("Catalogue" => "controleurFrontal.php?action=afficherCatalogue&controleur=produit",
                 "Panier" => "controleurFrontal.php?action=afficherPanier");
         }
         else {
