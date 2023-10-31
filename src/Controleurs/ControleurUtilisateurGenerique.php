@@ -101,6 +101,11 @@ class ControleurUtilisateurGenerique {
         }
     }
 
+    public static function deconnexion() : void {
+        ConnexionUtilisateur::deconnecter();
+        self::afficherCatalogue();
+    }
+
 
 
 }

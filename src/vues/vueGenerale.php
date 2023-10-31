@@ -11,10 +11,14 @@
         <?php
             use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
             $imageSrc = "../ressources/images/connexion-logo.png";
+            $alt = "Se connecter";
+            $action = "afficherConnexion";
             if (ConnexionUtilisateur::estConnecte()) {
                 $imageSrc = "../ressources/images/logo-quitter.png";
+                $alt = "Se déconnecter";
+                $action = "deconnexion";
             }
-            echo '<a href="controleurFrontal.php?action=afficherConnexion"><img src="'.$imageSrc.'" alt="Se connecter"/></a>';
+            echo '<a href="controleurFrontal.php?action='.$action.'"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
         ?>
     </header>
 
