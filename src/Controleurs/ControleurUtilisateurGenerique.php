@@ -24,14 +24,12 @@ class ControleurUtilisateurGenerique {
             $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
             if ($utilisateur->estAdmin()) {
-                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
-                    "Paramètres"=>"controleurFrontal.php?action=afficherParametresAdmin");
+                $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue");
             }
             else {
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
                     "Panier" => "controleurFrontal.php?action=afficherPanier",
-                    "Historique" => "controleurFrontal.php?action=afficherHistorique",
-                    "Paramètres" => "controleurFrontal.php?action=afficherParametresClient");
+                    "Historique" => "controleurFrontal.php?action=afficherHistorique");
             }
         }
 
@@ -57,12 +55,8 @@ class ControleurUtilisateurGenerique {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"connexion.php","onglets"=>self::recupererOnglets()]);
     }
 
-    public static function afficherParametresClient() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"client/parametres.php", "onglets"=>self::recupererOnglets()]);
-
-    }
-
-    public static function afficherParametresAdmin() : void {
+    public static function afficherParametres() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"parametres.php", "onglets"=>self::recupererOnglets()]);
 
     }
 

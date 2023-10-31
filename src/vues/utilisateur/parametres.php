@@ -2,8 +2,11 @@
     <div>
         <div style="display: flex; justify-content: space-between">
             <p>Paramètres</p>
-            <img src="../../../ressources/images/logo-supprimer.png"
-            style="height: 40px; width: 40px"/>
+            <?php
+            use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+            echo '<img src="../../../ressources/images/logo-supprimer.png" style="height: 40px; width: 40px"/>';
+            ?>
+
         </div>
         <p>Informations personelles</p>
         <div class="block-connexion">

@@ -15,7 +15,7 @@
                     <p><span id="prixTotal"></span></p>
 
                     <button class="panier-supprimer">
-                        <img src="../../../ressources/images/logo-fermer.png"/>
+                        <img src="../../../../ressources/images/logo-fermer.png"/>
                     </button>
                 </div>
 

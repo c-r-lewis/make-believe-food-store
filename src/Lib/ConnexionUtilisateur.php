@@ -3,6 +3,7 @@
 namespace App\Magasin\Lib;
 
 use App\Magasin\Modeles\HTTP\Session;
+use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
 class ConnexionUtilisateur
 {
@@ -24,6 +25,13 @@ class ConnexionUtilisateur
 
     public static function estConnecte(): bool {
         return Session::getInstance()->contient(ConnexionUtilisateur::$cleConnexion);
+    }
+
+    public static function estAdmin(): bool {
+        if (self::estConnecte()) {
+            return (new UtilisateurRepository())->recupererParClePrimaire(self::getLoginUtilisateurConnecte())->estAdmin();
+        }
+        return false;
     }
 
     public static function deconnecter(): void {
