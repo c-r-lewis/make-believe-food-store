@@ -33,7 +33,7 @@ abstract class AbstractRepository
         }
     }
 
-    abstract protected function construireDepuisTableau(array $objetFormatTableau);
+    abstract protected function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
 
     public function recuperer(): array
     {

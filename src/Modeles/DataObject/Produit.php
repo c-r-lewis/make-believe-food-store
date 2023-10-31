@@ -1,7 +1,7 @@
 <?php
 namespace App\Magasin\Modeles\DataObject;
 
-class Produit
+class Produit extends AbstractDataObject
 {
     private int $idProduit;
     private string $nomProduit;
@@ -84,5 +84,15 @@ class Produit
                 Nom produit : $this->nomProduit \n
                 Description produit : $this->descriptionProduit \n
                 Prix Produit : $this->prixProduit \n</p>";
+    }
+
+    public function formatTableau()
+    {
+        return [
+            "idProduitTag"=>$this->idProduit,
+            "nomProduitTag"=>$this->nomProduit,
+            "descriptionProduitTag"=>$this->descriptionProduit,
+            "prixProduitTag"=>$this->prixProduit
+        ];
     }
 }
