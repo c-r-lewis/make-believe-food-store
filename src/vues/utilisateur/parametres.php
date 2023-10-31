@@ -4,7 +4,9 @@
             <p>Paramètres</p>
             <?php
             use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
-            echo '<img src="../../../ressources/images/logo-supprimer.png" style="height: 40px; width: 40px"/>';
+            if (!ConnexionUtilisateur::estAdmin()) {
+                echo '<img src="../../../ressources/images/logo-supprimer.png" style="height: 40px; width: 40px"/>';
+            }
             ?>
 
         </div>
