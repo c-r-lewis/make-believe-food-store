@@ -1,5 +1,6 @@
 <section class="grille-produits">
     <?php
+    /** @var array $produits*/
 
     ?>
     <div class="article">

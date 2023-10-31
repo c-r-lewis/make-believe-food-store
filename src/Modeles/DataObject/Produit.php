@@ -86,7 +86,7 @@ class Produit extends AbstractDataObject
                 Prix Produit : $this->prixProduit \n</p>";
     }
 
-    public function formatTableau()
+    public function formatTableau() : array
     {
         return [
             "idProduitTag"=>$this->idProduit,
