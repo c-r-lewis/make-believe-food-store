@@ -8,7 +8,14 @@
 <body>
 <div class="right">
     <header>
-        <a href="controleurFrontal.php?action=afficherConnexion"><img src="../ressources/images/connexion-logo.png" alt="Se connecter"/></a>
+        <?php
+            use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+            $imageSrc = "../ressources/images/connexion-logo.png";
+            if (ConnexionUtilisateur::estConnecte()) {
+                $imageSrc = "../ressources/images/logo-quitter.png";
+            }
+            echo '<a href="controleurFrontal.php?action=afficherConnexion"><img src="'.$imageSrc.'" alt="Se connecter"/></a>';
+        ?>
     </header>
 
     <div>
@@ -25,6 +32,12 @@
     <aside>
         <nav>
             <?php
+            if (ConnexionUtilisateur::estConnecte()) {
+                echo '<div>
+                    <img src="../ressources/images/logo-client.png">
+                </div>';
+            }
+
             /** @var array $onglets */
             foreach($onglets as $onglet => $lien) {
                 echo '<a href="'.$lien .'">' . $onglet. '</a>';
