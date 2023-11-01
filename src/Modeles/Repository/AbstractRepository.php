@@ -23,7 +23,6 @@ abstract class AbstractRepository
                 $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
             }
             $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag);";
-            var_dump($sql);
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
 
             $values = $object->formatTableau();
@@ -43,7 +42,7 @@ abstract class AbstractRepository
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query($sql);
         $objets = [];
         foreach ($pdoStatement as $objetFormatTableau) {
-            $this->construireDepuisTableau($objetFormatTableau);
+            $objets[] = $this->construireDepuisTableau($objetFormatTableau);
         }
         return $objets;
     }

@@ -12,9 +12,10 @@ class ControleurProduit extends ControleurGenerique
         $onglets = self::recupererOnglets();
 
         $produits = (new ProduitRepository())->recuperer();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/catalogue.php",
+        var_dump($produits);
+        /*self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/catalogue.php",
             "onglets"=>$onglets,
-            "produits"=>$produits]);
+            "produits"=>$produits]);*/
     }
 
     public static function afficherCreationProduit() : void {
@@ -24,7 +25,7 @@ class ControleurProduit extends ControleurGenerique
     public static function creerProduit() : void {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
             (new ProduitRepository())->sauvegarder(new Produit($_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"]));
-            //self::afficherCatalogue();
+            self::afficherCatalogue();
         }
 
     }
