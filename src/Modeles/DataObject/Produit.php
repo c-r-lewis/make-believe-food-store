@@ -14,14 +14,6 @@ class Produit extends AbstractDataObject
         $this->prixProduit = $prixProduit;
     }
 
-    /**
-     * @return int
-     */
-    public function getIdProduit(): int
-    {
-        return $this->idProduit;
-    }
-    
 
     /**
      * @return string
@@ -72,7 +64,7 @@ class Produit extends AbstractDataObject
     }
 
     public function __toString() : string {
-        return  "<p> idProduit : $this->idProduit \n
+        return  "<p>
                 Nom produit : $this->nomProduit \n
                 Description produit : $this->descriptionProduit \n
                 Prix Produit : $this->prixProduit \n</p>";
@@ -81,7 +73,6 @@ class Produit extends AbstractDataObject
     public function formatTableau() : array
     {
         return [
-            "idProduitTag"=>$this->idProduit,
             "nomProduitTag"=>$this->nomProduit,
             "descriptionProduitTag"=>$this->descriptionProduit,
             "prixProduitTag"=>$this->prixProduit
