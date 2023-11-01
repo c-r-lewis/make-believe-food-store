@@ -1,5 +1,5 @@
 <section>
-    <form enctype="multipart/form-data">
+    <form enctype="multipart/form-data" action="../web/controleurFrontal.php">
         <fieldset>
             <legend>Présentation générale</legend>
             <p>
@@ -22,6 +22,8 @@
             <label>Images</label>
             <input type="file" accept=".jpg, .jpeg, .png">
         </fieldset>
+        <input type="submit" value="Valider"/>
+        <input type="hidden" name="action" value="afficherCatalogue"/>
         <button>Annuler</button>
     </form>
 </section>
