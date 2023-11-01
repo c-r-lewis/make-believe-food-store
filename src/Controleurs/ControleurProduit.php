@@ -16,4 +16,8 @@ class ControleurProduit extends ControleurGenerique
             "produits"=>$produits]);
     }
 
+    public static function afficherCreationProduit() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/formulaireCreerProduit.php", "onglets"=>self::recupererOnglets()]);
+    }
+
 }
