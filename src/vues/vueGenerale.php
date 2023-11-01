@@ -18,7 +18,7 @@
                 $alt = "Se déconnecter";
                 $action = "deconnexion";
             }
-            echo '<a href="controleurFrontal.php?action='.$action.'"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
+            echo '<a href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
         ?>
     </header>
 

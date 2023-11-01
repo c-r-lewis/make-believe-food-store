@@ -12,7 +12,7 @@ $loader->addNamespace('App\Magasin', __DIR__ . '/../src');
 if (isset($_GET['controleur'])) {
     $controleur = $_GET['controleur'];
 } else {
-    $controleur = "utilisateurGenerique";
+    $controleur = "produit";
 }
 
 $nomDeClasseControleur = '\App\Magasin\Controleurs\Controleur' . ucfirst($controleur);

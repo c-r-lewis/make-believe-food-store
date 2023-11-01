@@ -1,4 +1,4 @@
-<div>
+<section>
     <form enctype="multipart/form-data">
         <fieldset>
             <legend>Présentation générale</legend>
@@ -28,4 +28,4 @@
         </fieldset>
         <button>Annuler</button>
     </form>
-</div>
+</section>
