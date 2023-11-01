@@ -20,7 +20,6 @@ class ControleurGenerique
         }
         else {
             if (ConnexionUtilisateur::estAdmin()) {
-                echo 'est admin';
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue");
             }
             else {
