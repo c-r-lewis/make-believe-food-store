@@ -13,8 +13,9 @@
             <p>
                 <input class="button" type="submit" value="Se connecter">
                 <input type="hidden" name="action" value="connexion">
+                <input type="hidden" name="controleur" value="utilisateurGenerique">
             </p>
-            <p><span id="detail">Pas de compte ? <a href="controleurFrontal.php?action=afficherInscription">Inscrivez-vous</a></p>
+            <p><span id="detail">Pas de compte ? <a href="controleurFrontal.php?action=afficherInscription&controleur=utilisateurGenerique">Inscrivez-vous</a></p>
         </form>
     </div>
     <div class="bienvenue">

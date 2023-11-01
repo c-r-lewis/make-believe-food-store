@@ -19,9 +19,8 @@ class ControleurGenerique
                 "Panier" => "controleurFrontal.php?action=afficherPanier");
         }
         else {
-            $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
-            if ($utilisateur->estAdmin()) {
+            if (ConnexionUtilisateur::estAdmin()) {
+                echo 'est admin';
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue");
             }
             else {
