@@ -23,7 +23,7 @@
             <input type="file" accept=".jpg, .jpeg, .png">
         </fieldset>
         <input type="submit" value="Valider"/>
-        <input type="hidden" name="action" value="afficherCatalogue"/>
+        <input type="hidden" name="action" value="creerProduit"/>
         <button>Annuler</button>
     </form>
 </section>

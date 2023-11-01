@@ -6,7 +6,6 @@ use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
-
 class ControleurUtilisateurGenerique extends ControleurGenerique {
 
     public static function afficherPanier() : void {
