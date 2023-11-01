@@ -38,7 +38,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique {
 
     public static function  inscription() : void {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
-            if (!(new UtilisateurRepository())->emailExiste($_GET["email"])) {
+            if (!(new UtilisateurRepository())->clePrimaireExiste($_GET["email"])) {
                 $utilisateur = new Utilisateur($_GET["email"], $_GET["nom"], $_GET["prenom"], $_GET["mdp"]);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);
                 self::connexion();
@@ -52,7 +52,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique {
 
     public static function connexion() : void {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
-            if ((new UtilisateurRepository())->emailExiste($_GET["email"])){
+            if ((new UtilisateurRepository())->clePrimaireExiste($_GET["email"])){
                 ConnexionUtilisateur::connecter($_GET["email"]);
                 ControleurProduit::afficherCatalogue();
             }

@@ -63,4 +63,19 @@ abstract class AbstractRepository
         $pdoStatement ->execute($values);
         return $this->construireDepuisTableau($pdoStatement->fetch());
     }
+
+    public function clePrimaireExiste(mixed $clePrimaire): bool {
+        $nomTable = $this->getNomTable();
+        $nomClePrimaire = $this->getClePrimaire();
+        $tag = $nomClePrimaire . "Tag";
+        $sql = "SELECT * FROM $nomTable WHERE $nomClePrimaire=:$tag";
+
+        $pdostatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+
+        $values = array($tag=>$clePrimaire);
+
+        $pdostatment->execute($values);
+
+        return $pdostatment->fetch()!==false;
+    }
 }

@@ -34,15 +34,4 @@ class UtilisateurRepository extends AbstractRepository
     {
         return "email";
     }
-
-    public function emailExiste(String $email): bool {
-        $sql = "SELECT * FROM Site_UtilisateursConnectes WHERE email=:emailTag";
-        $pdostatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-
-        $values = array("emailTag"=>$email);
-
-        $pdostatment->execute($values);
-
-        return $pdostatment->fetch()!==false;
-    }
 }
