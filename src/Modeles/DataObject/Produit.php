@@ -8,8 +8,7 @@ class Produit extends AbstractDataObject
     private string $descriptionProduit;
     private float $prixProduit;
 
-    public function __construct(int $idProduit, string $nomProduit, string $dscriptionProduit, float $prixProduit) {
-        $this->idProduit = $idProduit;
+    public function __construct(string $nomProduit, string $dscriptionProduit, float $prixProduit) {
         $this->nomProduit = $nomProduit;
         $this->descriptionProduit = $dscriptionProduit;
         $this->prixProduit = $prixProduit;
@@ -22,14 +21,7 @@ class Produit extends AbstractDataObject
     {
         return $this->idProduit;
     }
-
-    /**
-     * @param int $idProduit
-     */
-    public function setIdProduit(int $idProduit): void
-    {
-        $this->idProduit = $idProduit;
-    }
+    
 
     /**
      * @return string

@@ -23,7 +23,7 @@ class ControleurProduit extends ControleurGenerique
 
     public static function creerProduit() : void {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
-            (new ProduitRepository())->sauvegarder(new Produit($_GET["idProduit"], $_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"]));
+            (new ProduitRepository())->sauvegarder(new Produit($_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"]));
         }
         self::afficherCatalogue();
     }
