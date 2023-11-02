@@ -81,6 +81,14 @@ class Produit extends AbstractDataObject
 
     public function formatTableau() : array
     {
+        if ($this->idProduit!=null){
+            return [
+                "idProduitTag"=>$this->idProduit,
+                "nomProduitTag"=>$this->nomProduit,
+                "descriptionProduitTag"=>$this->descriptionProduit,
+                "prixProduitTag"=>$this->prixProduit
+            ];
+        }
         return [
             "nomProduitTag"=>$this->nomProduit,
             "descriptionProduitTag"=>$this->descriptionProduit,
@@ -88,7 +96,7 @@ class Produit extends AbstractDataObject
         ];
     }
 
-    public function getIdProduit() : int {
+    public function getIdProduit() : ?int {
         return $this->idProduit;
     }
 }
