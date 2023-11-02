@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 
+use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 
@@ -29,6 +30,12 @@ class ControleurProduit extends ControleurGenerique
     public static function afficherDetailProduit() : void {
         $produit = (new ProduitRepository())->recupererParClePrimaire($_GET["idProduit"]);
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/detail.php", "produit"=>$produit]);
+    }
+
+    public static function ajouterProduitAuPanier() : void {
+        if(!ConnexionUtilisateur::estConnecte()){
+
+        }
     }
 
 }
