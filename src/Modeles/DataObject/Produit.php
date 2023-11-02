@@ -3,7 +3,7 @@ namespace App\Magasin\Modeles\DataObject;
 
 class Produit extends AbstractDataObject
 {
-    private int $idProduit;
+    private ?int $idProduit;
     private string $nomProduit;
     private string $descriptionProduit;
     private float $prixProduit;
@@ -28,6 +28,7 @@ class Produit extends AbstractDataObject
         $this->nomProduit = $nomProduit;
         $this->descriptionProduit = $dscriptionProduit;
         $this->prixProduit = $prixProduit;
+        $this->idProduit = null;
     }
 
 
