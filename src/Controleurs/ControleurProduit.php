@@ -2,10 +2,9 @@
 
 namespace App\Magasin\Controleurs;
 
-
-use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
+use App\Magasin\Modeles\DataObject\Panier as Panier;
 
 class ControleurProduit extends ControleurGenerique
 {
@@ -33,9 +32,8 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function ajouterProduitAuPanier() : void {
-        if(!ConnexionUtilisateur::estConnecte()){
-
-        }
+        Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
+        self::afficherDetailProduit();
     }
 
 }
