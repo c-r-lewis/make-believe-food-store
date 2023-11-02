@@ -8,7 +8,23 @@ class Produit extends AbstractDataObject
     private string $descriptionProduit;
     private float $prixProduit;
 
-    public function __construct(string $nomProduit, string $dscriptionProduit, float $prixProduit) {
+    public function __construct() {
+        $args = func_get_args();
+        $numArgs = func_num_args();
+
+        if (method_exists($this, $f = '__construct' . $numArgs)) {
+            call_user_func_array(array($this, $f), $args);
+        }
+    }
+
+    public function __construct4(int $idProduit, string $nomProduit, string $dscriptionProduit, float $prixProduit) {
+        $this->nomProduit = $nomProduit;
+        $this->descriptionProduit = $dscriptionProduit;
+        $this->prixProduit = $prixProduit;
+        $this->idProduit = $idProduit;
+    }
+
+    public function __construct3(string $nomProduit, string $dscriptionProduit, float $prixProduit) {
         $this->nomProduit = $nomProduit;
         $this->descriptionProduit = $dscriptionProduit;
         $this->prixProduit = $prixProduit;
@@ -63,13 +79,6 @@ class Produit extends AbstractDataObject
         $this->prixProduit = $prixProduit;
     }
 
-    public function __toString() : string {
-        return  "<p>
-                Nom produit : $this->nomProduit \n
-                Description produit : $this->descriptionProduit \n
-                Prix Produit : $this->prixProduit \n</p>";
-    }
-
     public function formatTableau() : array
     {
         return [
@@ -77,5 +86,9 @@ class Produit extends AbstractDataObject
             "descriptionProduitTag"=>$this->descriptionProduit,
             "prixProduitTag"=>$this->prixProduit
         ];
+    }
+
+    public function getIdProduit() : int {
+        return $this->idProduit;
     }
 }
