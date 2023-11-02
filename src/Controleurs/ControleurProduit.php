@@ -41,4 +41,9 @@ class ControleurProduit extends ControleurGenerique
         echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
     }
 
+    public static function modifierQuantitePanier() : void {
+        Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
+        echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
+    }
+
 }

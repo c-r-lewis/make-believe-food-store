@@ -12,9 +12,12 @@
                 <div class="item">
                     <img src="" alt="Produit">
                     <p>'.$item["produit"]->getNomProduit().'</p>
-                    <!-- Il faudra récupérer le prix unitaire stocké dans la base de données -->
-                    <input type="number" min="1" value="'.$item["quantite"].'" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
-                    <p><span id="prixTotal"></span></p>
+                    <form action="../web/controleurFrontal.php">
+                        <input type="number" name="quantite" min="1" value="'.$item["quantite"].'" class="quantite" data-price="'.$item["produit"]->getPrixProduit().'" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
+                        <input type="hidden" name="action" value="modifierQuantitePanier">
+                        <input type="hidden" name="idProduit" value="'.$item["produit"]->getIdProduit().'">
+                    </form>
+                    <p><span class="prixTotal"></span></p>
 
                     <a class="panier-supprimer" href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='.$item["produit"]->getIdProduit().'">
                         <img src="../../../../ressources/images/logo-fermer.png" alt="supprimer"/>

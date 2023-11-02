@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    mettreAJourPrixTotal(document.getElementById("quantite"));
+    document.querySelectorAll(".quantite").forEach(input => {
+        mettreAJourPrixTotal(input);
+    });
 });
 
 function mettreAJourPrixTotal(input) {
     const prixItem = parseFloat(input.dataset.price);
     const quantite = input.value;
     const total = prixItem * quantite;
-    document.getElementById("prixTotal").textContent = total + "€";
+
+    // Find the closest .item container and then get the .prixTotal within it
+    input.closest('.item').querySelector('.prixTotal').textContent = total + "€";
 }
