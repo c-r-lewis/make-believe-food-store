@@ -22,7 +22,8 @@ class ControleurGenerique
         else {
             if (ConnexionUtilisateur::estAdmin()) {
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
-                    "Nouveau produit"=>"controleurFrontal.php?action=afficherCreationProduit");
+                    "Nouveau produit"=>"controleurFrontal.php?action=afficherCreationProduit",
+                    "Comptes"=>"controleurFrontal.php?action=afficherComptes&controleur=utilisateurGenerique");
             }
             else {
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
