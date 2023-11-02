@@ -1,25 +1,29 @@
 <section>
-
     <div class="panier">
         <div class="items">
             <div class="block">
                 <p>Panier</p>
 
                 <div class="line"></div>
-
+                <?php
+                /** @var array $produits */
+                foreach ($produits as $item) {
+                    echo '
                 <div class="item">
                     <img src="" alt="Produit">
-                    <p>Nom produit</p>
+                    <p>'.$item["produit"]->getNomProduit().'</p>
                     <!-- Il faudra récupérer le prix unitaire stocké dans la base de données -->
-                    <input type="number" min="1" value="1" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
+                    <input type="number" min="1" value="'.$item["quantite"].'" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
                     <p><span id="prixTotal"></span></p>
 
                     <button class="panier-supprimer">
-                        <img src="../../../../ressources/images/logo-fermer.png"/>
+                        <img src="../../../../ressources/images/logo-fermer.png" alt="supprimer"/>
                     </button>
                 </div>
-
                 <div class="line"></div>
+';
+                }
+                ?>
             </div>
         </div>
         <div class="sommaire">
@@ -30,6 +34,4 @@
             </div>
         </div>
     </div>
-
 </section>
-

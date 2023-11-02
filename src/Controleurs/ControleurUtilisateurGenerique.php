@@ -4,12 +4,28 @@ namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Modeles\DataObject\Utilisateur;
+use App\Magasin\Modeles\HTTP\Cookie;
+use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
 class ControleurUtilisateurGenerique extends ControleurGenerique {
 
     public static function afficherPanier() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/client/panier.php"]);
+        $produits = [];
+        if (ConnexionUtilisateur::estConnecte()) {
+            //TODO: récupérer les produits à partir de la base de données
+        }
+        else {
+            if (Cookie::contient("panier")) {
+                $panier = Cookie::lire("panier");
+
+                foreach ($panier as $idProduit => $quantite) {
+                    $produits[] = ["produit"=>(new ProduitRepository())->recupererParClePrimaire($idProduit),
+                        "quantite"=>$quantite];
+                }
+            }
+        }
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/client/panier.php", "produits"=>$produits]);
     }
 
     public static function afficherHistorique(): void {
