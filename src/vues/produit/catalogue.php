@@ -8,7 +8,7 @@
         echo '<div class="article">
             <img src="" alt="Produit">
             <p>'.$produit->getNomProduit().'</p>';
-        $action = "afficherDetail";
+        $action = "afficherDetailProduit";
         if (ConnexionUtilisateur::estConnecte()){
             if ((new UtilisateurRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte())->estAdmin()) {
                 $action = "afficherModificationProduit";
