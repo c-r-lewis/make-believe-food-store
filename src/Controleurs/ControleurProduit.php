@@ -37,7 +37,8 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function supprimerProduitDuPanier() : void {
-        echo "Delete";
+        Panier::supprimerItem((int)$_GET["idProduit"]);
+        echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
     }
 
 }

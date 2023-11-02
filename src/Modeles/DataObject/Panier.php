@@ -15,10 +15,12 @@ class Panier {
         if (!ConnexionUtilisateur::estConnecte()) {
             if (Cookie::contient("panier")) {
                 $panier = Cookie::lire("panier");
-                if (isset($panier[$idProduit])) {
+                if (array_key_exists($idProduit, $panier)) {
                     unset($panier[$idProduit]);
+                    Cookie::enregistrer("panier", $panier);
                 }
             }
+
         }
     }
 
