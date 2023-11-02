@@ -29,4 +29,8 @@ class ControleurProduit extends ControleurGenerique
 
     }
 
+    public static function afficherDetailProduit() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/detail.php"]);
+    }
+
 }
