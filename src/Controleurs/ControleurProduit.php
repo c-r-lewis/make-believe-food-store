@@ -10,7 +10,7 @@ class ControleurProduit extends ControleurGenerique
 {
     public static function afficherCatalogue() : void {
         $produits = (new ProduitRepository())->recuperer();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/catalogue.php",
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/catalogue.php",
             "produits"=>$produits]);
     }
 
