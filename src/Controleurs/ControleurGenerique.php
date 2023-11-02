@@ -17,7 +17,7 @@ class ControleurGenerique
     protected static function recupererOnglets() : array {
         if (!ConnexionUtilisateur::estConnecte()) {
             $onglets = array("Catalogue" => "controleurFrontal.php?action=afficherCatalogue",
-                "Panier" => "controleurFrontal.php?action=afficherPanier");
+                "Panier" => "controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique");
         }
         else {
             if (ConnexionUtilisateur::estAdmin()) {
@@ -26,7 +26,7 @@ class ControleurGenerique
             }
             else {
                 $onglets = array("Catalogue"=> "controleurFrontal.php?action=afficherCatalogue",
-                    "Panier" => "controleurFrontal.php?action=afficherPanier",
+                    "Panier" => "controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique",
                     "Historique" => "controleurFrontal.php?action=afficherHistorique");
             }
         }

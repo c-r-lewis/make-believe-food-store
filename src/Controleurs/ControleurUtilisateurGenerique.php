@@ -9,8 +9,7 @@ use App\Magasin\Modeles\Repository\UtilisateurRepository;
 class ControleurUtilisateurGenerique extends ControleurGenerique {
 
     public static function afficherPanier() : void {
-        $onglets = self::recupererOnglets();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/client/panier.php", "onglets"=>$onglets]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/client/panier.php"]);
     }
 
     public static function afficherHistorique(): void {
