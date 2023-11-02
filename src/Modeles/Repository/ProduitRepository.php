@@ -19,7 +19,12 @@ class ProduitRepository extends AbstractRepository
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        $produit = new Produit($objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
+        if (array_key_exists("idProduit",$objetFormatTableau)) {
+            $produit = new Produit($objetFormatTableau["idProduit"],$objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
+        }
+        else {
+            $produit = new Produit($objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
+        }
         return $produit;
     }
 
