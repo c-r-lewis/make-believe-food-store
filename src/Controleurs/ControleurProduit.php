@@ -36,4 +36,8 @@ class ControleurProduit extends ControleurGenerique
         self::afficherDetailProduit();
     }
 
+    public static function supprimerProduitDuPanier() : void {
+        echo "Delete";
+    }
+
 }

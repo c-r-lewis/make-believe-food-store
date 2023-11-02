@@ -16,9 +16,9 @@
                     <input type="number" min="1" value="'.$item["quantite"].'" id="quantite" data-price="10" oninput="mettreAJourPrixTotal(this)">
                     <p><span id="prixTotal"></span></p>
 
-                    <button class="panier-supprimer">
+                    <a class="panier-supprimer" href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='.$item["produit"]->getNomProduit().'">
                         <img src="../../../../ressources/images/logo-fermer.png" alt="supprimer"/>
-                    </button>
+                    </a>
                 </div>
                 <div class="line"></div>
 ';
