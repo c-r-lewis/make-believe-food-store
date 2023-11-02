@@ -19,20 +19,20 @@ class ControleurUtilisateurGenerique extends ControleurGenerique {
 
 
     public static function afficherConnexion(): void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/connexion.php","onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/connexion.php"]);
     }
 
     public static function afficherParametres() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/parametres.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/parametres.php"]);
 
     }
 
     public static function afficherInscription() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/inscription.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/inscription.php"]);
     }
 
     public static function afficherComptes(): void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/comptes.php", "onglets"=>self::recupererOnglets()]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/comptes.php"]);
     }
 
 
