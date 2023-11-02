@@ -18,6 +18,10 @@ class ControleurProduit extends ControleurGenerique
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/formulaireCreerProduit.php"]);
     }
 
+    public static function afficherModificationProduit() : void {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/formulaireMettreAJourProduit.php"]);
+    }
+
     public static function creerProduit() : void {
         if ($_SERVER["REQUEST_METHOD"]=="GET") {
             (new ProduitRepository())->sauvegarder(new Produit($_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"]));

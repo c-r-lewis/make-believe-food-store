@@ -28,8 +28,9 @@
             <p>
                 <input class="button" type="submit" value="S'inscrire">
                 <input type="hidden" name="action" value="inscription">
+                <input type="hidden" name="controleur" value="utilisateurGenerique">
             </p>
-            <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion">Connectez-vous</a></p>
+            <p><span id="detail">Déjà un compte ? <a href="controleurFrontal.php?action=afficherConnexion&controleur=utilisateurGenerique">Connectez-vous</a></p>
 
 
         </form>
