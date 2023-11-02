@@ -38,7 +38,7 @@
             <?php
             if (ConnexionUtilisateur::estConnecte()) {
                 echo '<div>
-                    <a href="controleurFrontal.php?action=afficherParametres"><img src="../ressources/images/logo-client.png"></a>
+                    <a href="controleurFrontal.php?action=afficherParametres&controleur=utilisateurGenerique"><img src="../ressources/images/logo-client.png"></a>
                 </div>';
             }
 
