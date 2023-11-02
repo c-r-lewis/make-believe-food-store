@@ -6,7 +6,7 @@
         echo '<div class="article">
             <img src="" alt="Produit">
             <p>'.$produit->getNomProduit().'</p>
-            <button>Voir produit</button>
+            <a href="controleurFrontal.php?action=afficherDetailProduit">Voir produit</a>
         </div>';
     }
     ?>
