@@ -9,8 +9,10 @@
             <img src="" alt="Produit">
             <p>'.$produit->getNomProduit().'</p>';
         $action = "afficherDetail";
-        if ((new UtilisateurRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte())->estAdmin()) {
-            $action = "afficherModificationProduit";
+        if (ConnexionUtilisateur::estConnecte()){
+            if ((new UtilisateurRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte())->estAdmin()) {
+                $action = "afficherModificationProduit";
+            }
         }
         echo '<a href="controleurFrontal.php?action='.$action.'&idProduit='.$produit->getIdProduit().'">Voir produit</a>
         </div>';
