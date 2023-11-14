@@ -95,7 +95,7 @@ class Utilisateur extends AbstractDataObject
                 "emailTag" => $this->getEmail(),
                 "nomTag" => $this->getNom(),
                 "prenomTag" => $this->getPrenom(),
-                "mdpTag" => $this->getMdpHache(),
+                "mdpHacheTag" => $this->getMdpHache(),
                 "estAdminTag" => $admin
             ];
     }
