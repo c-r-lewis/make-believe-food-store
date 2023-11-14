@@ -2,6 +2,8 @@
 
 namespace App\Magasin\Modeles\DataObject;
 
+use App\Magasin\Lib\MotDePasse;
+
 class Utilisateur extends AbstractDataObject
 {
     private string $email;
@@ -16,6 +18,18 @@ class Utilisateur extends AbstractDataObject
         $this->prenom =  $prenom;
         $this->mdpHache = $mdpHache;
         $this->estAdmin = $estAdmin;
+    }
+
+    public static function construireDepuisFormulaire(array $tableauFormulaire): Utilisateur
+    {
+        $mdpHache = MotDePasse::hacher($tableauFormulaire["mdp"]);
+        return new Utilisateur(
+            $tableauFormulaire["email"],
+            $tableauFormulaire["nom"],
+            $tableauFormulaire["prenom"],
+            $mdpHache
+        );
+
     }
 
     public function getEmail(): string
