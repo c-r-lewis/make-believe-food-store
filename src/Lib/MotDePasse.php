@@ -5,7 +5,6 @@ namespace App\Magasin\Lib;
 class MotDePasse
 {
 
-// Exécutez genererChaineAleatoire() et stockez sa sortie dans le poivre
     private static string $poivre = "QnD2cbN4jipTkreM05KDNK";
 
     public static function hacher(string $mdpClair): string
