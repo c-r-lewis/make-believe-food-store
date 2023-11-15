@@ -5,6 +5,7 @@ namespace App\Magasin\Controleurs;
 use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
+use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
@@ -42,7 +43,15 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function afficherParametres(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/parametres.php"]);
+        if (ConnexionUtilisateur::estConnecte()) {
+            self::afficherVue(
+                "vueGenerale.php",
+                [
+                    "cheminVueBody" => "utilisateur/parametres.php",
+                    "login" => ConnexionUtilisateur::getLoginUtilisateurConnecte()
+                ]
+            );
+        }
 
     }
 
@@ -65,7 +74,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             } elseif ($_GET["mdp"] != $_GET["mdp2"]) {
                 // les mots de passe ne correspondent pas
             } else {
-                $utilisateur =  Utilisateur::construireDepuisFormulaire($_GET);
+                $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);
                 self::connexion();
             }
