@@ -75,8 +75,10 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function connexion(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            if ((new UtilisateurRepository())->clePrimaireExiste($_GET["email"])) {
-                ConnexionUtilisateur::connecter($_GET["email"]);
+            if (
+                (new UtilisateurRepository())->clePrimaireExiste($_GET["email"])
+            ) {
+                ConnexionUtilisateur::connecter($_GET["email"], $_GET["mdp"]);
                 ControleurProduit::afficherCatalogue();
             } else {
                 // Gérer l'erreur
