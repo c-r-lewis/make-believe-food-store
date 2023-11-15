@@ -2,20 +2,34 @@
 
 namespace App\Magasin\Modeles\DataObject;
 
+use App\Magasin\Lib\MotDePasse;
+
 class Utilisateur extends AbstractDataObject
 {
     private string $email;
     private string $nom;
     private string $prenom;
-    private string $mdp;
+    private string $mdpHache;
     private bool $estAdmin;
 
-    public function __construct(string $email, string $nom, string $prenom, string $mdp, bool $estAdmin = false) {
+    public function __construct(string $email, string $nom, string $prenom, string $mdpHache, bool $estAdmin = false) {
         $this->email = $email;
         $this->nom = $nom;
         $this->prenom =  $prenom;
-        $this->mdp = $mdp;
+        $this->mdpHache = $mdpHache;
         $this->estAdmin = $estAdmin;
+    }
+
+    public static function construireDepuisFormulaire(array $tableauFormulaire): Utilisateur
+    {
+        $mdpHache = MotDePasse::hacher($tableauFormulaire["mdp"]);
+        return new Utilisateur(
+            $tableauFormulaire["email"],
+            $tableauFormulaire["nom"],
+            $tableauFormulaire["prenom"],
+            $mdpHache
+        );
+
     }
 
     public function getEmail(): string
@@ -48,14 +62,14 @@ class Utilisateur extends AbstractDataObject
         $this->prenom = $prenom;
     }
 
-    public function getMdp(): string
+    public function getMdpHache(): string
     {
-        return $this->mdp;
+        return $this->mdpHache;
     }
 
-    public function setMdp(string $mdp): void
+    public function setMdpHache(string $mdpHache): void
     {
-        $this->mdp = $mdp;
+        $this->mdpHache = $mdpHache;
     }
 
     public function estAdmin(): bool
@@ -81,7 +95,7 @@ class Utilisateur extends AbstractDataObject
                 "emailTag" => $this->getEmail(),
                 "nomTag" => $this->getNom(),
                 "prenomTag" => $this->getPrenom(),
-                "mdpTag" => $this->getMdp(),
+                "mdpHacheTag" => $this->getMdpHache(),
                 "estAdminTag" => $admin
             ];
     }

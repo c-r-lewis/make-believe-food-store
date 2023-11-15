@@ -9,9 +9,14 @@ class ConnexionUtilisateur
 {
     private static $cleConnexion = "_utilisateurConnecte";
 
-    public static function connecter(string $login): void {
-        $sessionEnCours = Session::getInstance();
-        $sessionEnCours -> enregistrer(ConnexionUtilisateur::$cleConnexion, $login);
+    public static function connecter(string $login, string $mdpClair): void {
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+        if (MotDePasse::verifier($mdpClair, $utilisateur->getMdpHache())) {
+            $sessionEnCours = Session::getInstance();
+            $sessionEnCours->enregistrer(ConnexionUtilisateur::$cleConnexion, $login);
+        } else {
+            echo "erreur";
+        }
     }
 
     public static function getLoginUtilisateurConnecte(): ?string {

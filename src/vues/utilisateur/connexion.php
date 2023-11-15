@@ -8,7 +8,7 @@
             </p>
 
             <p>
-                <input class="input" type="text" placeholder="Mot de passe" required/>
+                <input class="input" name="mdp" type="text" placeholder="Mot de passe" required/>
             </p>
             <p>
                 <input class="button" type="submit" value="Se connecter">
