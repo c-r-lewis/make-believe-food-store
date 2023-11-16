@@ -1,6 +1,5 @@
 <?php
-
-use App\Magasin\Modeles\DataObject\Panier;
+namespace App\Magasin\Modeles\DataObject;
 
 class ProduitPanier extends Panier {
     private int $idPanier;
@@ -43,5 +42,10 @@ class ProduitPanier extends Panier {
         $this->idPanier = $idPanier;
     }
 
-
+    public function formatTableau()
+    {
+        return ["idPanierTag"=>$this->idPanier,
+        "idProduitTag"=>$this->idProduit,
+        "quantiteTag"=>$this->quantite];
+    }
 }

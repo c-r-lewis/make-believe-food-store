@@ -3,7 +3,7 @@
 namespace App\Magasin\Modeles\DataObject;
 use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
 use App\Magasin\Modeles\HTTP\Cookie as Cookie;
-class Panier {
+class Panier extends AbstractDataObject {
 
     public static function ajouterItem(int $idProduit, int $quantite) : void {
         if (!ConnexionUtilisateur::estConnecte()) {
@@ -56,5 +56,10 @@ class Panier {
             }
         }
         Cookie::enregistrer("panier", $panier);
+    }
+
+    public function formatTableau()
+    {
+        return null;
     }
 }

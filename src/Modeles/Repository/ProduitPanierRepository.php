@@ -3,7 +3,7 @@
 namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Modeles\DataObject\AbstractDataObject;
-use PanierConnecte;
+use App\Magasin\Modeles\DataObject\ProduitPanier;
 
 class ProduitPanierRepository extends AbstractRepository
 {
@@ -19,13 +19,7 @@ class ProduitPanierRepository extends AbstractRepository
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        if (array_key_exists("idPanier",$objetFormatTableau)) {
-            $panier = new \ProduitPanier($objetFormatTableau["idPanier"],$objetFormatTableau["idProduit"],$objetFormatTableau["quantite"]);
-        }
-        else {
-            $panier = new PanierConnecte($objetFormatTableau["idProduit"],$objetFormatTableau["quantite"]);
-        }
-        return $panier;
+        return new ProduitPanier($objetFormatTableau["idPanier"],$objetFormatTableau["idProduit"],$objetFormatTableau["quantite"]);
     }
 
     protected function getNomsColonnes(): array

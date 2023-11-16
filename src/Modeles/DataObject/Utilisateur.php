@@ -29,6 +29,9 @@ class Utilisateur extends AbstractDataObject
             $tableauFormulaire["prenom"],
             $mdpHache
         );
+    }
+
+    public static function test() {
 
     }
 

@@ -1,6 +1,5 @@
 <?php
-
-use App\Magasin\Modeles\DataObject\Panier;
+namespace App\Magasin\Modeles\DataObject;
 
 class PanierConnecte extends Panier {
     private string $email;
@@ -40,5 +39,11 @@ class PanierConnecte extends Panier {
         $this->idPanier = $idPanier;
     }
 
-
+    public function formatTableau()
+    {
+        return [
+            "emailTag" => $this->getEmail(),
+            "idPanierTag" => $this->getIdPanier(),
+        ];
+    }
 }

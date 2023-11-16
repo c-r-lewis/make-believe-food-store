@@ -3,9 +3,9 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
-use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository;
@@ -17,17 +17,25 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function afficherPanier(): void
     {
         $produits = [];
+        $panier = [];
         if (ConnexionUtilisateur::estConnecte()) {
-            $recupererPanier = (new PanierRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte());
-            $panier = (new ProduitPanierRepository())->recupererParClePrimaire($recupererPanier->formatTableau().get("idPanier"));
+            $recupererPanier = (new PanierRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte())[0];
+            if ((new ProduitPanierRepository())->clePrimaireExiste(($recupererPanier->formatTableau())["idPanierTag"])){
+                $panier = (new ProduitPanierRepository())->recupererParClePrimaire(($recupererPanier->formatTableau())["idPanierTag"]);
+                foreach ($panier as $produit) {
+                    $ajoutPanier = $produit->formatTableau();
+                    $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire($ajoutPanier["idProduitTag"])[0],
+                        "quantite" => $ajoutPanier["quantiteTag"]];
+                }
+            }
         } else {
             if (Cookie::contient("panier")) {
                 $panier = Cookie::lire("panier");
             }
-        }
-        foreach ($panier as $idProduit => $quantite) {
-            $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire($idProduit),
-                "quantite" => $quantite];
+            foreach ($panier as $idProduit => $quantite) {
+                $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire($idProduit)[0],
+                    "quantite" => $quantite];
+            }
         }
         self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
     }
@@ -73,9 +81,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if ((new UtilisateurRepository())->clePrimaireExiste($_GET["email"])) {
                 // le compte est déjà enregistré
-            } elseif ($_GET["mdp"] != $_GET["mdp2"]) {
+            } else if ($_GET["mdp"] != $_GET["mdp2"]) {
                 // les mots de passe ne correspondent pas
             } else {
+                $panierConnecte = new PanierConnecte($_GET["email"], count((new PanierRepository())->recuperer()));
+                $panierRepository = new PanierRepository();
+                $panierRepository->sauvegarder($panierConnecte);
+
                 $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);
                 self::connexion();

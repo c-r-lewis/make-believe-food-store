@@ -3,7 +3,7 @@
 namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Modeles\DataObject\AbstractDataObject;
-use PanierConnecte;
+use App\Magasin\Modeles\DataObject\PanierConnecte;
 
 class PanierRepository extends AbstractRepository
 {
@@ -19,11 +19,11 @@ class PanierRepository extends AbstractRepository
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        if (array_key_exists("idPanier",$objetFormatTableau)) {
+        if (array_key_exists("email",$objetFormatTableau)) {
             $panier = new PanierConnecte($objetFormatTableau["email"],$objetFormatTableau["idPanier"]);
         }
         else {
-            $panier = new PanierConnecte($objetFormatTableau["idPanier"]);
+            $panier = new PanierConnecte($objetFormatTableau["email"]);
         }
         return $panier;
     }

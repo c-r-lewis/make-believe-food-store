@@ -12,25 +12,24 @@ abstract class AbstractRepository
 
     abstract protected function getClePrimaire(): string;
 
-    public function sauvegarder(AbstractDataObject $object): void
+    public function sauvegarder(AbstractDataObject $object): bool
     {
         try {
             $sql = "INSERT INTO " . $this -> getNomTable() . "(";
             $sqlTag = "";
             $listeAttributs = $this -> getNomsColonnes();
             for ($i=0; $i<sizeof($listeAttributs)-1; $i++) {
-                $sql .= $listeAttributs[$i] . ", ";
                 $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
+                $sql .= $listeAttributs[$i] . ", ";
             }
-            $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag);";
+            $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-
-            $values = $object->formatTableau();
+            $values = $object ->formatTableau();
             $pdoStatement->execute($values);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return;
+        } catch (PDOException) {
+            return false;
         }
+        return true;
     }
 
     abstract protected function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
@@ -47,7 +46,8 @@ abstract class AbstractRepository
         return $objets;
     }
 
-    public function recupererParClePrimaire(string $clePrimaire): AbstractDataObject {
+    public function recupererParClePrimaire(string $clePrimaire): array
+    {
         $nomTable = $this->getNomTable();
         $nomClePrimaire = $this->getClePrimaire();
         $tag = $nomClePrimaire . "Tag";
@@ -59,8 +59,14 @@ abstract class AbstractRepository
             $tag => $clePrimaire
         );
 
-        $pdoStatement ->execute($values);
-        return $this->construireDepuisTableau($pdoStatement->fetch());
+        $pdoStatement->execute($values);
+
+        $result = [];
+        while ($row = $pdoStatement->fetch()) {
+            $result[] = $this->construireDepuisTableau($row);
+        }
+
+        return $result;
     }
 
     public function clePrimaireExiste(mixed $clePrimaire): bool {
