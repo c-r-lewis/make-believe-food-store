@@ -12,9 +12,9 @@ class ProduitPanierRepository extends AbstractRepository
         return "Site_Contenir";
     }
 
-    protected function getClePrimaire(): string
+    protected function getClePrimaire(): array
     {
-        return "idPanier";
+        return ["idPanier","idProduit"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject

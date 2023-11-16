@@ -2,11 +2,11 @@
 namespace App\Magasin\Modeles\DataObject;
 
 class ProduitPanier extends Panier {
-    private int $idPanier;
-    private int $idProduit;
+    private string $idPanier;
+    private string $idProduit;
     private int $quantite;
 
-    public function __construct(int $idPanier, int $idProduit, int $quantite) {
+    public function __construct(string $idPanier, string $idProduit, int $quantite) {
         $this->idPanier = $idPanier;
         $this->idProduit = $idProduit;
         $this->quantite = $quantite;

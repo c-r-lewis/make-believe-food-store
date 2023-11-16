@@ -31,7 +31,7 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function afficherDetailProduit() : void {
-        $produit = (new ProduitRepository())->recupererParClePrimaire($_GET["idProduit"])[0];
+        $produit = (new ProduitRepository())->recupererParClePrimaire([$_GET["idProduit"]])[0];
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/detail.php", "produit"=>$produit]);
     }
 

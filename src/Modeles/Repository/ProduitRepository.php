@@ -12,9 +12,9 @@ class ProduitRepository extends AbstractRepository
         return "Site_Produits";
     }
 
-    protected function getClePrimaire(): string
+    protected function getClePrimaire(): array
     {
-        return "idProduit";
+        return ["idProduit"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject

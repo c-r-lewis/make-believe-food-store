@@ -3,17 +3,34 @@
 namespace App\Magasin\Modeles\DataObject;
 use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
 use App\Magasin\Modeles\HTTP\Cookie as Cookie;
+use App\Magasin\Modeles\Repository\PanierRepository;
+use App\Magasin\Modeles\Repository\ProduitPanierRepository;
+
 class Panier extends AbstractDataObject {
 
     public static function ajouterItem(int $idProduit, int $quantite) : void {
         if (!ConnexionUtilisateur::estConnecte()) {
             self::enregistrerDansPanierEnTantQueCookie($idProduit, $quantite);
+        } else {
+            $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+            $nouvelleQuantite = new ProduitPanier($recupererPanier["idPanierTag"], $idProduit, $quantite);
+            (new ProduitPanierRepository())->sauvegarder($nouvelleQuantite);
         }
     }
 
     public static function diminuerQuantite(int $idProduit) : void{
         if (!ConnexionUtilisateur::estConnecte()) {
             self::enregistrerDansPanierEnTantQueCookie($idProduit, -1);
+        } else {
+            $recupererPanier = (new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+            $contenuPanier = (new ProduitPanierRepository())->recupererParClePrimaire([$idProduit]);
+            $i = 0;
+            while (($contenuPanier[$i]->formatTableau())["idProduitTag"] != $idProduit) {
+                $i++;
+            }
+            $contenuPanier = ($contenuPanier[$i])->formatTableau();
+            $nouvelleQuantite = new ProduitPanier($contenuPanier["idPanierTag"], $contenuPanier["idProduitTag"], $contenuPanier["quantiteTag"]-1);
+            (new ProduitPanierRepository())->mettreAJour($nouvelleQuantite);
         }
     }
 
@@ -26,6 +43,16 @@ class Panier extends AbstractDataObject {
                     Cookie::enregistrer("panier", $panier);
                 }
             }
+        } else {
+            $recupererPanier = (new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+            $contenuPanier = (new ProduitPanierRepository())->recupererParClePrimaire([($recupererPanier->formatTableau())["idPanierTag"], $idProduit]);
+            $i = 0;
+            while (($contenuPanier[$i]->formatTableau())["idProduitTag"] != $idProduit) {
+                $i++;
+            }
+            $contenuPanier = ($contenuPanier[$i])->formatTableau();
+            $nouvelleQuantite = new ProduitPanier($contenuPanier["idPanierTag"], $idProduit, $nvlleQuantite);
+            (new ProduitPanierRepository())->mettreAJour($nouvelleQuantite);
         }
     }
 
@@ -38,7 +65,10 @@ class Panier extends AbstractDataObject {
                     Cookie::enregistrer("panier", $panier);
                 }
             }
-
+        } else {
+            $recupererPanier = (new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+            $nouvelleQuantite = new ProduitPanier(($recupererPanier->formatTableau())["idPanierTag"], $idProduit, 0);
+            (new ProduitPanierRepository())->supprimerParAbstractDataObject($nouvelleQuantite);
         }
     }
 

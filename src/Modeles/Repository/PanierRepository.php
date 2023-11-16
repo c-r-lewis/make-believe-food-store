@@ -12,9 +12,9 @@ class PanierRepository extends AbstractRepository
         return "Site_Paniers";
     }
 
-    protected function getClePrimaire(): string
+    protected function getClePrimaire(): array
     {
-        return "email";
+        return ["email"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject

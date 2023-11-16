@@ -10,7 +10,7 @@ class ConnexionUtilisateur
     private static $cleConnexion = "_utilisateurConnecte";
 
     public static function connecter(string $login, string $mdpClair): void {
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login)[0];
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire([$login])[0];
         if (MotDePasse::verifier($mdpClair, $utilisateur->getMdpHache())) {
             $sessionEnCours = Session::getInstance();
             $sessionEnCours->enregistrer(ConnexionUtilisateur::$cleConnexion, $login);
@@ -34,7 +34,7 @@ class ConnexionUtilisateur
 
     public static function estAdmin(): bool {
         if (self::estConnecte()) {
-            return (new UtilisateurRepository())->recupererParClePrimaire(self::getLoginUtilisateurConnecte())[0]->estAdmin();
+            return (new UtilisateurRepository())->recupererParClePrimaire([self::getLoginUtilisateurConnecte()])[0]->estAdmin();
         }
         return false;
     }

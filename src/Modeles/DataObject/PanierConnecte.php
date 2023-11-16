@@ -3,9 +3,9 @@ namespace App\Magasin\Modeles\DataObject;
 
 class PanierConnecte extends Panier {
     private string $email;
-    private int $idPanier;
+    private string $idPanier;
 
-    public function __construct(string $email, int $idPanier) {
+    public function __construct(string $email, string $idPanier) {
         $this->email = $email;
         $this->idPanier = $idPanier;
     }
