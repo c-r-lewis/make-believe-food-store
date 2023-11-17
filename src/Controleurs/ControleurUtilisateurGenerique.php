@@ -91,12 +91,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             } else if ($_GET["mdp"] != $_GET["mdp2"]) {
                 // les mots de passe ne correspondent pas
             } else {
+                $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
+                (new UtilisateurRepository())->sauvegarder($utilisateur);
+
                 $panierConnecte = new PanierConnecte($_GET["email"], count((new PanierRepository())->recuperer()));
                 $panierRepository = new PanierRepository();
                 $panierRepository->sauvegarder($panierConnecte);
 
-                $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
-                (new UtilisateurRepository())->sauvegarder($utilisateur);
                 self::connexion();
             }
         }

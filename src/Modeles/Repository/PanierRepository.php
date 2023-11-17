@@ -31,8 +31,8 @@ class PanierRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return [
-            "email",
-            "idPanier"
+            "idPanier",
+            "email"
         ];
     }
 }
