@@ -74,8 +74,6 @@ abstract class AbstractRepository
             $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
             $values = $object ->formatTableau();
-            var_dump($sql);
-            var_dump($values);
             $pdoStatement->execute($values);
         } catch (PDOException) {
             return false;
