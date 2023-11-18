@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
@@ -87,9 +88,11 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if ((new UtilisateurRepository())->clePrimaireExiste([$_GET["email"]])) {
-                // le compte est déjà enregistré
+                (new MessageFlash())->ajouter("warning", "L'email est déja utilisé !");
+                self::afficherInscription();
             } else if ($_GET["mdp"] != $_GET["mdp2"]) {
-                // les mots de passe ne correspondent pas
+                (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
+                self::afficherInscription();
             } else {
                 $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);

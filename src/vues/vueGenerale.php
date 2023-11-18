@@ -23,17 +23,27 @@
     </header>
     <div>
         <?php
-        /** @var string[][] $messagesFlash */
-        foreach($messagesFlash as $type => $messagesFlashPourUnType) {
+
+        use App\Magasin\Lib\MessageFlash;
+
+        $messageFlash = new MessageFlash();
+
+        $messagesFlash = $messageFlash->lireTousMessages();
+
+        // Affichez les messages flash
+        foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
             foreach ($messagesFlashPourUnType as $messageFlash) {
                 echo <<< HTML
-            <div class="alert alert-$type">
-               $messageFlash
-            </div>
-            HTML;
+        <div class="alert alert-$type">
+           $messageFlash
+        </div>
+        HTML;
             }
         }
+
         ?>
+
+
     </div>
 
     <div>

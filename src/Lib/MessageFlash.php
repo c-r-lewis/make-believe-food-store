@@ -1,35 +1,52 @@
 <?php
+
 namespace App\Magasin\Lib;
+
+use App\Magasin\Modeles\HTTP\Session;
 
 class MessageFlash
 {
-    private static string $cleFlash = "_messagesFlash";
+    private string $cleFlash = "_messagesFlash";
+    private Session $session;
 
-    public static function ajouter(string $type, string $message): void
+    public function __construct()
     {
-        if (!isset($_SESSION[self::$cleFlash][$type])) {
-            $_SESSION[self::$cleFlash][$type] = [];
+        $this->session = Session::getInstance();
+    }
+
+    public function ajouter(string $type, string $message): void
+    {
+        if (!$this->session->contient($this->cleFlash)) {
+            $this->session->enregistrer($this->cleFlash, []);
         }
 
-        $_SESSION[self::$cleFlash][$type][] = $message;
+        $messages = $this->session->lire($this->cleFlash);
+
+        if (!isset($messages[$type])) {
+            $messages[$type] = [];
+        }
+
+        $messages[$type][] = $message;
+
+        $this->session->enregistrer($this->cleFlash, $messages);
     }
 
-    public static function contientMessage(string $type): bool
+    public function contientMessage(string $type): bool
     {
-        return isset($_SESSION[self::$cleFlash][$type]);
+        return $this->session->contient($this->cleFlash) && isset($this->session->lire($this->cleFlash)[$type]);
     }
 
-    public static function lireMessages(string $type): array
+    public function lireMessages(string $type): array
     {
-        $messages = isset($_SESSION[self::$cleFlash][$type]) ? $_SESSION[self::$cleFlash][$type] : [];
-        unset($_SESSION[self::$cleFlash][$type]);
+        $messages = $this->session->lire($this->cleFlash)[$type] ?? [];
+        $this->session->supprimer($this->cleFlash, $type);
         return $messages;
     }
 
-    public static function lireTousMessages(): array
+    public function lireTousMessages(): array
     {
-        $allMessages = $_SESSION[self::$cleFlash] ?? [];
-        $_SESSION[self::$cleFlash] = [];
+        $allMessages = $this->session->lire($this->cleFlash) ?? [];
+        $this->session->supprimer($this->cleFlash);
         return $allMessages;
     }
 }
