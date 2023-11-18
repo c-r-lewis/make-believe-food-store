@@ -24,23 +24,23 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
         ?>
         <div class="block-connexion">
             <div style="margin-right: 15px">
-                <p>Nom</p>
-                <input type="text" name="nom" value="<?= $utilisateur->getNom() ?>">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" value="<?= $utilisateur->getNom() ?>">
             </div>
             <div>
-                <p>Prenom</p>
-                <input type="text" name="prenom" value="<?= $utilisateur->getPrenom() ?>">
+                <label for="prenom">Prenom</label>
+                <input type="text" id="prenom" name="prenom" value="<?= $utilisateur->getPrenom() ?>">
             </div>
         </div>
-        <p>Email</p>
-        <input type="text" name="email" value="<?= $utilisateur->getEmail() ?>">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="<?= $utilisateur->getEmail() ?>">
         <h4>Mot de passe</h4>
-        <p>Mot de passe actuel</p>
-        <input type="text" name="mdpActuel">
-        <p>Nouveau mot de passe</p>
-        <input type="text" name="mdpNouveau">
-        <p>Confirmation mot de passe</p>
-        <input type="text" name="mdpNouveau2">
+        <label for="mpdActuel">Mot de passe actuel</label>
+        <input type="text" id="mpdActuel" name="mdpActuel">
+        <label for="mdpNouveau">Nouveau mot de passe</label>
+        <input type="text" id="mdpNouveau" name="mdpNouveau">
+        <label for="mdpNouveau2">Confirmation mot de passe</label>
+        <input type="text" id="mdpNouveau2" name="mdpNouveau2">
         <input class="button" type="submit" value="Sauvegarder">
     </div>
 </section>
