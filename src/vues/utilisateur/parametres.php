@@ -25,22 +25,22 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
         <div class="block-connexion">
             <div style="margin-right: 15px">
                 <p>Nom</p>
-                <input type="text" value="<?= $utilisateur->getNom() ?>">
+                <input type="text" name="nom" value="<?= $utilisateur->getNom() ?>">
             </div>
             <div>
                 <p>Prenom</p>
-                <input type="text" value="<?= $utilisateur->getPrenom() ?>">
+                <input type="text" name="prenom" value="<?= $utilisateur->getPrenom() ?>">
             </div>
         </div>
         <p>Email</p>
-        <input type="text" value="<?= $utilisateur->getEmail() ?>">
-        <p>Mot de passe</p>
+        <input type="text" name="email" value="<?= $utilisateur->getEmail() ?>">
+        <h4>Mot de passe</h4>
         <p>Mot de passe actuel</p>
-        <input type="text">
+        <input type="text" name="mdpActuel">
         <p>Nouveau mot de passe</p>
-        <input type="text">
+        <input type="text" name="mdpNouveau">
         <p>Confirmation mot de passe</p>
-        <input type="text">
+        <input type="text" name="mdpNouveau2">
         <input class="button" type="submit" value="Sauvegarder">
     </div>
 </section>
