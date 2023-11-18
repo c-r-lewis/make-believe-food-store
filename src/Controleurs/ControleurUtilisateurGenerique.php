@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Lib\MotDePasse;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
 use App\Magasin\Modeles\HTTP\Session;
@@ -93,6 +94,44 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 // Gérer l'erreur
             }
         }
+    }
+
+    public static function miseAJourParametres(): void
+    {
+        $mdpActuel = $_GET["mdpActuel"];
+        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $repo = new UtilisateurRepository();
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = $repo->recupererParClePrimaire($login);
+        if (!MotDePasse::verifier($mdpActuel, $utilisateur->getMdpHache())) {
+            echo "mauvais mot de passe";
+            return;
+        };
+
+        $nouvellesValeurs = array();
+        foreach (["nom", "prenom", "email"] as $attribut) {
+            if ($_GET[$attribut] != "") {
+                $nouvellesValeurs[$attribut] = $_GET[$attribut];
+            }
+        }
+
+        if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
+            $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
+            $nouvellesValeurs["mdpHache"] = $nouveauMdp;
+        }
+        $repo->mettreAJour($login, $nouvellesValeurs);
+
+        if (isset($_GET["email"]) && $_GET["email"] != "") {
+            $login = $_GET["email"];
+        }
+
+        self::afficherVue(
+            "vueGenerale.php",
+            [
+                "login" => $login,
+                "cheminVueBody" => "utilisateur/parametres.php"
+            ]
+        );
     }
 
     public static function deconnexion(): void
