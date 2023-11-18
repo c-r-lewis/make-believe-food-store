@@ -22,14 +22,14 @@ class MessageFlash
     public static function lireMessages(string $type): array
     {
         $messages = isset($_SESSION[self::$cleFlash][$type]) ? $_SESSION[self::$cleFlash][$type] : [];
-        unset($_SESSION[self::$cleFlash][$type]); // Remove the messages from the session
+        unset($_SESSION[self::$cleFlash][$type]);
         return $messages;
     }
 
     public static function lireTousMessages(): array
     {
         $allMessages = $_SESSION[self::$cleFlash] ?? [];
-        $_SESSION[self::$cleFlash] = []; // Clear all flash messages
+        $_SESSION[self::$cleFlash] = [];
         return $allMessages;
     }
 }
