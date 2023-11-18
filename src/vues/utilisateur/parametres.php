@@ -20,7 +20,7 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
         </div>
         <p>Informations personelles</p>
         <?php
-        $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire($login)
+        $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([$login])[0]
         ?>
         <div class="block-connexion">
             <div style="margin-right: 15px">

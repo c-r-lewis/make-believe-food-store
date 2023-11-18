@@ -10,7 +10,7 @@
             <p>'.$produit->getNomProduit().'</p>';
         $action = "afficherDetailProduit";
         if (ConnexionUtilisateur::estConnecte()){
-            if ((new UtilisateurRepository())->recupererParClePrimaire(ConnexionUtilisateur::getLoginUtilisateurConnecte())->estAdmin()) {
+            if ((new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0]->estAdmin()) {
                 $action = "afficherModificationProduit";
             }
         }

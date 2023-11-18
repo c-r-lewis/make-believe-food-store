@@ -30,8 +30,8 @@ class UtilisateurRepository extends AbstractRepository
             ];
     }
 
-    protected function getClePrimaire(): string
+    protected function getClePrimaire(): array
     {
-        return "email";
+        return ["email"];
     }
 }
