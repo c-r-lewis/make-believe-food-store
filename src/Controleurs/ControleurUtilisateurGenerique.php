@@ -96,6 +96,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             } else {
                 $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
                 (new UtilisateurRepository())->sauvegarder($utilisateur);
+                (new MessageFlash())->ajouter("success", "Votre compte a bien été créé !");
 
                 $panierConnecte = new PanierConnecte($_GET["email"], count((new PanierRepository())->recuperer()));
                 $panierRepository = new PanierRepository();
