@@ -16,13 +16,6 @@
             <p>S'inscrire</p>
             <p>
                 <input type='text' placeholder='Email' name='email' required>
-                <?php
-                // PHP code for displaying error message
-                use App\Magasin\Lib\MessageFlash;
-                if (isset($loginDejaPris) && $loginDejaPris) {
-                    echo "<p class='error-message'>L'adresse email est déjà utilisée</p>";
-                }
-                ?>
             </p>
             <div class='info-details'>
                 <p>
@@ -42,7 +35,19 @@
                 <p id="password-match-message" class="error-message"></p>
             </div>
             <p>
-                <input class='button' type='submit' value="S'inscrire">
+                <?php
+                use App\Magasin\Modeles\Repository\UtilisateurRepository;
+
+                $email = isset($_GET['email']) ? $_GET['email'] : '';
+                if ((new UtilisateurRepository)->clePrimaireExiste([$email])) {
+                    echo "<input class='button' type='submit' value='S\'inscrire'>";
+                } else {
+                    $warningMessage = urlencode("L'email $email est déjà utilisé");
+                    $redirectUrl = "../web/controleurFrontal.php?action=afficherInscription&controleur=utilisateurGenerique&messagesFlash[warning][]=$warningMessage";
+                    echo "<input class='button' type='button' value=\"S'inscrire\" onclick=\"window.location.href='$redirectUrl'\">";
+                }
+                ?>
+
                 <input type='hidden' name='action' value='inscription'>
                 <input type='hidden' name='controleur' value='utilisateurGenerique'>
             </p>

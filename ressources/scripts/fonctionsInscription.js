@@ -11,7 +11,7 @@ function checkPasswordMatch() {
 
 function validateForm(event) {
     if (!checkPasswordMatch()) {
-        var url = '../web/controleurFrontal.php?action=afficherInscription&controleur=utilisateurGenerique&messagesFlash[warning][]=MDP+Differents';
+        var url = '../web/controleurFrontal.php?action=afficherInscription&controleur=utilisateurGenerique&messagesFlash[warning][]=Les+mots+de+passe+sont+différents';
         window.location.href = url;
         event.preventDefault();
         return false;
