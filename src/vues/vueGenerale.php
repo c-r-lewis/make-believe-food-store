@@ -9,16 +9,20 @@
 <div class="right">
     <header>
         <?php
-            use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
-            $imageSrc = "../ressources/images/connexion-logo.png";
-            $alt = "Se connecter";
-            $action = "afficherConnexion";
-            if (ConnexionUtilisateur::estConnecte()) {
-                $imageSrc = "../ressources/images/logo-quitter.png";
-                $alt = "Se déconnecter";
-                $action = "deconnexion";
-            }
-            echo '<a href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
+        use App\Magasin\Lib\ConnexionUtilisateur;
+        use App\Magasin\Lib\MessageFlash;
+
+        $imageSrc = "../ressources/images/connexion-logo.png";
+        $alt = "Se connecter";
+        $action = "afficherConnexion";
+
+        if (ConnexionUtilisateur::estConnecte()) {
+            $imageSrc = "../ressources/images/logo-quitter.png";
+            $alt = "Se déconnecter";
+            $action = "deconnexion";
+        }
+
+        echo '<a href="controleurFrontal.php?action=' . $action . '&controleur=utilisateurGenerique"><img src="' . $imageSrc . '" alt="' . $alt . '"/></a>';
         ?>
     </header>
 
@@ -26,7 +30,19 @@
         <main>
             <?php
             /** @var string $cheminVueBody */
-            require __DIR__ ."/$cheminVueBody";
+            require __DIR__ . "/$cheminVueBody";
+
+            // Display flash messages
+            $messagesFlash = MessageFlash::lireTousMessages();
+            foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
+                foreach ($messagesFlashPourUnType as $messageFlash) {
+                    echo <<< HTML
+                    <div class="alert alert-$type">
+                       $messageFlash
+                    </div>
+                    HTML;
+                }
+            }
             ?>
         </main>
     </div>
@@ -43,8 +59,8 @@
             }
 
             /** @var array $onglets */
-            foreach($onglets as $onglet => $lien) {
-                echo '<a href="'.$lien .'">' . $onglet. '</a>';
+            foreach ($onglets as $onglet => $lien) {
+                echo '<a href="' . $lien . '">' . $onglet . '</a>';
             }
 
             ?>
