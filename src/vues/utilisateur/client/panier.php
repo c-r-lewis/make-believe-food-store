@@ -3,28 +3,25 @@
         <div class="items">
             <div class="block">
                 <p>Panier</p>
-
                 <div class="line"></div>
                 <?php
                 /** @var array $produits */
                 foreach ($produits as $item) {
                     echo '
-                <div class="item">
-                    <img src="" alt="Produit">
-                    <p>'.$item["produit"]->getNomProduit().'</p>
-                    <form action="../web/controleurFrontal.php">
-                        <input type="number" name="quantite" min="1" value="'.$item["quantite"].'" class="quantite" data-price="'.$item["produit"]->getPrixProduit().'" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
-                        <input type="hidden" name="action" value="modifierQuantitePanier">
-                        <input type="hidden" name="idProduit" value="'.$item["produit"]->getIdProduit().'">
-                    </form>
-                    <p><span class="prixTotal"></span></p>
-
-                    <a class="panier-supprimer" href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='.$item["produit"]->getIdProduit().'">
-                        <img src="../../../../ressources/images/logo-fermer.png" alt="supprimer"/>
-                    </a>
-                </div>
-                <div class="line"></div>
-';
+                    <div class="item">
+                        <img src="" alt="Produit">
+                        <p>'.htmlspecialchars($item["produit"]->getNomProduit()).'</p>
+                        <form action="../web/controleurFrontal.php">
+                            <input type="number" name="quantite" min="1" value="'.htmlspecialchars($item["quantite"]).'" class="quantite" data-price="'.htmlspecialchars($item["produit"]->getPrixProduit()).'" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
+                            <input type="hidden" name="action" value="modifierQuantitePanier">
+                            <input type="hidden" name="idProduit" value="'.htmlspecialchars($item["produit"]->getIdProduit()).'">
+                        </form>
+                        <p><span class="prixTotal"></span></p>
+                        <a class="panier-supprimer" href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='.htmlspecialchars($item["produit"]->getIdProduit()).'">
+                            <img src="../../../../ressources/images/logo-fermer.png" alt="supprimer"/>
+                        </a>
+                    </div>
+                    <div class="line"></div>';
                 }
                 ?>
             </div>

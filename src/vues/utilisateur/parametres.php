@@ -18,22 +18,22 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
             ?>
 
         </div>
-        <p>Informations personelles</p>
+        <p>Informations personnelles</p>
         <?php
         $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([$login])[0]
         ?>
         <div class="block-connexion">
             <div style="margin-right: 15px">
                 <p>Nom</p>
-                <input type="text" value="<?= $utilisateur->getNom() ?>">
+                <input type="text" value="<?= htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8') ?>">
             </div>
             <div>
-                <p>Prenom</p>
-                <input type="text" value="<?= $utilisateur->getPrenom() ?>">
+                <p>Prénom</p>
+                <input type="text" value="<?= htmlspecialchars($utilisateur->getPrenom(), ENT_QUOTES, 'UTF-8') ?>">
             </div>
         </div>
         <p>Email</p>
-        <input type="text" value="<?= $utilisateur->getEmail() ?>">
+        <input type="text" value="<?= htmlspecialchars($utilisateur->getEmail(), ENT_QUOTES, 'UTF-8') ?>">
         <p>Mot de passe</p>
         <p>Mot de passe actuel</p>
         <input type="text">

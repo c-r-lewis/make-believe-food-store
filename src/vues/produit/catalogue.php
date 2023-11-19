@@ -2,15 +2,20 @@
     <?php
     use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
     use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
-    /** @var array $produits*/
 
-    foreach($produits as $produit) {
+    /** @var array $produits */
+
+    foreach ($produits as $produit) {
         echo '<div class="article">
             <img src="" alt="Produit">
-            <p>'.$produit->getNomProduit().'</p>';
+            <p>'.htmlspecialchars($produit->getNomProduit()).'</p>';
+
         $action = "afficherDetailProduit";
-        if (ConnexionUtilisateur::estConnecte()){
-            if ((new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0]->estAdmin()) {
+        if (ConnexionUtilisateur::estConnecte()) {
+            $utilisateurRepository = new UtilisateurRepository();
+            $utilisateur = $utilisateurRepository->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+
+            if ($utilisateur->estAdmin()) {
                 $action = "afficherModificationProduit";
             }
         }
