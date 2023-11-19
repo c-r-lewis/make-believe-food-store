@@ -1,22 +1,22 @@
 <section>
     <div>
-        <form action="controleurFrontal.php" method="POST" enctype="multipart/form-data">
+        <form method="get" action="../web/controleurFrontal.php">
             <fieldset>
                 <legend>Présentation générale</legend>
                 <p>
                     <label>Titre</label>
-                    <input type="text" name="titre" required/>
+                    <input type="text" name="nomProduit" required/>
                 </p>
                 <p>
                     <label>Description</label>
-                    <input type="text" name="description" required/>
+                    <input type="text" name="descriptionProduit" required/>
                 </p>
             </fieldset>
             <fieldset>
                 <legend>Prix</legend>
                 <p>
                     <label>Prix par objet</label>
-                    <input type="text" name="prix" required/>
+                    <input type="text" name="prixProduit" required/>
                 </p>
             </fieldset>
             <fieldset>
@@ -25,15 +25,12 @@
             </fieldset>
 
             <a href="controleurFrontal.php?action=supprimerProduit&idProduit=<?php echo urlencode($_GET["idProduit"]); ?>">
-                <button><img src="../../../../ressources/images/logo-supprimer.png" alt="Supprimer"></button>
-            </a>
+                <button><img src="../../../../ressources/images/logo-supprimer.png" alt="Supprimer"></button></a>
 
-            <button type="submit">
+            <button type="submit" name="action" value="modifierProduit">
                 <img src="../../../../ressources/images/logo-modifier.png" alt="Enregistrer"/>
+                <input type="hidden" name="idProduit" value="<?php echo urlencode($_GET["idProduit"]); ?>"/>
             </button>
-
-            <input type="hidden" name="action" value="creerProduit"/>
-            <input type="hidden" name="idProduit" value="<?php echo urlencode($_GET["idProduit"]); ?>"/>
         </form>
     </div>
 </section>

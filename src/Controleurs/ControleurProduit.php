@@ -37,7 +37,7 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
                 if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
-                    (new MessageFlash())->ajouter("warning","Le prix doit être un entier");
+                    (new MessageFlash())->ajouter("warning","Le prix doit être un nombre");
                     self::afficherCreationProduit();
                     return;
                 }
@@ -120,17 +120,20 @@ class ControleurProduit extends ControleurGenerique
     {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                if (isset($_GET["idProduit"])) {
+                if (isset($_GET["idProduit"], $_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"])) {
                     $idProduit = $_GET["idProduit"];
                     $nomProduit = $_GET["nomProduit"];
                     $descriptionProduit = $_GET["descriptionProduit"];
                     $prixProduit = $_GET["prixProduit"];
 
-                    // Validation des données ici si nécessaire
+                    if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
+                        (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
+                        self::afficherModificationProduit();
+                        return;
+                    }
 
-                    // Récupération du produit à modifier
                     $produitRepository = new ProduitRepository();
-                    $produit = $produitRepository->recupererParClePrimaire(["idProduit" => $idProduit]);
+                    $produit = $produitRepository->recupererParClePrimaire([$idProduit])[0];
 
                     if (empty($produit)) {
                         (new MessageFlash())->ajouter("danger", "Le produit n'a pas été trouvé.");
@@ -138,24 +141,24 @@ class ControleurProduit extends ControleurGenerique
                         return;
                     }
 
-                    // Mise à jour des propriétés du produit
-                    $produit[0]->setNomProduit($nomProduit);
-                    $produit[0]->setDescriptionProduit($descriptionProduit);
-                    $produit[0]->setPrixProduit($prixProduit);
+                    $produit->setNomProduit($nomProduit);
+                    $produit->setDescriptionProduit($descriptionProduit);
+                    $produit->setPrixProduit($prixProduit);
 
-                    // Mise à jour dans la base de données
-                    $produitRepository->mettreAJour($produit[0]);
+                    $produitRepository->mettreAJour($produit);
 
-                    // Redirection vers la page souhaitée après la modification
+                    (new MessageFlash())->ajouter("success", "Les modifications ont été enregistrées");
                     self::afficherCatalogue();
                 } else {
-                    (new MessageFlash())->ajouter("danger", "L'ID du produit n'est pas spécifié.");
+                    (new MessageFlash())->ajouter("warning", "Veuillez spécifier tous les paramètres nécessaires pour la modification.");
                     self::afficherCatalogue();
+                }
+                if (isset($_GET["idProduit"])) {
+
                 }
             }
         } catch (Exception $e) {
             self::erreur($e->getMessage());
         }
     }
-
 }
