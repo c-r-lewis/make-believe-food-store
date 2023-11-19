@@ -7,6 +7,8 @@ use App\Magasin\Lib\MotDePasse;
 class Utilisateur extends AbstractDataObject
 {
     private string $email;
+    private string $emailAValider;
+    private string $nonce;
     private string $nom;
     private string $prenom;
     private string $mdpHache;
@@ -14,6 +16,8 @@ class Utilisateur extends AbstractDataObject
 
     public function __construct(string $email, string $nom, string $prenom, string $mdpHache, bool $estAdmin = false) {
         $this->email = $email;
+        $this->emailAValider = $email;
+        $this->nonce = MotDePasse::genererChaineAleatoire(16);
         $this->nom = $nom;
         $this->prenom =  $prenom;
         $this->mdpHache = $mdpHache;
@@ -31,8 +35,24 @@ class Utilisateur extends AbstractDataObject
         );
     }
 
-    public static function test() {
+    public function getEmailAValider(): string
+    {
+        return $this->emailAValider;
+    }
 
+    public function setEmailAValider(string $emailAValider): void
+    {
+        $this->emailAValider = $emailAValider;
+    }
+
+    public function getNonce(): string
+    {
+        return $this->nonce;
+    }
+
+    public function setNonce(string $nonce): void
+    {
+        $this->nonce = $nonce;
     }
 
     public function getEmail(): string
@@ -86,20 +106,22 @@ class Utilisateur extends AbstractDataObject
     }
 
 
-    public function formatTableau(): array    {
+    public function formatTableau(): array
+    {
         if ($this->estAdmin) {
             $admin = 1;
-        }
-        else {
+        } else {
             $admin = 0;
         }
-        return
-            [
-                "emailTag" => $this->getEmail(),
-                "nomTag" => $this->getNom(),
-                "prenomTag" => $this->getPrenom(),
-                "mdpHacheTag" => $this->getMdpHache(),
-                "estAdminTag" => $admin
-            ];
+
+        return [
+            "emailTag" => $this->getEmail(),
+            "nomTag" => $this->getNom(),
+            "prenomTag" => $this->getPrenom(),
+            "mdpHacheTag" => $this->getMdpHache(),
+            "estAdminTag" => $admin,
+            "emailAValiderTag" => $this->getEmailAValider(),
+            "nonceTag" => $this->getNonce(),
+        ];
     }
 }

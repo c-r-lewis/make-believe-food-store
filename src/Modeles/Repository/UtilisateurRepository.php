@@ -20,14 +20,15 @@ class UtilisateurRepository extends AbstractRepository
 
     protected function getNomsColonnes(): array
     {
-        return
-            [
-                "email",
-                "nom",
-                "prenom",
-                "mdpHache",
-                "estAdmin"
-            ];
+        return [
+            "email",
+            "nom",
+            "prenom",
+            "mdpHache",
+            "estAdmin",
+            "emailAValider",
+            "nonce",
+        ];
     }
 
     protected function getClePrimaire(): array

@@ -4,6 +4,8 @@ namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
+use App\Magasin\Lib\MotDePasse;
+use App\Magasin\Lib\VerificationEmail;
 use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
@@ -87,25 +89,40 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function inscription(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            if ((new UtilisateurRepository())->clePrimaireExiste([$_GET["email"]])) {
-                (new MessageFlash())->ajouter("warning", "L'email est déja utilisé !");
+            $email = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
+
+
+
+            if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
+                (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
                 self::afficherInscription();
-            } else if ($_GET["mdp"] != $_GET["mdp2"]) {
+                return;
+            }
+
+            if ($_GET["mdp"] != $_GET["mdp2"]) {
                 (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
                 self::afficherInscription();
-            } else {
-                $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
-                (new UtilisateurRepository())->sauvegarder($utilisateur);
-                (new MessageFlash())->ajouter("success", "Votre compte a bien été créé !");
-
-                $panierConnecte = new PanierConnecte($_GET["email"], count((new PanierRepository())->recuperer()));
-                $panierRepository = new PanierRepository();
-                $panierRepository->sauvegarder($panierConnecte);
-
-                self::connexion();
+                return;
             }
+
+            $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
+            //$utilisateur->setEmailAValider($email);
+            //$utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+
+            (new UtilisateurRepository())->sauvegarder($utilisateur);
+
+            //VerificationEmail::envoiEmailValidation($utilisateur);
+
+            (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé.");
+
+            $panierConnecte = new PanierConnecte($email, count((new PanierRepository())->recuperer()));
+            $panierRepository = new PanierRepository();
+            $panierRepository->sauvegarder($panierConnecte);
+
+            self::connexion();
         }
     }
+
 
     public static function connexion(): void
     {
