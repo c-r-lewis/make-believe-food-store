@@ -3,6 +3,7 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Modeles\DataObject\Produit;
+use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 
@@ -23,31 +24,72 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function creerProduit() : void {
-        if ($_SERVER["REQUEST_METHOD"]=="GET") {
-            (new ProduitRepository())->sauvegarder(new Produit($_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"]));
-            self::afficherCatalogue();
-        }
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $nomProduit = $_GET["nomProduit"];
+                $descriptionProduit = $_GET["descriptionProduit"];
+                $prixProduit = $_GET["prixProduit"];
 
+                if (empty($nomProduit) || empty($descriptionProduit) || empty($prixProduit)) {
+                    throw new \Exception("Veuillez remplir tous les champs.");
+                }
+
+                $produit = new Produit($nomProduit, $descriptionProduit, $prixProduit);
+                (new ProduitRepository())->sauvegarder($produit);
+                self::afficherCatalogue();
+            }
+        } catch (\Exception $e) {
+            self::erreur($e->getMessage());
+        }
     }
 
     public static function afficherDetailProduit() : void {
-        $produit = (new ProduitRepository())->recupererParClePrimaire([$_GET["idProduit"]])[0];
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/detail.php", "produit"=>$produit]);
+        try {
+            if (empty($_GET["idProduit"])) {
+                throw new \Exception("L'identifiant du produit est manquant.");
+            }
+
+            $idProduit = $_GET["idProduit"];
+            if (!(new ProduitRepository())->clePrimaireExiste([$idProduit])) {
+                throw new \Exception("Ce produit n'existe pas.");
+            }
+
+            $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
+            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+        } catch (\Exception $e) {
+            self::erreur($e->getMessage());
+        }
     }
 
     public static function ajouterProduitAuPanier() : void {
-        Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
-        self::afficherDetailProduit();
+        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+            self::erreur("Ajoutez un produit qui existe dans votre panier");
+        } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
+            self::erreur("La quantité doit être un entier");
+        } else {
+            Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
+            self::afficherDetailProduit();
+        }
     }
 
     public static function supprimerProduitDuPanier() : void {
-        Panier::supprimerItem((int)$_GET["idProduit"]);
-        echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
+        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+            self::erreur("Vous ne pouvez pas supprimer un produit qui n'existe pas");
+        } else {
+            Panier::supprimerItem((int)$_GET["idProduit"]);
+            echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
+        }
     }
 
     public static function modifierQuantitePanier() : void {
-        Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
-        echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
+        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+            self::erreur("Modifiez la quantité d'un produit qui est dans votre panier");
+        } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
+            self::erreur("La quantité doit être un entier");
+        } else {
+            Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
+            echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
+        }
     }
 
 }

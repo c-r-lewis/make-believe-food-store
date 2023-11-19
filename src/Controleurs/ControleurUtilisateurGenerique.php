@@ -20,35 +20,38 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function afficherPanier(): void
     {
-        $produits = [];
-        $panier = [];
-        if (ConnexionUtilisateur::estConnecte()) {
-            $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
-            foreach ((new ProduitRepository())->recuperer() as $produit) {
-                if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
-                    $panier[] = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
+        try {
+            $produits = [];
+            $panier = [];
+            if (ConnexionUtilisateur::estConnecte()) {
+                $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+                foreach ((new ProduitRepository())->recuperer() as $produit) {
+                    if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
+                        $panier[] = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
+                    }
+                }
+                foreach ($panier as $produitsPanier) {
+                    foreach ($produitsPanier as $produitPanier) {
+                        $ajoutPanier = $produitPanier->formatTableau();
+                        $produits[] = [
+                            "produit" => (new ProduitRepository())->recupererParClePrimaire([$ajoutPanier["idProduitTag"]])[0],
+                            "quantite" => $ajoutPanier["quantiteTag"]
+                        ];
+                    }
+                }
+            } else {
+                if (Cookie::contient("panier")) {
+                    $panier = Cookie::lire("panier");
+                }
+                foreach ($panier as $idProduit => $quantite) {
+                    $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0],
+                        "quantite" => $quantite];
                 }
             }
-            foreach ($panier as $produitsPanier) {
-                foreach ($produitsPanier as $produitPanier) {
-                    $ajoutPanier = $produitPanier->formatTableau();
-                    $produits[] = [
-                        "produit" => (new ProduitRepository())->recupererParClePrimaire([$ajoutPanier["idProduitTag"]])[0],
-                        "quantite" => $ajoutPanier["quantiteTag"]
-                    ];
-                }
-            }
-
-        } else {
-            if (Cookie::contient("panier")) {
-                $panier = Cookie::lire("panier");
-            }
-            foreach ($panier as $idProduit => $quantite) {
-                $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0],
-                    "quantite" => $quantite];
-            }
+            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
+        } catch (Exception $e) {
+            self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
         }
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
     }
 
     public static function afficherHistorique(): void
@@ -102,6 +105,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             self::afficherComptes();
         } catch (Exception $e) {
             (new MessageFlash())->ajouter("danger", "Le compte n'a pas été supprimé !");
+            self::erreur("Vous ne pouvez pas supprimer un compte qui n'existe pas");
         }
     }
 
@@ -159,7 +163,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 ConnexionUtilisateur::connecter($_GET["email"], $_GET["mdp"]);
                 ControleurProduit::afficherCatalogue();
             } else {
-                // Gérer l'erreur
+                (new MessageFlash())->ajouter("warning", "Ce compte n'existe pas");
+                self::afficherConnexion();
             }
         }
     }
