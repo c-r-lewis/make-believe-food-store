@@ -15,7 +15,7 @@
             <fieldset>
                 <legend>Prix</legend>
                 <p>
-                    <label>Prix produit</label>
+                    <label>Prix par objet</label>
                     <input type="text" required/>
                 </p>
             </fieldset>
@@ -24,7 +24,11 @@
                 <input type="file" accept=".jpg, .jpeg, .png">
             </fieldset>
         </form>
-        <button>Annuler</button>
-        <button>Supprimer Produit</button>
+        <a href="controleurFrontal.php?action=supprimerProduit&idProduit=<?php echo urlencode($_GET["idProduit"]); ?>">
+            <button><img src="../../../../ressources/images/logo-supprimer.png"></button>
+        </a>
+
+        <input type="submit" value="Enregistrer"/>
+        <input type="hidden" name="action" value="creerProduit"/>
     </div>
 </section>

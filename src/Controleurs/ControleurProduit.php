@@ -100,4 +100,20 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
+    public static function supprimerProduit(): void
+    {
+        if (isset($_GET['idProduit'])) {
+            $idProduit = $_GET['idProduit'];
+
+            $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
+
+            $produitRepository = new ProduitRepository();
+            $produitRepository->supprimerParAbstractDataObject($produit);
+
+        } else {
+            (new ControleurGenerique)::erreur("L'ID du produit n'est pas défini.");
+        }
+        self::afficherCatalogue();
+    }
+
 }
