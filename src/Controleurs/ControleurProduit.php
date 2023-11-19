@@ -116,4 +116,46 @@ class ControleurProduit extends ControleurGenerique
         self::afficherCatalogue();
     }
 
+    public static function modifierProduit(): void
+    {
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                if (isset($_GET["idProduit"])) {
+                    $idProduit = $_GET["idProduit"];
+                    $nomProduit = $_GET["nomProduit"];
+                    $descriptionProduit = $_GET["descriptionProduit"];
+                    $prixProduit = $_GET["prixProduit"];
+
+                    // Validation des données ici si nécessaire
+
+                    // Récupération du produit à modifier
+                    $produitRepository = new ProduitRepository();
+                    $produit = $produitRepository->recupererParClePrimaire(["idProduit" => $idProduit]);
+
+                    if (empty($produit)) {
+                        (new MessageFlash())->ajouter("danger", "Le produit n'a pas été trouvé.");
+                        self::afficherCatalogue();
+                        return;
+                    }
+
+                    // Mise à jour des propriétés du produit
+                    $produit[0]->setNomProduit($nomProduit);
+                    $produit[0]->setDescriptionProduit($descriptionProduit);
+                    $produit[0]->setPrixProduit($prixProduit);
+
+                    // Mise à jour dans la base de données
+                    $produitRepository->mettreAJour($produit[0]);
+
+                    // Redirection vers la page souhaitée après la modification
+                    self::afficherCatalogue();
+                } else {
+                    (new MessageFlash())->ajouter("danger", "L'ID du produit n'est pas spécifié.");
+                    self::afficherCatalogue();
+                }
+            }
+        } catch (Exception $e) {
+            self::erreur($e->getMessage());
+        }
+    }
+
 }
