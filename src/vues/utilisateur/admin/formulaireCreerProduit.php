@@ -4,18 +4,18 @@
             <legend>Présentation générale</legend>
             <p>
                 <label>Titre</label>
-                <input type="text" name="nomProduit"/>
+                <input type="text" name="nomProduit" required/>
             </p>
             <p>
                 <label>Description</label>
-                <input type="text" name="descriptionProduit"/>
+                <input type="text" name="descriptionProduit" required/>
             </p>
         </fieldset>
         <fieldset>
             <legend>Prix</legend>
             <p>
                 <label>Prix par objet</label>
-                <input type="text" name="prixProduit"/>
+                <input type="text" name="prixProduit" required/>
             </p>
         </fieldset>
         <fieldset>
