@@ -13,6 +13,7 @@ use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
+use MongoDB\Driver\Exception\Exception;
 
 class ControleurUtilisateurGenerique extends ControleurGenerique
 {
@@ -82,7 +83,26 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function afficherComptes(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/comptes.php"]);
+        $comptes = (new UtilisateurRepository())->recuperer();
+        $i=0;
+        while (!$comptes[$i]->estAdmin()) {
+            $i++;
+        }
+        unset($comptes[$i]);
+
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/comptes.php", "comptes" => $comptes]);
+    }
+
+    public static function supprimerCompte(): void
+    {
+        try {
+            $user = (new UtilisateurRepository())->recupererParClePrimaire([$_GET["email"]])[0];
+            (new UtilisateurRepository())->supprimerParAbstractDataObject($user);
+            (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
+            self::afficherComptes();
+        } catch (Exception $e) {
+            (new MessageFlash())->ajouter("danger", "Le compte n'a pas été supprimé !");
+        }
     }
 
 
@@ -91,7 +111,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $email = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
 
-
+            /*
+            if (!$email) {
+                (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                self::afficherInscription();
+                return;
+            }
+            */
 
             if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
                 (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
@@ -143,6 +169,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         ConnexionUtilisateur::deconnecter();
         ControleurProduit::afficherCatalogue();
     }
+
 
 
 }

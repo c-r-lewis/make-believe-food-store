@@ -124,4 +124,9 @@ class Utilisateur extends AbstractDataObject
             "nonceTag" => $this->getNonce(),
         ];
     }
+
+    public function toString(): string
+    {
+        return "Email: " . $this->email . ", Nom: " . $this->nom . ", Prenom: " . $this->prenom;
+    }
 }
