@@ -30,7 +30,6 @@
 
         $messagesFlash = $messageFlash->lireTousMessages();
 
-        // Affichez les messages flash
         foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
             foreach ($messagesFlashPourUnType as $messageFlash) {
                 echo <<< HTML

@@ -163,7 +163,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 ConnexionUtilisateur::connecter($_GET["email"], $_GET["mdp"]);
                 ControleurProduit::afficherCatalogue();
             } else {
-                (new MessageFlash())->ajouter("warning", "Ce compte n'existe pas");
+                (new MessageFlash())->ajouter("warning", "Email ou mot de passe incorrect !");
                 self::afficherConnexion();
             }
         }
