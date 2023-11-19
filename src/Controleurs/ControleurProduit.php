@@ -2,10 +2,11 @@
 
 namespace App\Magasin\Controleurs;
 
+use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\Produit;
-use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
+use Exception;
 
 class ControleurProduit extends ControleurGenerique
 {
@@ -31,14 +32,21 @@ class ControleurProduit extends ControleurGenerique
                 $prixProduit = $_GET["prixProduit"];
 
                 if (empty($nomProduit) || empty($descriptionProduit) || empty($prixProduit)) {
-                    throw new \Exception("Veuillez remplir tous les champs.");
+                    (new MessageFlash())->ajouter("warning","Veuillez remplir tous les champs");
+                    self::afficherCreationProduit();
+                    return;
+                }
+                if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
+                    (new MessageFlash())->ajouter("warning","Le prix doit être un entier");
+                    self::afficherCreationProduit();
+                    return;
                 }
 
                 $produit = new Produit($nomProduit, $descriptionProduit, $prixProduit);
                 (new ProduitRepository())->sauvegarder($produit);
                 self::afficherCatalogue();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             self::erreur($e->getMessage());
         }
     }
@@ -46,12 +54,12 @@ class ControleurProduit extends ControleurGenerique
     public static function afficherDetailProduit() : void {
         try {
             if (empty($_GET["idProduit"])) {
-                throw new \Exception("L'identifiant du produit est manquant.");
+                self::erreur("L'identifiant du produit est manquant.");
             }
 
             $idProduit = $_GET["idProduit"];
             if (!(new ProduitRepository())->clePrimaireExiste([$idProduit])) {
-                throw new \Exception("Ce produit n'existe pas.");
+                self::erreur("Ce produit n'existe pas.");
             }
 
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];

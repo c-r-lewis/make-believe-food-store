@@ -1,33 +1,24 @@
 <?php
 
+use App\Magasin\Controleurs\ControleurGenerique;
+
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
 $loader = new App\Magasin\Lib\Psr4AutoloaderClass();
 $loader->register();
-// enregistrement d'une association "espace de nom" → "dossier"
 $loader->addNamespace('App\Magasin', __DIR__ . '/../src');
 
-
-
-if (isset($_GET['controleur'])) {
-    $controleur = $_GET['controleur'];
-} else {
-    $controleur = "produit";
-}
-
+$controleur = isset($_GET['controleur']) ? $_GET['controleur'] : "produit";
 $nomDeClasseControleur = '\App\Magasin\Controleurs\Controleur' . ucfirst($controleur);
 
-
 if (class_exists($nomDeClasseControleur)) {
-    if (isset($_GET['action'])) {
-        $action = $_GET['action'];
-    } else {
-        $action = "afficherCatalogue";
-    }
+    $action = isset($_GET['action']) ? $_GET['action'] : "afficherCatalogue";
 
-    if (!in_array($action, get_class_methods($nomDeClasseControleur))) {
-        $nomDeClasseControleur::afficherErreur(" L'action n'existe pas dans " . $nomDeClasseControleur);
-    } else {
+    if (method_exists($nomDeClasseControleur, $action)) {
         $nomDeClasseControleur::$action();
+    } else {
+        (new ControleurGenerique)::erreur("L'action '$action' n'existe pas dans $nomDeClasseControleur.");
     }
+} else {
+    (new ControleurGenerique)::erreur("Le contrôleur '$controleur' n'existe pas.");
 }

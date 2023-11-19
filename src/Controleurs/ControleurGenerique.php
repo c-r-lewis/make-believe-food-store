@@ -38,7 +38,7 @@ class ControleurGenerique
         return $onglets;
     }
 
-    protected static function erreur(string $message) {
+    public static function erreur(string $message) {
         self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"erreur.php", "messageErreur"=>$message]);
     }
 
