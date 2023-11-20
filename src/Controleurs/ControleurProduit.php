@@ -14,32 +14,30 @@ use Exception;
 
 class ControleurProduit extends ControleurGenerique
 {
-    public static function afficherCatalogue() : void {
+    public static function afficherCatalogue(): void
+    {
         $produits = (new ProduitRepository())->recuperer();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"produit/catalogue.php",
-            "produits"=>$produits]);
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "produit/catalogue.php",
+            "produits" => $produits]);
     }
 
-    public static function afficherCreationProduit() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/formulaireCreerProduit.php"]);
+    public static function afficherCreationProduit(): void
+    {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/formulaireCreerProduit.php"]);
     }
 
-    public static function afficherModificationProduit() : void {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody"=>"utilisateur/admin/formulaireMettreAJourProduit.php"]);
+    public static function afficherModificationProduit(): void
+    {
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/formulaireMettreAJourProduit.php"]);
     }
 
-    public static function creerProduit() : void {
+    public static function creerProduit(): void
+    {
         try {
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $nomProduit = $_GET["nomProduit"];
-                $descriptionProduit = $_GET["descriptionProduit"];
-                $prixProduit = $_GET["prixProduit"];
-
-                if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
-                    $imagePath = self::uploadImage($_FILES['images']);
-                } else {
-                    $imagePath = null;
-                }
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $nomProduit = $_POST["nomProduit"];
+                $descriptionProduit = $_POST["descriptionProduit"];
+                $prixProduit = $_POST["prixProduit"];
 
                 if (empty($nomProduit) || empty($descriptionProduit) || empty($prixProduit)) {
                     (new MessageFlash())->ajouter("warning", "Veuillez remplir tous les champs");
@@ -57,6 +55,15 @@ class ControleurProduit extends ControleurGenerique
 
                 (new ProduitRepository())->sauvegarder($produit);
 
+                $idProduit = (new ProduitRepository())->getDerniereIdIncrementee();
+
+                if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
+                    $imagePath = self::deplacerImageProduit($_FILES['images'], $idProduit);
+                    $image = new Image($idProduit, $imagePath);
+                    (new ImageRepository())->sauvegarder($image);
+                }
+
+
                 self::afficherCatalogue();
             }
         } catch (Exception $e) {
@@ -70,15 +77,23 @@ class ControleurProduit extends ControleurGenerique
      * @param array $file Les données du fichier téléchargé.
      * @return string|null Le chemin de l'image téléchargée, ou null en cas d'échec du téléchargement.
      */
-    private static function uploadImage(array $file): ?string {
-        $uploadDirectory = '../ressources/images/imageProduits';
-        $uploadFileName = $uploadDirectory . basename($file['name']);
+    private static function deplacerImageProduit(array $file, int $idProduit): ?string
+    {
+        $dossierUpload = '../ressources/images/imagesProduits/';
+        $nomFichierUpload = $dossierUpload . $idProduit . ".";
 
-        $imageFileType = strtolower(pathinfo($uploadFileName, PATHINFO_EXTENSION));
-        $allowedExtensions = ['jpg', 'jpeg', 'png'];
-        if (!in_array($imageFileType, $allowedExtensions)) {
-            (new MessageFlash())->ajouter("warning", "Seules les images JPG, JPEG et PNG sont autorisées.");
-            return null;
+        $typeFichierImage = $file["type"];
+        switch ($typeFichierImage) {
+            case 'image/jpg':
+            case 'image/jpeg':
+                $nomFichierUpload .= 'jpg';
+                break;
+            case 'image/png':
+                $nomFichierUpload .= "png";
+                break;
+            default:
+                (new MessageFlash())->ajouter("danger", "Mauvais format d'image");
+                return null;
         }
 
         if (!getimagesize($file['tmp_name'])) {
@@ -86,8 +101,8 @@ class ControleurProduit extends ControleurGenerique
             return null;
         }
 
-        if (move_uploaded_file($file['tmp_name'], $uploadFileName)) {
-            return $uploadFileName;
+        if (move_uploaded_file($file['tmp_name'], $nomFichierUpload)) {
+            return $nomFichierUpload;
         } else {
             (new MessageFlash())->ajouter("danger", "Erreur lors du téléchargement du fichier.");
             return null;
@@ -95,7 +110,9 @@ class ControleurProduit extends ControleurGenerique
     }
 
 
-    public static function afficherDetailProduit() : void {
+    public
+    static function afficherDetailProduit(): void
+    {
         try {
             if (empty($_GET["idProduit"])) {
                 self::erreur("L'identifiant du produit est manquant.");
@@ -113,7 +130,9 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
-    public static function ajouterProduitAuPanier() : void {
+    public
+    static function ajouterProduitAuPanier(): void
+    {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Ajoutez un produit qui existe dans votre panier");
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
@@ -124,7 +143,9 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
-    public static function supprimerProduitDuPanier() : void {
+    public
+    static function supprimerProduitDuPanier(): void
+    {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Vous ne pouvez pas supprimer un produit qui n'existe pas");
         } else {
@@ -133,7 +154,9 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
-    public static function modifierQuantitePanier() : void {
+    public
+    static function modifierQuantitePanier(): void
+    {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Modifiez la quantité d'un produit qui est dans votre panier");
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
@@ -144,7 +167,8 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
-    public static function supprimerProduit(): void
+    public
+    static function supprimerProduit(): void
     {
         if (isset($_GET['idProduit'])) {
             $idProduit = $_GET['idProduit'];
@@ -160,7 +184,9 @@ class ControleurProduit extends ControleurGenerique
         self::afficherCatalogue();
     }
 
-    public static function modifierProduit(): void {
+    public
+    static function modifierProduit(): void
+    {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $idProduit = $_GET["idProduit"];
@@ -169,7 +195,7 @@ class ControleurProduit extends ControleurGenerique
                 $prixProduit = $_GET["prixProduit"];
 
                 if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
-                    $imagePath = self::uploadImage($_FILES['images']);
+                    $imagePath = self::deplacerImageProduit($_FILES['images']);
                 } else {
                     $imagePath = null;
                 }
