@@ -154,7 +154,7 @@ button {
     display: flex;
 }
 
-form {
+form.button-container {
     width: 95%;
 }
 
