@@ -54,11 +54,6 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         }
     }
 
-    public static function afficherHistorique(): void
-    {
-
-    }
-
 
     public static function afficherConnexion(): void
     {

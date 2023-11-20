@@ -2,11 +2,15 @@
 
 namespace App\Magasin\Controleurs;
 
+use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\DataObject\ProduitPanier;
+use App\Magasin\Modeles\Repository\AchatRepository;
 use App\Magasin\Modeles\Repository\ImageRepository;
+use App\Magasin\Modeles\Repository\PanierRepository;
+use App\Magasin\Modeles\Repository\ProduitAchatRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
@@ -211,4 +215,29 @@ class ControleurProduit extends ControleurGenerique
             self::erreur($e->getMessage());
         }
     }
+
+    public static function afficherHistorique(): void
+    {
+        $recupererAchat = (new AchatRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()]);
+
+        if (!empty($recupererAchat)) {
+            $recupererAchat = $recupererAchat[0]->formatTableau();
+            $achats = [];
+
+            $produitsAchat = (new ProduitAchatRepository())->recupererParClePrimaire([$recupererAchat["idAchatTag"]]);
+
+            foreach ($produitsAchat as $produitAchat) {
+                $ajoutAchat = $produitAchat->formatTableau();
+                $achats[] = [
+                    "produit" => (new ProduitRepository())->recupererParClePrimaire([$ajoutAchat["idProduitTag"]])[0],
+                    "quantite" => $ajoutAchat["quantiteTag"]
+                ];
+            }
+
+            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => $achats]);
+        } else {
+            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => []]);
+        }
+    }
+
 }
