@@ -150,6 +150,18 @@ button {
     border-radius: 5px;
 }
 
+.button-container {
+    display: flex;
+}
+
+form {
+    width: 95%;
+}
+
+.delete-button {
+    width: 5%;
+}
+
 /* ---------------------------------------- Panier -----------------------------------*/
 .panier {
     display: flex;

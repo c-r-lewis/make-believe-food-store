@@ -3,7 +3,9 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\MessageFlash;
+use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
+use App\Magasin\Modeles\Repository\ImageRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 use Exception;
@@ -31,25 +33,65 @@ class ControleurProduit extends ControleurGenerique
                 $descriptionProduit = $_GET["descriptionProduit"];
                 $prixProduit = $_GET["prixProduit"];
 
+                if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
+                    $imagePath = self::uploadImage($_FILES['images']);
+                } else {
+                    $imagePath = null;
+                }
+
                 if (empty($nomProduit) || empty($descriptionProduit) || empty($prixProduit)) {
-                    (new MessageFlash())->ajouter("warning","Veuillez remplir tous les champs");
+                    (new MessageFlash())->ajouter("warning", "Veuillez remplir tous les champs");
                     self::afficherCreationProduit();
                     return;
                 }
+
                 if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
-                    (new MessageFlash())->ajouter("warning","Le prix doit être un nombre");
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
                     self::afficherCreationProduit();
                     return;
                 }
 
                 $produit = new Produit($nomProduit, $descriptionProduit, $prixProduit);
+
                 (new ProduitRepository())->sauvegarder($produit);
+
                 self::afficherCatalogue();
             }
         } catch (Exception $e) {
             self::erreur($e->getMessage());
         }
     }
+
+    /**
+     * Télécharge un fichier image et renvoie le chemin.
+     *
+     * @param array $file Les données du fichier téléchargé.
+     * @return string|null Le chemin de l'image téléchargée, ou null en cas d'échec du téléchargement.
+     */
+    private static function uploadImage(array $file): ?string {
+        $uploadDirectory = '../ressources/images/imageProduits';
+        $uploadFileName = $uploadDirectory . basename($file['name']);
+
+        $imageFileType = strtolower(pathinfo($uploadFileName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+        if (!in_array($imageFileType, $allowedExtensions)) {
+            (new MessageFlash())->ajouter("warning", "Seules les images JPG, JPEG et PNG sont autorisées.");
+            return null;
+        }
+
+        if (!getimagesize($file['tmp_name'])) {
+            (new MessageFlash())->ajouter("warning", "Le fichier n'est pas une image valide.");
+            return null;
+        }
+
+        if (move_uploaded_file($file['tmp_name'], $uploadFileName)) {
+            return $uploadFileName;
+        } else {
+            (new MessageFlash())->ajouter("danger", "Erreur lors du téléchargement du fichier.");
+            return null;
+        }
+    }
+
 
     public static function afficherDetailProduit() : void {
         try {
@@ -116,46 +158,52 @@ class ControleurProduit extends ControleurGenerique
         self::afficherCatalogue();
     }
 
-    public static function modifierProduit(): void
-    {
+    public static function modifierProduit(): void {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                if (isset($_GET["idProduit"], $_GET["nomProduit"], $_GET["descriptionProduit"], $_GET["prixProduit"])) {
-                    $idProduit = $_GET["idProduit"];
-                    $nomProduit = $_GET["nomProduit"];
-                    $descriptionProduit = $_GET["descriptionProduit"];
-                    $prixProduit = $_GET["prixProduit"];
+                $idProduit = $_GET["idProduit"];
+                $nomProduit = $_GET["nomProduit"];
+                $descriptionProduit = $_GET["descriptionProduit"];
+                $prixProduit = $_GET["prixProduit"];
 
-                    if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
-                        (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
-                        self::afficherModificationProduit();
-                        return;
-                    }
-
-                    $produitRepository = new ProduitRepository();
-                    $produit = $produitRepository->recupererParClePrimaire([$idProduit])[0];
-
-                    if (empty($produit)) {
-                        (new MessageFlash())->ajouter("danger", "Le produit n'a pas été trouvé.");
-                        self::afficherCatalogue();
-                        return;
-                    }
-
-                    $produit->setNomProduit($nomProduit);
-                    $produit->setDescriptionProduit($descriptionProduit);
-                    $produit->setPrixProduit($prixProduit);
-
-                    $produitRepository->mettreAJour($produit);
-
-                    (new MessageFlash())->ajouter("success", "Les modifications ont été enregistrées");
-                    self::afficherCatalogue();
+                if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
+                    $imagePath = self::uploadImage($_FILES['images']);
                 } else {
-                    (new MessageFlash())->ajouter("warning", "Veuillez spécifier tous les paramètres nécessaires pour la modification.");
-                    self::afficherCatalogue();
+                    $imagePath = null;
                 }
-                if (isset($_GET["idProduit"])) {
 
+                if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
+                    self::afficherModificationProduit();
+                    return;
                 }
+
+                $produitRepository = new ProduitRepository();
+                $produit = $produitRepository->recupererParClePrimaire([$idProduit])[0];
+
+                if (empty($produit)) {
+                    (new MessageFlash())->ajouter("danger", "Le produit n'a pas été trouvé.");
+                    self::afficherCatalogue();
+                    return;
+                }
+
+                $produit->setNomProduit($nomProduit);
+                $produit->setDescriptionProduit($descriptionProduit);
+                $produit->setPrixProduit($prixProduit);
+
+                $produitRepository->mettreAJour($produit);
+
+                if ($imagePath !== null) {
+                    $imageRepository = new ImageRepository();
+                    $image = new Image($idProduit, $imagePath);
+                    $imageRepository->mettreAJour($image);
+                }
+
+                (new MessageFlash())->ajouter("success", "Les modifications ont été enregistrées");
+                self::afficherCatalogue();
+            } else {
+                (new MessageFlash())->ajouter("warning", "Veuillez spécifier tous les paramètres nécessaires pour la modification.");
+                self::afficherCatalogue();
             }
         } catch (Exception $e) {
             self::erreur($e->getMessage());
