@@ -9,11 +9,23 @@ $loader = new App\Magasin\Lib\Psr4AutoloaderClass();
 $loader->register();
 $loader->addNamespace('App\Magasin', __DIR__ . '/../src');
 
-$controleur = isset($_GET['controleur']) ? $_GET['controleur'] : "produit";
+if (isset($_POST["controleur"])) {
+    $controleur = $_POST["controleur"];
+} elseif (isset($_GET["controleur"])) {
+    $controleur = $_GET["controleur"];
+} else {
+    $controleur = "produit";
+}
 $nomDeClasseControleur = '\App\Magasin\Controleurs\Controleur' . ucfirst($controleur);
 
 if (class_exists($nomDeClasseControleur)) {
-    $action = isset($_GET['action']) ? $_GET['action'] : "afficherCatalogue";
+    if (isset($_POST["action"])) {
+        $action = $_POST["action"];
+    } elseif (isset($_GET["action"])) {
+        $action = $_GET["action"];
+    } else {
+        $action = "afficherCatalogue";
+    }
 
     if (method_exists($nomDeClasseControleur, $action)) {
         $nomDeClasseControleur::$action();
