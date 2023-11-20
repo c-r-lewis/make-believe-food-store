@@ -59,7 +59,9 @@ abstract class AbstractRepository
         $pdoStatement->execute($values);
     }
 
-
+    public function getDerniereIdIncrementee(): int {
+        return ConnexionBaseDeDonnee::getPdo()->lastInsertId();
+    }
 
     public function sauvegarder(AbstractDataObject $object): bool
     {
