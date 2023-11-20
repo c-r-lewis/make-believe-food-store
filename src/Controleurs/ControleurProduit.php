@@ -140,7 +140,8 @@ class ControleurProduit extends ControleurGenerique
             self::erreur("La quantité doit être un entier");
         } else {
             Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
-            self::afficherDetailProduit();
+            (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
+            self::afficherCatalogue();
         }
     }
 
