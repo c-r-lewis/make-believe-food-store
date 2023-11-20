@@ -6,12 +6,9 @@ use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
-use App\Magasin\Modeles\DataObject\ProduitPanier;
 use App\Magasin\Modeles\Repository\AchatRepository;
 use App\Magasin\Modeles\Repository\ImageRepository;
-use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitAchatRepository;
-use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 use Exception;
@@ -218,26 +215,32 @@ class ControleurProduit extends ControleurGenerique
 
     public static function afficherHistorique(): void
     {
-        $recupererAchat = (new AchatRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()]);
+        $recupererAchat = (new AchatRepository())->recuperer();
 
+        $achats = [];
         if (!empty($recupererAchat)) {
-            $recupererAchat = $recupererAchat[0]->formatTableau();
-            $achats = [];
-
-            $produitsAchat = (new ProduitAchatRepository())->recupererParClePrimaire([$recupererAchat["idAchatTag"]]);
-
-            foreach ($produitsAchat as $produitAchat) {
-                $ajoutAchat = $produitAchat->formatTableau();
-                $achats[] = [
-                    "produit" => (new ProduitRepository())->recupererParClePrimaire([$ajoutAchat["idProduitTag"]])[0],
-                    "quantite" => $ajoutAchat["quantiteTag"]
-                ];
+            foreach ($recupererAchat as $achat) {
+                if ($achat->getEmail() == ConnexionUtilisateur::getLoginUtilisateurConnecte()) {
+                    $achats[] = $achat;
+                }
             }
-
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => $achats]);
-        } else {
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => []]);
         }
+
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => $achats]);
+    }
+
+    public static function afficherDetailAchat(): void {
+        $idAchat = $_GET["idAchat"];
+        $ToutProduitAchat = (new ProduitAchatRepository())->recuperer();
+
+        $produitAchat = [];
+        foreach ($ToutProduitAchat as $produit) {
+            if ($produit->getIdAchat()==$idAchat) {
+                $produitAchat[] = $produit;
+            }
+        }
+
+        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
     }
 
 }

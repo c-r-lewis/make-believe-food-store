@@ -5,15 +5,14 @@
                 <p>Historique</p>
                 <div class="line"></div>
                 <?php
-                /** @var array $historique */
-                foreach ($historique as $achat) {
+                /** @var array $produits */
+                foreach ($produits as $produit) {
                     echo '
                     <div class="achat">
-                        <p>Date: '.htmlspecialchars($achat["achat"]->getDate()).'</p>
-                        <p>Produit: '.htmlspecialchars($achat["produit"]->getNomProduit()).'</p>
-                        <p>Quantité: '.htmlspecialchars($achat["quantite"]).'</p>
-                        <p>Prix unitaire: '.htmlspecialchars($achat["produit"]->getPrixProduit()).'</p>
-                        <p>Prix total: '.htmlspecialchars($achat["prixTotal"]).'</p>
+                        <p>Produit: '.htmlspecialchars($produit->getIdProduit()).'</p>
+                        <p>Quantité: '.htmlspecialchars($produit->getQuantite()).'</p>
+                        <p>Prix unitaire: '.htmlspecialchars($produit->getPrixProduitUnitaire()).'</p>
+                        <p>Prix total: '.htmlspecialchars($produit->getPrixProduitUnitaire()*$produit->getQuantite()).'</p>
                     </div>
                     <div class="line"></div>';
                 }
@@ -25,8 +24,8 @@
                 <p>Total</p>
                 <?php
                 $prixTotalHistorique = 0;
-                foreach ($historique as $achat) {
-                    $prixTotalHistorique += $achat["prixTotal"];
+                foreach ($produits as $produit) {
+                    $prixTotalHistorique += $produit->getPrixProduitUnitaire()*$produit->getQuantite();
                 }
                 echo '<p>'.htmlspecialchars($prixTotalHistorique).'</p>';
                 ?>

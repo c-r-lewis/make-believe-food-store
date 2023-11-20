@@ -19,14 +19,14 @@ class AchatRepository extends AbstractRepository
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        return new Achat($objetFormatTableau["idAchat"], $objetFormatTableau["date"], $objetFormatTableau["email"]);
+        return new Achat($objetFormatTableau["idAchat"], $objetFormatTableau["dateAchat"], $objetFormatTableau["email"]);
     }
 
     protected function getNomsColonnes(): array
     {
         return [
             "idAchat",
-            "date",
+            "dateAchat",
             "email"
         ];
     }
