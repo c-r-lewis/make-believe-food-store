@@ -235,6 +235,23 @@ button {
     }
 }
 
+/* ----------------- Detail Achat ---------------------*/
+
+.achat {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.sommaire {
+    width: 100%;
+    text-align: right;
+}
+
+.total {
+    margin-right: 33%;
+}
+
 /* ----------------- Message flash ---------------------*/
 
 /* Bootstrap alerts */

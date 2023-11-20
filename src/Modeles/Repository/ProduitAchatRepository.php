@@ -19,7 +19,7 @@ class ProduitAchatRepository extends AbstractRepository
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        return new ProduitAchat($objetFormatTableau["idProduit"], $objetFormatTableau["idAchat"], $objetFormatTableau["quantite"], $objetFormatTableau["prixProduitUnitaire"]);
+        return new ProduitAchat($objetFormatTableau["idProduit"], $objetFormatTableau["idAchat"], $objetFormatTableau["nomProduit"],$objetFormatTableau["quantite"], $objetFormatTableau["prixProduitUnitaire"]);
     }
 
     protected function getNomsColonnes(): array
@@ -27,6 +27,7 @@ class ProduitAchatRepository extends AbstractRepository
         return [
             "idProduit",
             "idAchat",
+            "nomProduit",
             "quantite",
             "prixProduitUnitaire"
         ];
