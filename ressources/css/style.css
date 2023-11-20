@@ -243,9 +243,10 @@ button {
     justify-content: space-around;
 }
 
-.sommaire {
+.prixTotal {
     width: 100%;
     text-align: right;
+    background-color: #DDDDDD;
 }
 
 .total {

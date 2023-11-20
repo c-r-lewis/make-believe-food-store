@@ -17,7 +17,7 @@
                 ?>
             </div>
         </div>
-        <div class="sommaire">
+        <div class="prixTotal">
             <div class="total">
                 <p>Prix total : </p>
                 <?php
