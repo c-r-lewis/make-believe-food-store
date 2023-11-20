@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Magasin\Modeles\DataObject;
+use App\Magasin\Controleurs\ControleurProduit;
 use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\HTTP\Cookie as Cookie;
 use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
@@ -13,6 +15,10 @@ class Panier extends AbstractDataObject {
             self::enregistrerDansPanierEnTantQueCookie($idProduit, $quantite);
         } else {
             $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+            if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $idProduit])) {
+                (new MessageFlash())->ajouter("warning", "Ce produit est déja dans votre panier !");
+                return;
+            }
             $nouvelleQuantite = new ProduitPanier($recupererPanier["idPanierTag"], $idProduit, $quantite);
             (new ProduitPanierRepository())->sauvegarder($nouvelleQuantite);
         }

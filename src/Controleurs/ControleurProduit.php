@@ -5,7 +5,9 @@ namespace App\Magasin\Controleurs;
 use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
+use App\Magasin\Modeles\DataObject\ProduitPanier;
 use App\Magasin\Modeles\Repository\ImageRepository;
+use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 use Exception;
@@ -112,7 +114,7 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function ajouterProduitAuPanier() : void {
-        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Ajoutez un produit qui existe dans votre panier");
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
             self::erreur("La quantité doit être un entier");
@@ -123,7 +125,7 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function supprimerProduitDuPanier() : void {
-        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Vous ne pouvez pas supprimer un produit qui n'existe pas");
         } else {
             Panier::supprimerItem((int)$_GET["idProduit"]);
@@ -132,7 +134,7 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function modifierQuantitePanier() : void {
-        if (!(new ProduitRepository())->clePrimaireExiste($_GET["idProduit"])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             self::erreur("Modifiez la quantité d'un produit qui est dans votre panier");
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
             self::erreur("La quantité doit être un entier");

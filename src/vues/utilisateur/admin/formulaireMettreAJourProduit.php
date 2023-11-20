@@ -1,6 +1,6 @@
 <section>
     <div class="button-container">
-        <form method="get" action="../web/controleurFrontal.php" enctype="multipart/form-data">
+        <form method="get" action="../web/controleurFrontal.php" enctype="multipart/form-data" class="formulaireMAJ">
             <fieldset>
                 <legend>Présentation générale</legend>
                 <p>

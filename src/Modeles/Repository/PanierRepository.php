@@ -3,36 +3,33 @@
 namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Modeles\DataObject\AbstractDataObject;
-use App\Magasin\Modeles\DataObject\Image;
+use App\Magasin\Modeles\DataObject\PanierConnecte;
 
-class ImageRepository extends AbstractRepository
+class PanierRepository extends AbstractRepository
 {
     protected function getNomTable(): string
     {
-        return "Site_Images";
+        return "Site_Paniers";
     }
 
     protected function getClePrimaire(): array
     {
-        return ["idProduit"];
+        return ["idPanier"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        if (array_key_exists("idProduit", $objetFormatTableau) && array_key_exists("image", $objetFormatTableau)) {
-            $image = new Image($objetFormatTableau["idProduit"], $objetFormatTableau["image"]);
-        } else {
-            $image = new Image($objetFormatTableau["image"]);
-        }
-
-        return $image;
+        return new PanierConnecte(
+            $objetFormatTableau["idPanier"],
+            $objetFormatTableau["email"]
+        );
     }
 
     protected function getNomsColonnes(): array
     {
         return [
-            "idProduit",
-            "image",
+            "idPanier",
+            "email"
         ];
     }
 }

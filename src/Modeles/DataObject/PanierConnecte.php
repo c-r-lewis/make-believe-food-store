@@ -5,7 +5,7 @@ class PanierConnecte extends Panier {
     private string $email;
     private string $idPanier;
 
-    public function __construct(string $email, string $idPanier) {
+    public function __construct(string $idPanier, string $email) {
         $this->email = $email;
         $this->idPanier = $idPanier;
     }
@@ -29,12 +29,12 @@ class PanierConnecte extends Panier {
         $this->email = $email;
     }
 
-    public function getIdPanier(): int
+    public function getIdPanier(): string
     {
         return $this->idPanier;
     }
 
-    public function setIdPanier(int $idPanier): void
+    public function setIdPanier(string $idPanier): void
     {
         $this->idPanier = $idPanier;
     }
