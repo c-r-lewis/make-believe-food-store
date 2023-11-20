@@ -1,6 +1,7 @@
 <?php
 
-use App\Magasin\Controleurs\ControleurGenerique;
+use App\Magasin\Controleurs\ControleurProduit;
+use App\Magasin\Lib\MessageFlash;
 
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
@@ -17,8 +18,10 @@ if (class_exists($nomDeClasseControleur)) {
     if (method_exists($nomDeClasseControleur, $action)) {
         $nomDeClasseControleur::$action();
     } else {
-        (new ControleurGenerique)::erreur("L'action '$action' n'existe pas dans $nomDeClasseControleur.");
+        (new MessageFlash())->ajouter("danger", "L'action '$action' n'existe pas dans $nomDeClasseControleur.");
+        (new ControleurProduit())::afficherCatalogue();
     }
 } else {
-    (new ControleurGenerique)::erreur("Le contrôleur '$controleur' n'existe pas.");
+    (new MessageFlash())->ajouter("danger", "Le contrôleur '$controleur' n'existe pas.");
+    (new ControleurProduit())::afficherCatalogue();
 }
