@@ -14,7 +14,7 @@ class PanierRepository extends AbstractRepository
 
     protected function getClePrimaire(): array
     {
-        return ["idPanier"];
+        return ["email"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject

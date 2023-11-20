@@ -138,9 +138,9 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
             //VerificationEmail::envoiEmailValidation($utilisateur);
 
-            (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé.");
+            (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
 
-            $panierConnecte = new PanierConnecte($email, count((new PanierRepository())->recuperer()));
+            $panierConnecte = new PanierConnecte(count((new PanierRepository())->recuperer()), $utilisateur->getEmail());
             $panierRepository = new PanierRepository();
             $panierRepository->sauvegarder($panierConnecte);
 
