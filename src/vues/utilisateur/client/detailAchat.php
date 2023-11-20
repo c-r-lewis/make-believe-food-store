@@ -1,6 +1,5 @@
 <section>
-    <div class="detailAchat">
-        <div class="items">
+        <div>
             <div class="block">
                 <p>Historique</p>
                 <div class="line"></div>
@@ -29,5 +28,4 @@
                 ?>
             </div>
         </div>
-    </div>
 </section>

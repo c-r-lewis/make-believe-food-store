@@ -1,7 +1,7 @@
 <section>
     <p>Historique</p>
     <div class="line"></div>
-    <section class="grille-produits">
+    <d class="grille-produits">
     <?php
     /** @var array $achats */
 
@@ -13,5 +13,5 @@
         </div>';
     }
     ?>
-    </section>
+    </d>
 </section>
