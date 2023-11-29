@@ -1,0 +1,84 @@
+:root {
+    --offcanvas-width: 230px;
+    --header-height: 4.45rem;
+}
+
+.sidebar-nav {
+    width: var(--offcanvas-width);
+    background-color: #242B3D;
+}
+
+li:hover {
+    background-color: #C6C6C6;
+}
+
+li:hover span {
+    color: black;
+}
+
+li:hover .icon {
+    filter: invert(10%) sepia(7%) saturate(1239%) hue-rotate(169deg) brightness(96%) contrast(88%);
+}
+
+header, .card-header {
+    background-color: #B997DF;
+}
+
+nav, .filler, .login-btn {
+    background-color: #242B3D;
+}
+
+.data-entry {
+    height: 100%;
+    background-color: white;
+}
+
+
+.height-100 {
+    height: 100%;
+}
+
+
+main {
+    height: calc(100dvh - var(--header-height));
+    position: relative;
+    top: var(--header-height);
+    background-color: #F3F4F9;
+}
+
+.product-tab {
+    margin-top: 1rem;
+}
+
+.white-divider {
+    border-color: white;
+}
+
+.icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(130deg) brightness(110%) contrast(101%);
+    height: 50px;
+}
+
+
+@media (width >= 992px) {
+    .offcanvas-backdrop {
+        display: none !important;
+    }
+
+    .sidebar-nav {
+        visibility: visible !important;
+        transform: none;
+        top: var(--header-height);
+        height: calc(100% - var(--header-height));
+    }
+
+    main {
+        margin-left: var(--offcanvas-width);
+    }
+
+    .navbar-toggler-icon, .navbar-toggler {
+        opacity: 0;
+    }
+
+
+}
