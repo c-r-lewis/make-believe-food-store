@@ -70,6 +70,7 @@ main {
         transform: none;
         top: var(--header-height);
         height: calc(100% - var(--header-height));
+        max-width: var(--offcanvas-width);
     }
 
     main {
@@ -79,6 +80,4 @@ main {
     .navbar-toggler-icon, .navbar-toggler {
         opacity: 0;
     }
-
-
 }

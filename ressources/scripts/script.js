@@ -1,5 +1,6 @@
 const offcanvasWidth = 992;
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script loaded");
     checkScreenWidth();
 
     window.addEventListener('resize', function () {

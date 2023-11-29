@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>A changer en fonction de la vue</title>
     <link rel="stylesheet" type="text/css" href="../ressources/css/root.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -33,8 +34,10 @@
     <div class="offcanvas-body p-0">
         <nav>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link px-3 my-3 text-white">
+            <?php
+            if (ConnexionUtilisateur::estConnecte()) {
+                echo '<li class="nav-item">
+                    <a class="nav-link px-3 my-3 text-white" href="controleurFrontal.php?action=afficherParametres&controleur=utilisateurGenerique">
                         <span class="me-2">
                             <img src="person-circle.svg" class="icon" alt="Utilisateur">
                         </span>
@@ -45,32 +48,28 @@
                 </li>
                 <li>
                     <hr class="dropdown-divider mt-0 mb-0 white-divider"/>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link px-3 p-3 text-white">
+                </li>';
+            }
+
+            /** @var array $onglets */
+            foreach($onglets as $onglet => $lien) {
+                echo '<li class="nav-item active">
+                    <a class="nav-link px-3 p-3 text-white" href="'.$lien .'">
                         <span class="me-2">
-                            <img src="catalogue.png" alt="Catalogue" class="icon">
+                            <img src="catalogue.png" alt="' . $onglet. '" class="icon">
                         </span>
                         <span>
-                            Catalogue
+                            ' . $onglet. '
                         </span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3 p-3 text-white">
-                        <span class="me-2">
-                            <img src="shopping-cart.png" alt="Panier" class="icon"/>
-                        </span>
-                        <span>
-                            Panier
-                        </span>
-                    </a>
-                </li>
+                </li>';
+            }
+            ?>
             </ul>
         </nav>
     </div>
 </div>
-<div class="right">
+<!--<div class="right">
     <div>
         <?php
 
@@ -91,40 +90,15 @@
         }
 
         ?>
-
-
     </div>
-    <div>
-        <main>
-            <?php
-            /** @var string $cheminVueBody */
-            require __DIR__ ."/$cheminVueBody";
-            ?>
-        </main>
-    </div>
-</div>
-
-<div class="left">
-    <aside>
-        <nav>
-            <?php
-            if (ConnexionUtilisateur::estConnecte()) {
-                echo '<div>
-                    <a href="controleurFrontal.php?action=afficherParametres&controleur=utilisateurGenerique"><img src="../ressources/images/logo-client.png"></a>
-                </div>';
-            }
-
-            /** @var array $onglets */
-            foreach($onglets as $onglet => $lien) {
-                echo '<a href="'.$lien .'">' . $onglet. '</a>';
-            }
-
-            ?>
-        </nav>
-    </aside>
-</div>
-
-<script src="../../ressources/scripts/fonctionsBasiques.js"></script>
+</div>-->
+<main>
+    <?php
+    /** @var string $cheminVueBody */
+    require __DIR__ ."/$cheminVueBody";
+    ?>
+</main>
+<script src="../ressources/scripts/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
