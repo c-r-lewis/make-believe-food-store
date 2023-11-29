@@ -40,7 +40,7 @@ nav, .filler, .login-btn {
 
 
 main {
-    height: calc(100dvh - var(--header-height));
+    min-height: calc(100dvh - var(--header-height));
     position: relative;
     top: var(--header-height);
     background-color: #F3F4F9;

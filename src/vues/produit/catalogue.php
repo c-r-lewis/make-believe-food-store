@@ -1,14 +1,10 @@
-<section class="grille-produits">
-    <?php
-    use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
-    use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
+<div class="container-fluid p-3 pb-0 height-100">
+    <div class="row">
+        <?php
+        use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+        use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
 
-    /** @var array $produits */
-
-    foreach ($produits as $produit) {
-        echo '<div class="article">
-            <img src="" alt="Produit">
-            <p>'.htmlspecialchars($produit->getNomProduit()).'</p>';
+        /** @var array $produits */
 
         $action = "afficherDetailProduit";
         if (ConnexionUtilisateur::estConnecte()) {
@@ -19,8 +15,17 @@
                 $action = "afficherModificationProduit";
             }
         }
-        echo '<a href="controleurFrontal.php?action='.$action.'&idProduit='.$produit->getIdProduit().'">Voir produit</a>
+
+        foreach ($produits as $produit) {
+            echo '<div class="col-md-3">
+            <div class="card shadow text-center">
+                <img src="https://picsum.photos/200" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title fs-6">'.htmlspecialchars($produit->getNomProduit()).'</h5>
+                    <a href="controleurFrontal.php?action='.$action.'&idProduit='.$produit->getIdProduit().'" class="btn btn-outline-secondary">Voir produit</a>
+                </div>
+            </div>
         </div>';
-    }
-    ?>
-</section>
+        }
+        ?>
+</div>
