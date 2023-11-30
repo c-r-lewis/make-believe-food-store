@@ -69,12 +69,32 @@
         </nav>
     </div>
 </div>
-<main>
+
+<div>
     <?php
-    /** @var string $cheminVueBody */
-    require __DIR__ ."/$cheminVueBody";
+
+    use App\Magasin\Lib\MessageFlash;
+
+    $messageFlash = new MessageFlash();
+
+    $messagesFlash = $messageFlash->lireTousMessages();
+
+    foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
+        foreach ($messagesFlashPourUnType as $messageFlash) {
+            echo <<< HTML
+    <div class="alert alert-$type">
+        $messageFlash
+    </div>
+    HTML;
+        }
+    }
+
     ?>
-</main>
+</div>
+<?php
+/** @var string $cheminVueBody */
+require __DIR__ ."/$cheminVueBody";
+?>
 <script src="../ressources/scripts/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
