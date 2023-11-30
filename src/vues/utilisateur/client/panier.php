@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <h6 class="mb-3">
-                                    <a href="#!" class="text-body">Continuer vos achats</a>
+                                    <a href="controleurFrontal.php?action=afficherCatalogue" class="text-body">Continuer vos achats</a>
                                 </h6>
                                 <hr>
                                 <?php
