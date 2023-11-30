@@ -24,7 +24,7 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
             ?>
             <div class="block-connexion">
                 <label for="mpdActuel">Mot de passe</label><br>
-                <input type="password" id="mpdActuel" name="mdpActuel"><br>
+                <input type="password" id="mpdActuel" name="mdpActuel" required><br>
                 <div style="margin-right: 15px">
                     <label for="nom">Nom</label><br>
                     <input type="text" id="nom" name="nom" placeholder="<?= $utilisateur->getNom() ?>"><br>
