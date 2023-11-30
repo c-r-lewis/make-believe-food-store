@@ -1,6 +1,11 @@
 <?php
 
+use App\Magasin\Controleurs\ControleurProduit;
+use App\Magasin\Controleurs\ControleurUtilisateurGenerique;
 use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+use App\Magasin\Lib\MessageFlash;
+use App\Magasin\Lib\MotDePasse;
+use App\Magasin\Lib\VerificationEmail;
 use \App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
 use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
 
@@ -20,7 +25,38 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
         </div>
         <form method="get" action="../web/controleurFrontal.php">
             <?php
-            $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([$login])[0];
+            $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+            $utilisateur->setEmailAValider($utilisateur->getEmail());
+            $email = $utilisateur->getEmail();
+
+            if (!$email) {
+                (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                (new ControleurUtilisateurGenerique())->afficherParametres();
+                return;
+            }
+
+            if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
+                (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
+                (new ControleurProduit())->afficherCatalogue();
+                return;
+            }
+
+            if ($_GET["mdp"] != $_GET["mdp2"]) {
+                (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
+                (new ControleurProduit())->afficherCatalogue();
+                return;
+            }
+
+            $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
+            $utilisateur->setEmailAValider($email);
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+
+            (new UtilisateurRepository())->sauvegarder($utilisateur);
+
+            VerificationEmail::envoiEmailValidation($utilisateur);
+
+            (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
+            (new ControleurProduit())->afficherCatalogue();
             ?>
             <div class="block-connexion">
                 <label for="mpdActuel">Mot de passe</label><br>
