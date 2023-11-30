@@ -50,7 +50,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             }
             self::afficherVue("vueGenerale.php", ["pagetitle"=>"Panier", "cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
         } catch (Exception $e) {
-            self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
+            (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de l'affichage du panier");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
@@ -100,7 +101,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             self::afficherComptes();
         } catch (Exception $e) {
             (new MessageFlash())->ajouter("danger", "Le compte n'a pas été supprimé !");
-            self::erreur("Vous ne pouvez pas supprimer un compte qui n'existe pas");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 

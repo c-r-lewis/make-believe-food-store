@@ -68,7 +68,8 @@ class ControleurProduit extends ControleurGenerique
                 self::afficherCatalogue();
             }
         } catch (Exception $e) {
-            self::erreur($e->getMessage());
+            (new MessageFlash())->ajouter("danger", "Erreur lors de la création du produit !");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
@@ -116,18 +117,21 @@ class ControleurProduit extends ControleurGenerique
     {
         try {
             if (empty($_GET["idProduit"])) {
-                self::erreur("L'identifiant du produit est manquant.");
+                (new MessageFlash())->ajouter("danger", "L'identifiant du produit est manquant.");
+                (new ControleurProduit())->afficherCatalogue();
             }
 
             $idProduit = $_GET["idProduit"];
             if (!(new ProduitRepository())->clePrimaireExiste([$idProduit])) {
-                self::erreur("Ce produit n'existe pas.");
+                (new MessageFlash())->ajouter("danger", "Ce produit n'existe pas.");
+                (new ControleurProduit())->afficherCatalogue();
             }
 
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
             self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
         } catch (\Exception $e) {
-            self::erreur($e->getMessage());
+            (new MessageFlash())->ajouter("danger", "Erreur lors de l'affichage des détails d'un produit");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
@@ -135,9 +139,11 @@ class ControleurProduit extends ControleurGenerique
     static function ajouterProduitAuPanier(): void
     {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
-            self::erreur("Ajoutez un produit qui existe dans votre panier");
+            (new MessageFlash())->ajouter("danger", "Ajoutez un produit qui existe dans votre panier");
+            (new ControleurProduit())->afficherCatalogue();
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
-            self::erreur("La quantité doit être un entier");
+            (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
+            (new ControleurProduit())->afficherCatalogue();
         } else {
             Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
             (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
@@ -149,7 +155,8 @@ class ControleurProduit extends ControleurGenerique
     static function supprimerProduitDuPanier(): void
     {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
-            self::erreur("Vous ne pouvez pas supprimer un produit qui n'existe pas");
+            (new MessageFlash())->ajouter("danger", "Vous ne pouvez pas supprimer un produit qui n'existe pas");
+            (new ControleurProduit())->afficherCatalogue();
         } else {
             Panier::supprimerItem((int)$_GET["idProduit"]);
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
@@ -160,9 +167,11 @@ class ControleurProduit extends ControleurGenerique
     static function modifierQuantitePanier(): void
     {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
-            self::erreur("Modifiez la quantité d'un produit qui est dans votre panier");
+            (new MessageFlash())->ajouter("warning", "Modifiez la quantité d'un produit qui est dans votre panier");
+            (new ControleurProduit())->afficherCatalogue();
         } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
-            self::erreur("La quantité doit être un entier");
+            (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
+            (new ControleurProduit())->afficherCatalogue();
         } else {
             Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
@@ -237,6 +246,8 @@ class ControleurProduit extends ControleurGenerique
             }
         } catch (Exception $e) {
             self::erreur($e->getMessage());
+            (new MessageFlash())->ajouter("danger", "Erreur lors de la modification d'un produit");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
