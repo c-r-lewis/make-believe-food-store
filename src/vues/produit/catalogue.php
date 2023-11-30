@@ -1,4 +1,4 @@
-<div class="container-fluid p-3 pb-0 height-100">
+<div class="container-fluid p-3 height-100">
     <div class="row">
         <?php
         use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
@@ -17,7 +17,7 @@
         }
 
         foreach ($produits as $produit) {
-            echo '<div class="col-md-3">
+            echo '<div class="col-md-3 mb-3">
             <div class="card shadow text-center">
                 <img src="https://picsum.photos/200" class="card-img-top" alt="...">
                 <div class="card-body">

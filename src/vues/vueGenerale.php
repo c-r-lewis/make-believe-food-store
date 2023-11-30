@@ -30,7 +30,7 @@
     </div>
 </header>
 
-<div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="sidebar-nav">
+<div class="offcanvas sidebar-nav" tabindex="-1" id="sidebar-nav">
     <div class="offcanvas-body p-0">
         <nav>
             <ul class="navbar-nav">
@@ -69,29 +69,6 @@
         </nav>
     </div>
 </div>
-<!--<div class="right">
-    <div>
-        <?php
-
-        use App\Magasin\Lib\MessageFlash;
-
-        $messageFlash = new MessageFlash();
-
-        $messagesFlash = $messageFlash->lireTousMessages();
-
-        foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
-            foreach ($messagesFlashPourUnType as $messageFlash) {
-                echo <<< HTML
-        <div class="alert alert-$type">
-           $messageFlash
-        </div>
-        HTML;
-            }
-        }
-
-        ?>
-    </div>
-</div>-->
 <main>
     <?php
     /** @var string $cheminVueBody */

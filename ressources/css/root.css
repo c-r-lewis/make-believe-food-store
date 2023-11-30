@@ -33,6 +33,10 @@ nav, .filler, .login-btn {
     background-color: white;
 }
 
+.sidebar-nav {
+    width: var(--offcanvas-width);
+}
+
 
 .height-100 {
     height: 100%;
@@ -59,18 +63,24 @@ main {
     height: 50px;
 }
 
+nav {
+    height: 100%;
+    max-width: var(--offcanvas-width);
+}
+
 
 @media (width >= 992px) {
     .offcanvas-backdrop {
         display: none !important;
     }
 
-    .sidebar-nav {
+    .sidebar-nav{
         visibility: visible !important;
         transform: none;
         top: var(--header-height);
         height: calc(100% - var(--header-height));
         max-width: var(--offcanvas-width);
+        position: relative;
     }
 
     main {
