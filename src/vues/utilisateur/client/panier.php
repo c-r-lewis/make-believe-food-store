@@ -10,14 +10,15 @@
                                     <a href="#!" class="text-body">Continuer vos achats</a>
                                 </h6>
                                 <hr>
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <div>
-                                        <p class="mb-1">Panier</p>
-                                        <p class="mb-0">Vous avez <span>?</span> objets dans votre panier</p>
-                                    </div>
-                                </div>
                                 <?php
                                 /** @var array $produits */
+                                echo '<div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <p class="mb-1">Panier</p>
+                                        <p class="mb-0">Vous avez <span>'.sizeof($produits).'</span> objet(s) dans votre panier</p>
+                                    </div>
+                                </div>';
+
                                 foreach ($produits as $item) {
                                     echo '
                                         <div class="card mb-3">
@@ -31,7 +32,7 @@
                                                     </div>
                                                     <div class="ms-3">
                                                         <h5>'.htmlspecialchars($item["produit"]->getNomProduit()).'</h5>
-                                                        <p class="small mb-0">256GB, Navy Blue</p>
+                                                        <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">'.$item["produit"]->getDescriptionProduit().'</p>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-row align-items-center">
@@ -40,11 +41,11 @@
                                                             <input class="fw-normal" style="width: 60px" type="number" name="quantite" min="1" value="'.htmlspecialchars($item["quantite"]).'" class="quantite" data-price="'.htmlspecialchars($item["produit"]->getPrixProduit()).'" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
                                                         </div>
                                                         <div style="width: 80px;">
-                                                            <h5 class="mb-0">$900</h5>
+                                                            <h5 class="mb-0" id="prixTotalItem"></h5>
                                                         </div>
                                                         <div>
                                                             <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='.htmlspecialchars($item["produit"]->getIdProduit()).'">
-                                                                <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer"/>
+                                                                <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px"/>
                                                             </a>
                                                         </div>
                                                         <input type="hidden" name="action" value="modifierQuantitePanier">
