@@ -110,13 +110,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $email = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
 
-            /*
+
             if (!$email) {
                 (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
                 self::afficherInscription();
                 return;
             }
-            */
+
 
             if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
                 (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
@@ -131,12 +131,12 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             }
 
             $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
-            //$utilisateur->setEmailAValider($email);
-            //$utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+            $utilisateur->setEmailAValider($email);
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
 
             (new UtilisateurRepository())->sauvegarder($utilisateur);
 
-            //VerificationEmail::envoiEmailValidation($utilisateur);
+            VerificationEmail::envoiEmailValidation($utilisateur);
 
             (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
 
@@ -146,6 +146,10 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
             self::connexion();
         }
+    }
+
+    public static function validerEmail() {
+        (new VerificationEmail())->validerEmail();
     }
 
 

@@ -14,10 +14,13 @@ class Utilisateur extends AbstractDataObject
     private string $mdpHache;
     private bool $estAdmin;
 
-    public function __construct(string $email, string $nom, string $prenom, string $mdpHache, bool $estAdmin = false) {
+    public function __construct(string $email, string $nom, string $prenom, string $mdpHache, string $nonce=null, bool $estAdmin = false) {
         $this->email = $email;
         $this->emailAValider = $email;
-        $this->nonce = MotDePasse::genererChaineAleatoire(16);
+        if ($nonce == null) {
+            $nonce = MotDePasse::genererChaineAleatoire(16);
+        }
+        $this->nonce = $nonce;
         $this->nom = $nom;
         $this->prenom =  $prenom;
         $this->mdpHache = $mdpHache;
