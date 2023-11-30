@@ -48,7 +48,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                         "quantite" => $quantite];
                 }
             }
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
+            self::afficherVue("vueGenerale.php", ["pagetitle"=>"Panier", "cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
         } catch (Exception $e) {
             self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
         }
