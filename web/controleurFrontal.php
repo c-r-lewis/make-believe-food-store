@@ -10,7 +10,7 @@ $loader->register();
 $loader->addNamespace('App\Magasin', __DIR__ . '/../src');
 
 if (isset($_POST["controleur"])) {
-    $controleur = $_POST["controleur"];
+    $controleur = $_POST["cotroleur"];
 } elseif (isset($_GET["controleur"])) {
     $controleur = $_GET["controleur"];
 } else {
