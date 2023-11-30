@@ -31,6 +31,12 @@ class ConnexionUtilisateur
         }
     }
 
+    public static function setLoginUtilisateurConnecte(string $email): void {
+        if (self::estConnecte()) {
+            Session::getInstance()->enregistrer(ConnexionUtilisateur::$cleConnexion, $email);
+        }
+    }
+
     public static function estConnecte(): bool {
         return Session::getInstance()->contient(ConnexionUtilisateur::$cleConnexion);
     }
