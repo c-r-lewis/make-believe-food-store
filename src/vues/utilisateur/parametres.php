@@ -20,7 +20,7 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
         </div>
         <form method="get" action="../web/controleurFrontal.php">
             <?php
-            $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire($login)
+            $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([$login])[0];
             ?>
             <div class="block-connexion">
                 <label for="mpdActuel">Mot de passe</label><br>
