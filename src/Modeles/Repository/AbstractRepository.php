@@ -77,7 +77,8 @@ abstract class AbstractRepository
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
             $values = $object ->formatTableau();
             $pdoStatement->execute($values);
-        } catch (PDOException) {
+        } catch (PDOException $e) {
+            echo $e;
             return false;
         }
         return true;

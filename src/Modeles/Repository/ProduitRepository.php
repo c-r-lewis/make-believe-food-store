@@ -23,7 +23,7 @@ class ProduitRepository extends AbstractRepository
             $produit = new Produit($objetFormatTableau["idProduit"],$objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
         }
         else {
-            $produit = new Produit($objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
+            $produit = new Produit(hexdec(uniqid()), $objetFormatTableau["nomProduit"], $objetFormatTableau["descriptionProduit"], $objetFormatTableau["prixProduit"]);
         }
         return $produit;
     }
@@ -31,6 +31,7 @@ class ProduitRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return [
+            "idProduit",
             "nomProduit",
             "descriptionProduit",
             "prixProduit"

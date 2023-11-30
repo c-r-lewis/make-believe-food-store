@@ -52,15 +52,13 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
 
-                $produit = new Produit($nomProduit, $descriptionProduit, $prixProduit);
+                $produit = new Produit(hexdec(uniqid()), $nomProduit, $descriptionProduit, $prixProduit);
 
                 (new ProduitRepository())->sauvegarder($produit);
 
-                $idProduit = (new ProduitRepository())->getDerniereIdIncrementee();
-
                 if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
-                    $imagePath = self::deplacerImageProduit($_FILES['images'], $idProduit);
-                    $image = new Image($idProduit, $imagePath);
+                    $imagePath = self::deplacerImageProduit($_FILES['images'], $produit->getIdProduit());
+                    $image = new Image($produit->getIdProduit(), $imagePath);
                     (new ImageRepository())->sauvegarder($image);
                 }
 
@@ -112,8 +110,7 @@ class ControleurProduit extends ControleurGenerique
     }
 
 
-    public
-    static function afficherDetailProduit(): void
+    public static function afficherDetailProduit(): void
     {
         try {
             if (empty($_GET["idProduit"])) {
