@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Magasin\Modeles\Repository;
+
 use App\Magasin\Modeles\DataObject\AbstractDataObject as AbstractDataObject;
-use InvalidArgumentException;
 use PDOException;
 
 abstract class AbstractRepository
@@ -60,28 +60,28 @@ abstract class AbstractRepository
     }
 
 
-
-    public function sauvegarder(AbstractDataObject $object): bool
+    public function sauvegarder(AbstractDataObject $object): void
     {
         try {
-            $sql = "INSERT INTO " . $this -> getNomTable() . "(";
+            $sql = "INSERT INTO " . $this->getNomTable() . "(";
             $sqlTag = "";
-            $listeAttributs = $this -> getNomsColonnes();
-            for ($i=0; $i<sizeof($listeAttributs)-1; $i++) {
-                $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
+            $listeAttributs = $this->getNomsColonnes();
+            for ($i = 0; $i < sizeof($listeAttributs) - 1; $i++) {
                 $sql .= $listeAttributs[$i] . ", ";
+                $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
             }
-            $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
+            $sql .= $listeAttributs[sizeof($listeAttributs) - 1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag);";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-            $values = $object ->formatTableau();
+
+            $values = $object->formatTableau();
             $pdoStatement->execute($values);
-        } catch (PDOException) {
-            return false;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return;
         }
-        return true;
     }
 
-    abstract protected function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
+    abstract protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject;
 
     public function recuperer(): array
     {
@@ -95,7 +95,7 @@ abstract class AbstractRepository
         return $objets;
     }
 
-    public function recupererParClePrimaire(array $clePrimaire): array
+    public function recupererParClePrimaire(string $clePrimaire): AbstractDataObject
     {
         $nomTable = $this->getNomTable();
         $nomsClesPrimaire = $this->getClePrimaire();
@@ -122,18 +122,17 @@ abstract class AbstractRepository
         $sql = "SELECT * FROM $nomTable WHERE " . implode(' AND ', $conditions);
 
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+
+        $values = array(
+            $tag => $clePrimaire
+        );
+
         $pdoStatement->execute($values);
-
-        $result = [];
-        while ($row = $pdoStatement->fetch()) {
-            $result[] = $this->construireDepuisTableau($row);
-        }
-
-        return $result;
+        return $this->construireDepuisTableau($pdoStatement->fetch());
     }
 
-
-    public function clePrimaireExiste(array $clePrimaire): bool {
+    public function clePrimaireExiste(mixed $clePrimaire): bool
+    {
         $nomTable = $this->getNomTable();
         $nomsClePrimaire = $this->getClePrimaire();
 
@@ -149,11 +148,39 @@ abstract class AbstractRepository
             $values[":$tag"] = $clePrimaire[$index];
         }
 
-        $sql = "SELECT * FROM $nomTable WHERE " . implode(' AND ', $conditions);
+        $pdostatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
 
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-        $pdoStatement->execute($values);
+        $values = array($tag => $clePrimaire);
 
-        return $pdoStatement->fetch() !== false;
+        $pdostatment->execute($values);
+
+        return $pdostatment->fetch() !== false;
+    }
+
+    public function mettreAJour(string $clePrimaire, array $nouvellesValeurs)
+    {
+        try {
+            $nouvellesValeurs['clePrimaire'] = $clePrimaire;
+            $sql = "UPDATE " . $this->getNomTable() . " SET ";
+            $sqlTag = "";
+            $listeAttributs = $this->getNomsColonnes();
+            for ($i = 0; $i < sizeof($listeAttributs) - 1; $i++) {
+                if (
+                    isset($nouvellesValeurs[$listeAttributs[$i]])
+                    && $nouvellesValeurs[$listeAttributs[$i]] != ""
+                ) {
+                    $sql .= $listeAttributs[$i] . " = ";
+                    $sqlTag = ":" . $listeAttributs[$i] . ", ";
+                    $sql .= $sqlTag;
+                }
+            }
+            $sql = rtrim($sql, ', ');
+            $nomClePrimaire = $this->getClePrimaire();
+            $sql .= " WHERE $nomClePrimaire = :clePrimaire";
+            $pdoStatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+            $pdoStatment->execute($nouvellesValeurs);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+    }
     }
 }

@@ -18,29 +18,33 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
             ?>
 
         </div>
-        <p>Informations personelles</p>
-        <?php
-        $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([$login])[0]
-        ?>
-        <div class="block-connexion">
-            <div style="margin-right: 15px">
-                <p>Nom</p>
-                <input type="text" value="<?= $utilisateur->getNom() ?>">
+        <form method="get" action="../web/controleurFrontal.php">
+            <?php
+            $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire($login)
+            ?>
+            <div class="block-connexion">
+                <label for="mpdActuel">Mot de passe</label><br>
+                <input type="password" id="mpdActuel" name="mdpActuel"><br>
+                <div style="margin-right: 15px">
+                    <label for="nom">Nom</label><br>
+                    <input type="text" id="nom" name="nom" placeholder="<?= $utilisateur->getNom() ?>"><br>
+                </div>
+                <div>
+                    <label for="prenom">Prenom</label><br>
+                    <input type="text" id="prenom" name="prenom" placeholder="<?= $utilisateur->getPrenom() ?>"><br>
+                </div>
             </div>
-            <div>
-                <p>Prenom</p>
-                <input type="text" value="<?= $utilisateur->getPrenom() ?>">
-            </div>
-        </div>
-        <p>Email</p>
-        <input type="text" value="<?= $utilisateur->getEmail() ?>">
-        <p>Mot de passe</p>
-        <p>Mot de passe actuel</p>
-        <input type="text">
-        <p>Nouveau mot de passe</p>
-        <input type="text">
-        <p>Confirmation mot de passe</p>
-        <input type="text">
-        <input class="button" type="submit" value="Sauvegarder">
+            <label for="email">Email</label><br>
+            <input type="text" id="email" name="email" placeholder="<?= $utilisateur->getEmail() ?>"><br>
+
+            <label for="mdpNouveau">Nouveau mot de passe</label><br>
+            <input type="password" id="mdpNouveau" name="mdpNouveau"><br>
+            <label for="mdpNouveau2">Confirmation mot de passe</label><br>
+            <input type="password" id="mdpNouveau2" name="mdpNouveau2"><br>
+            <input type="hidden" name="action" value="miseAJourParametres"><br>
+            <input type="hidden" name="controleur" value="utilisateurGenerique"><br>
+            <input class="button" type="submit" value="Sauvegarder"><br>
+
+        </form>
     </div>
 </section>

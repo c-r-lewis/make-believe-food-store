@@ -3,11 +3,9 @@
 namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
-use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
-use App\Magasin\Modeles\Repository\PanierRepository;
-use App\Magasin\Modeles\Repository\ProduitPanierRepository;
+use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
@@ -17,7 +15,6 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function afficherPanier(): void
     {
         $produits = [];
-        $panier = [];
         if (ConnexionUtilisateur::estConnecte()) {
             $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
             foreach ((new ProduitRepository())->recuperer() as $produit) {
@@ -86,9 +83,9 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function inscription(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            if ((new UtilisateurRepository())->clePrimaireExiste([$_GET["email"]])) {
+            if ((new UtilisateurRepository())->clePrimaireExiste($_GET["email"])) {
                 // le compte est déjà enregistré
-            } else if ($_GET["mdp"] != $_GET["mdp2"]) {
+            } elseif ($_GET["mdp"] != $_GET["mdp2"]) {
                 // les mots de passe ne correspondent pas
             } else {
                 $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
@@ -115,6 +112,44 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 // Gérer l'erreur
             }
         }
+    }
+
+    public static function miseAJourParametres(): void
+    {
+        $mdpActuel = $_GET["mdpActuel"];
+        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $repo = new UtilisateurRepository();
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = $repo->recupererParClePrimaire($login);
+        if (!MotDePasse::verifier($mdpActuel, $utilisateur->getMdpHache())) {
+            echo "mauvais mot de passe";
+            return;
+        };
+
+        $nouvellesValeurs = array();
+        foreach (["nom", "prenom", "email"] as $attribut) {
+            if ($_GET[$attribut] != "") {
+                $nouvellesValeurs[$attribut] = $_GET[$attribut];
+            }
+        }
+
+        if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
+            $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
+            $nouvellesValeurs["mdpHache"] = $nouveauMdp;
+        }
+        $repo->mettreAJour($login, $nouvellesValeurs);
+
+        if (isset($_GET["email"]) && $_GET["email"] != "") {
+            $login = $_GET["email"];
+        }
+
+        self::afficherVue(
+            "vueGenerale.php",
+            [
+                "login" => $login,
+                "cheminVueBody" => "utilisateur/parametres.php"
+            ]
+        );
     }
 
     public static function deconnexion(): void
