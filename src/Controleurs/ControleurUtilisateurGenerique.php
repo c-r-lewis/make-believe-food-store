@@ -46,7 +46,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                         "quantite" => $quantite];
                 }
             }
-            self::afficherVue("vueGenerale.php", ["pagetitle"=>"Panier", "cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
+            self::afficherVue("vueGenerale.php", ["pagetitle" => "Panier", "cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
         } catch (Exception $e) {
             self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
         }
@@ -80,7 +80,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function afficherComptes(): void
     {
         $comptes = (new UtilisateurRepository())->recuperer();
-        $i=0;
+        $i = 0;
         while (!$comptes[$i]->estAdmin()) {
             $i++;
         }
@@ -146,7 +146,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         }
     }
 
-    public static function validerEmail() {
+    public static function validerEmail()
+    {
         (new VerificationEmail())->validerEmail();
     }
 
@@ -172,37 +173,40 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $repo = new UtilisateurRepository();
         /** @var Utilisateur $utilisateur */
-        $utilisateur = $repo->recupererParClePrimaire($login);
+        $utilisateur = $repo->recupererParClePrimaire([$login])[0];
         if (!MotDePasse::verifier($mdpActuel, $utilisateur->getMdpHache())) {
             echo "mauvais mot de passe";
             return;
         };
-
-        $nouvellesValeurs = array();
-        foreach (["nom", "prenom", "email"] as $attribut) {
-            if ($_GET[$attribut] != "") {
-                $nouvellesValeurs[$attribut] = $_GET[$attribut];
-            }
-        }
-
+        // TODO: refactorer
         if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
             $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
-            $nouvellesValeurs["mdpHache"] = $nouveauMdp;
+            $utilisateur->setMdpHache($nouveauMdp);
         }
-        $repo->mettreAJour($login, $nouvellesValeurs);
-
+        if (isset($_GET["nom"]) && $_GET["nom"] != "") {
+            $utilisateur->setNom($_GET["nom"]);
+        }
+        if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
+            $utilisateur->setPrenom($_GET["prenom"]);
+        }
+        $repo->mettreAJour($utilisateur);
         if (isset($_GET["email"]) && $_GET["email"] != "") {
-            $login = $_GET["email"];
+            $repo->mettreAJourClePrimaire(["email" => $utilisateur->getEmail()], ["email" => $_GET["email"]]);
+            $utilisateur->setEmail($_GET["email"]);
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+            $utilisateur->setEmailAValider($_GET["email"]);
+            ConnexionUtilisateur::setLoginUtilisateurConnecte($_GET["email"]);
+            sleep(2);
+            $repo->sauvegarder($utilisateur);
         }
-
         self::afficherVue(
             "vueGenerale.php",
-            [
-                "login" => $login,
-                "cheminVueBody" => "utilisateur/parametres.php"
-            ]
+            ["login" => $login,
+                "cheminVueBody" => "utilisateur/parametres.php"]
         );
+
     }
+
 
     public static function deconnexion(): void
     {
