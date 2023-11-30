@@ -3,32 +3,30 @@
 namespace App\Magasin\Modeles\Repository;
 
 use App\Magasin\Modeles\DataObject\AbstractDataObject;
-use App\Magasin\Modeles\DataObject\PanierConnecte;
+use App\Magasin\Modeles\DataObject\Achat;
 
-class PanierRepository extends AbstractRepository
+class AchatRepository extends AbstractRepository
 {
     protected function getNomTable(): string
     {
-        return "Site_Paniers";
+        return "Site_Achats";
     }
 
     protected function getClePrimaire(): array
     {
-        return ["email"];
+        return ["idAchat"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
-        return new PanierConnecte(
-            $objetFormatTableau["idPanier"],
-            $objetFormatTableau["email"]
-        );
+        return new Achat($objetFormatTableau["idAchat"], $objetFormatTableau["dateAchat"], $objetFormatTableau["email"]);
     }
 
     protected function getNomsColonnes(): array
     {
         return [
-            "idPanier",
+            "idAchat",
+            "dateAchat",
             "email"
         ];
     }

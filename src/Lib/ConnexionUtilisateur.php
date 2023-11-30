@@ -2,6 +2,8 @@
 
 namespace App\Magasin\Lib;
 
+use App\Magasin\Controleurs\ControleurGenerique;
+use App\Magasin\Controleurs\ControleurUtilisateurGenerique;
 use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
@@ -15,7 +17,8 @@ class ConnexionUtilisateur
             $sessionEnCours = Session::getInstance();
             $sessionEnCours->enregistrer(ConnexionUtilisateur::$cleConnexion, $login);
         } else {
-            echo "erreur";
+            (new MessageFlash())->ajouter("warning", "Email ou mot de passe incorrect !");
+            (new ControleurUtilisateurGenerique())::afficherConnexion();
         }
     }
 

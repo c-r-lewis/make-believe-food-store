@@ -1,11 +1,16 @@
 <section>
     <p>Comptes utilisateurs</p>
 
-    <div class="item">
-        <img src="../../../../ressources/images/logo-utilisateur.png">
-        <p>Login utilisateur</p>
-        <p>Role</p>
-        <button><img src="../../../../ressources/images/logo-modifier.png"></button>
-        <button><img src="../../../../ressources/images/logo-supprimer.png"></button>
-    </div>
+    <?php
+    /** @var array $comptes*/
+
+    foreach ($comptes as $compte): ?>
+        <div class="item">
+            <img src="../../../../ressources/images/logo-utilisateur.png">
+            <p><?php echo $compte->toString(); ?></p>
+            <a href="controleurFrontal.php?action=supprimerCompte&email=<?php echo urlencode($compte->getEmail()); ?>">
+                <button><img src="../../../../ressources/images/logo-supprimer.png"></button>
+            </a>
+        </div>
+    <?php endforeach; ?>
 </section>

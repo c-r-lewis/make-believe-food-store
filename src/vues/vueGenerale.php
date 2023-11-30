@@ -2,25 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>A changer en fonction de la vue</title>
+    <title><?php
+        /** @var string $pagetitle */
+        echo $pagetitle; ?>
+    </title>
     <link rel="stylesheet" type="text/css" href="../ressources/css/style.css">
 </head>
 <body>
 <div class="right">
     <header>
         <?php
-            use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
-            $imageSrc = "../ressources/images/connexion-logo.png";
-            $alt = "Se connecter";
-            $action = "afficherConnexion";
-            if (ConnexionUtilisateur::estConnecte()) {
-                $imageSrc = "../ressources/images/logo-quitter.png";
-                $alt = "Se déconnecter";
-                $action = "deconnexion";
-            }
-            echo '<a href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
+        use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+        $imageSrc = "../ressources/images/connexion-logo.png";
+        $alt = "Se connecter";
+        $action = "afficherConnexion";
+        if (ConnexionUtilisateur::estConnecte()) {
+            $imageSrc = "../ressources/images/logo-quitter.png";
+            $alt = "Se déconnecter";
+            $action = "deconnexion";
+        }
+        echo '<a href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique"><img src="'.$imageSrc.'" alt="'.$alt.'"/></a>';
         ?>
     </header>
+    <div>
+        <?php
+
+        use App\Magasin\Lib\MessageFlash;
+
+        $messageFlash = new MessageFlash();
+
+        $messagesFlash = $messageFlash->lireTousMessages();
+
+        foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
+            foreach ($messagesFlashPourUnType as $messageFlash) {
+                echo <<< HTML
+        <div class="alert alert-$type">
+           $messageFlash
+        </div>
+        HTML;
+            }
+        }
+
+        ?>
+
+
+    </div>
 
     <div>
         <main>

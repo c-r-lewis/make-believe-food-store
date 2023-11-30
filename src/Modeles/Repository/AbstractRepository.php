@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Magasin\Modeles\Repository;
-
 use App\Magasin\Modeles\DataObject\AbstractDataObject as AbstractDataObject;
+use InvalidArgumentException;
 use PDOException;
 
 abstract class AbstractRepository
@@ -59,26 +59,28 @@ abstract class AbstractRepository
         $pdoStatement->execute($values);
     }
 
+    public function getDerniereIdIncrementee(): int {
+        return ConnexionBaseDeDonnee::getPdo()->lastInsertId();
+    }
 
-    public function sauvegarder(AbstractDataObject $object): void
+    public function sauvegarder(AbstractDataObject $object): bool
     {
         try {
             $sql = "INSERT INTO " . $this->getNomTable() . "(";
             $sqlTag = "";
-            $listeAttributs = $this->getNomsColonnes();
-            for ($i = 0; $i < sizeof($listeAttributs) - 1; $i++) {
+            $listeAttributs = $this -> getNomsColonnes();
+            for ($i=0; $i<sizeof($listeAttributs)-1; $i++) {
                 $sql .= $listeAttributs[$i] . ", ";
                 $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
             }
-            $sql .= $listeAttributs[sizeof($listeAttributs) - 1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag);";
+            $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-
-            $values = $object->formatTableau();
+            $values = $object ->formatTableau();
             $pdoStatement->execute($values);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return;
+        } catch (PDOException) {
+            return false;
         }
+        return true;
     }
 
     abstract protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject;
@@ -95,7 +97,7 @@ abstract class AbstractRepository
         return $objets;
     }
 
-    public function recupererParClePrimaire(string $clePrimaire): AbstractDataObject
+    public function recupererParClePrimaire(array $clePrimaire): array
     {
         $nomTable = $this->getNomTable();
         $nomsClesPrimaire = $this->getClePrimaire();
@@ -122,17 +124,18 @@ abstract class AbstractRepository
         $sql = "SELECT * FROM $nomTable WHERE " . implode(' AND ', $conditions);
 
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-
-        $values = array(
-            $tag => $clePrimaire
-        );
-
         $pdoStatement->execute($values);
-        return $this->construireDepuisTableau($pdoStatement->fetch());
+
+        $result = [];
+        while ($row = $pdoStatement->fetch()) {
+            $result[] = $this->construireDepuisTableau($row);
+        }
+
+        return $result;
     }
 
-    public function clePrimaireExiste(mixed $clePrimaire): bool
-    {
+
+    public function clePrimaireExiste(array $clePrimaire): bool {
         $nomTable = $this->getNomTable();
         $nomsClePrimaire = $this->getClePrimaire();
 
@@ -148,16 +151,15 @@ abstract class AbstractRepository
             $values[":$tag"] = $clePrimaire[$index];
         }
 
-        $pdostatment = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $sql = "SELECT * FROM $nomTable WHERE " . implode(' AND ', $conditions);
 
-        $values = array($tag => $clePrimaire);
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $pdoStatement->execute($values);
 
-        $pdostatment->execute($values);
-
-        return $pdostatment->fetch() !== false;
+        return $pdoStatement->fetch() !== false;
     }
 
-    public function mettreAJour(string $clePrimaire, array $nouvellesValeurs)
+    public function mettreAJourParClePrimaire(string $clePrimaire, array $nouvellesValeurs)
     {
         try {
             $nouvellesValeurs['clePrimaire'] = $clePrimaire;
@@ -181,6 +183,6 @@ abstract class AbstractRepository
             $pdoStatment->execute($nouvellesValeurs);
         } catch (PDOException $e) {
             echo $e->getMessage();
-    }
+        }
     }
 }
