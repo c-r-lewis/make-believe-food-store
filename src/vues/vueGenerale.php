@@ -70,7 +70,10 @@
     </div>
 </div>
 
-<div>
+<div class="row flash-message">
+    <div class="col-12">
+
+    </div>
     <?php
 
     use App\Magasin\Lib\MessageFlash;
@@ -82,13 +85,12 @@
     foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
         foreach ($messagesFlashPourUnType as $messageFlash) {
             echo <<< HTML
-    <div class="alert alert-$type">
-        $messageFlash
-    </div>
-    HTML;
+            <div class="alert alert-$type">
+                $messageFlash
+            </div>
+            HTML;
         }
     }
-
     ?>
 </div>
 <?php

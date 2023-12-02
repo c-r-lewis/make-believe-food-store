@@ -12,7 +12,7 @@ use App\Magasin\Modeles\DataObject\Produit as Produit;
                 <span class="mb-lg-5 fs-1 d-flex justify-content-md-center justify-content-lg-start"><?php echo htmlspecialchars($produit->getNomProduit()); ?></span>
                 <form>
                     <div class="input-group mb-lg-3" style="width: 20rem">
-                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">€</span>
                         <span class="form-control" aria-label="Dollar amount (with dot and two decimal places)"><?php echo htmlspecialchars($produit->getPrixProduit()); ?></span>
                     </div>
                     <div class="d-flex justify-content-md-between justify-content-lg-start flex-row">

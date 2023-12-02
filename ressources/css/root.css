@@ -3,9 +3,16 @@
     --header-height: 4.45rem;
 }
 
+body {
+    height: fit-content;
+    display: flex;
+    width: 100dvw;
+}
+
 .sidebar-nav {
     width: var(--offcanvas-width);
     background-color: #242B3D;
+    height: 100dvh;
 }
 
 li:hover {
@@ -33,16 +40,18 @@ nav, .filler, .login-btn {
     background-color: white;
 }
 
-.sidebar-nav {
-    width: var(--offcanvas-width);
-}
-
-
 main {
-    min-height: calc(100dvh - var(--header-height));
+    min-width: 100dvw;
     position: relative;
     top: var(--header-height);
     background-color: #F3F4F9;
+}
+
+.flash-message {
+    top: var(--header-height);
+    position: fixed;
+    z-index: 1000;
+    width: 100dvw;
 }
 
 .product-tab {
@@ -67,6 +76,10 @@ nav {
 @media (width >= 992px) {
     .offcanvas-backdrop {
         display: none !important;
+    }
+
+    .flash-message {
+        left: var(--offcanvas-width);
     }
 
     .sidebar-nav{

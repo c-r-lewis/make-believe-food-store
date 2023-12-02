@@ -8,7 +8,6 @@
                 <form method="post" action="" class="d-flex align-items-center flex-column justify-content-center">
                     <input class="mb-4" name="email" type="text" placeholder="Email" required/>
                     <input class="mb-4" name="mdp" type="text" placeholder="Mot de passe" required/>
-
                     <input class="texte-white mb-3" type="submit" value="Se connecter">
                     <input type="hidden" name="action" value="connexion">
                     <input type="hidden" name="controleur" value="utilisateurGenerique">
