@@ -1,13 +1,14 @@
-<div class="d-flex align-items-center">
-    <div class="container">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col">
-                <div class="card my-2">
-                    <div class="card-body p-4">
-                        <?php
-                        /** @var array $produits */
-                        /** @var float $prixTotal */
-                        echo '
+<main>
+    <div class="d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="card my-2">
+                        <div class="card-body p-4">
+                            <?php
+                            /** @var array $produits */
+                            /** @var float $prixTotal */
+                            echo '
                         <div class="row">
                             <div class="col-lg-7">
                             <h6 class="mb-3">
@@ -57,7 +58,7 @@
                                     </div>
                                 </div>';
                             }
-                                echo '
+                            echo '
                         </div>
                             <div class="col-lg-5">
 
@@ -113,8 +114,7 @@
                                             <span class="fs-6">Valider</span>
                                         </button>
                                     </div>'; ?>
-                                </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
