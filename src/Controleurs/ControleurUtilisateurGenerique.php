@@ -23,18 +23,22 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         try {
             $produits = [];
             $panier = [];
+            $totalPrix = 0;
             if (ConnexionUtilisateur::estConnecte()) {
                 $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
                 foreach ((new ProduitRepository())->recuperer() as $produit) {
                     if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
                         $panier[] = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
+                        $totalPrix += $produit->getPrix();
                     }
                 }
                 foreach ($panier as $produitsPanier) {
                     foreach ($produitsPanier as $produitPanier) {
                         $ajoutPanier = $produitPanier->formatTableau();
+                        $produit = (new ProduitRepository())->recupererParClePrimaire([$ajoutPanier["idProduitTag"]])[0];
+                        $totalPrix += $produit->getPrixProduit();
                         $produits[] = [
-                            "produit" => (new ProduitRepository())->recupererParClePrimaire([$ajoutPanier["idProduitTag"]])[0],
+                            "produit" => $produit,
                             "quantite" => $ajoutPanier["quantiteTag"]
                         ];
                     }
@@ -44,11 +48,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                     $panier = Cookie::lire("panier");
                 }
                 foreach ($panier as $idProduit => $quantite) {
-                    $produits[] = ["produit" => (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0],
+                    $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
+                    $produits[] = ["produit" => $produit,
                         "quantite" => $quantite];
+                    $totalPrix += $produit->getPrixProduit()*$quantite;
                 }
             }
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits]);
+            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits, "prixTotal" => $totalPrix]);
         } catch (Exception $e) {
             self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
         }
