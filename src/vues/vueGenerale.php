@@ -71,9 +71,6 @@
 </div>
 
 <div class="row flash-message">
-    <div class="col-12">
-
-    </div>
     <?php
 
     use App\Magasin\Lib\MessageFlash;
