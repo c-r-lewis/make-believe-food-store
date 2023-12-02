@@ -12,13 +12,12 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-7 mx-auto">
-                <!-- Form -->
                 <form class="mb-6">
                     <div class="row mb-5">
                         <div class="col-md-6">
-                            <div class="">
+                            <div>
                                 <label class="form-label" for="name">Nom</label>
-                                <input type="text" id="name" class="form-control" value="<?= htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8') ?>">
+                                <input type="text" id="name" class="form-control" value="<?= htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8')?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -78,7 +77,6 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
                     </div>
                 </div>';
                 }
-
                 ?>
             </div>
         </div>
