@@ -17,40 +17,6 @@ use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepositor
         <div class="row">
             <div class="col-xl-7 mx-auto">
                 <form method="get" action="../web/controleurFrontal.php" class="mb-6">
-                    <?php
-                    $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
-                    $utilisateur->setEmailAValider($utilisateur->getEmail());
-                    $email = $utilisateur->getEmail();
-
-                    if (!$email) {
-                        (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
-                        (new ControleurUtilisateurGenerique())->afficherParametres();
-                        return;
-                    }
-
-                    if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
-                        (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
-                        (new ControleurProduit())->afficherCatalogue();
-                        return;
-                    }
-
-                    if ($_GET["mdp"] != $_GET["mdp2"]) {
-                        (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
-                        (new ControleurProduit())->afficherCatalogue();
-                        return;
-                    }
-
-                    $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
-                    $utilisateur->setEmailAValider($email);
-                    $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
-
-                    (new UtilisateurRepository())->sauvegarder($utilisateur);
-
-                    VerificationEmail::envoiEmailValidation($utilisateur);
-
-                    (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
-                    (new ControleurProduit())->afficherCatalogue();
-                    ?>
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div>
