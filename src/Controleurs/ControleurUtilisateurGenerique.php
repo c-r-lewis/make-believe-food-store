@@ -201,16 +201,19 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
         $email = $utilisateur->getEmail();
         $nouveauEmail = $email;
-        if (isset($_GET["email"]) && $_GET["email"] != "") {
+        if (isset($_GET["email"]) && $_GET["email"] != "" && $_GET["email"] != $email) {
             $nouveauEmail = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
 
             if (!$nouveauEmail) {
                 (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                ControleurUtilisateurGenerique::afficherParametres();
                 return;
+
             }
 
             if ((new UtilisateurRepository())->clePrimaireExiste([$nouveauEmail])) {
                 (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
+                ControleurUtilisateurGenerique::afficherParametres();
                 return;
             }
 
