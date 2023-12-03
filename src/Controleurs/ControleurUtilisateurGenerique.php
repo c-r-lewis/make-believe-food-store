@@ -28,15 +28,15 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
                 foreach ((new ProduitRepository())->recuperer() as $produit) {
                     if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
-                        $panier[] = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
-                        $totalPrix += $produit->getPrixProduit();
+                        $verifProduit = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
+                        $panier[] = $verifProduit;
+                        $totalPrix += $produit->getPrixProduit()*$verifProduit[0]->getQuantite();
                     }
                 }
                 foreach ($panier as $produitsPanier) {
                     foreach ($produitsPanier as $produitPanier) {
                         $ajoutPanier = $produitPanier->formatTableau();
                         $produit = (new ProduitRepository())->recupererParClePrimaire([$ajoutPanier["idProduitTag"]])[0];
-                        $totalPrix += $produit->getPrixProduit();
                         $produits[] = [
                             "produit" => $produit,
                             "quantite" => $ajoutPanier["quantiteTag"]
