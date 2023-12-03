@@ -5,6 +5,7 @@ namespace App\Magasin\Controleurs;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
+use App\Magasin\Lib\MessageFlash;
 
 class ControleurProduit extends ControleurGenerique
 {
