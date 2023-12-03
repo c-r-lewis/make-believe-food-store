@@ -38,16 +38,16 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
                     <div class="col-12">
                         <div >
                             <label class="form-label" for="mdp">Mot de passe actuel</label>
-                            <input type="text" class="form-control" id="mdp" name="mdpActuel" required>
+                            <input type="password" class="form-control" id="mdp" name="mdpActuel" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <label class="form-label" for="mdp2">Nouveau mot de passe</label>
-                        <input type="text" class="form-control" id="mdp2" name="mdpNouveau">
+                        <input type="password" class="form-control" id="mdp2" name="mdpNouveau">
                     </div>
                     <div class="col-6">
                         <label class="form-label" for="mdp3">Confirmation mot de passe</label>
-                        <input type="text" class="form-control" id="mdp3" name="mdpNouveau2">
+                        <input type="password" class="form-control" id="mdp3" name="mdpNouveau2">
                     </div>
                     <div class="text-end mt-2">
                         <button type="button" class="btn btn-sm btn-neutral me-2">Annuler</button>
