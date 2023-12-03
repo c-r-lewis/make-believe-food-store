@@ -28,6 +28,17 @@ class ProduitRepository extends AbstractRepository
         return $produit;
     }
 
+    public function getImageProduit(Produit $produit): string
+    {
+        $repo = new ImageRepository();
+        $cheminImage = "../ressources/images/placeholder.png";
+        if (count($repo->recupererParClePrimaire([$produit->getIdProduit()])) != 0) {
+            $image = $repo->recupererParClePrimaire([$produit->getIdProduit()])[0];
+            $cheminImage = $image->getImage();
+        }
+        return $cheminImage;
+    }
+
     protected function getNomsColonnes(): array
     {
         return [
