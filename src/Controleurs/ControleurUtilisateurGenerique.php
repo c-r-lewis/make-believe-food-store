@@ -29,7 +29,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 foreach ((new ProduitRepository())->recuperer() as $produit) {
                     if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
                         $panier[] = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
-                        $totalPrix += $produit->getPrix();
+                        $totalPrix += $produit->getPrixProduit();
                     }
                 }
                 foreach ($panier as $produitsPanier) {
