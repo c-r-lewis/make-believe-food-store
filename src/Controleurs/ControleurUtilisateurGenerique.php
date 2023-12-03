@@ -10,8 +10,11 @@ use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
 use App\Magasin\Modeles\HTTP\Session;
+use App\Magasin\Modeles\Repository\PanierRepository;
+use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
+use Exception;
 
 class ControleurUtilisateurGenerique extends ControleurGenerique
 {
@@ -65,7 +68,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 "vueGenerale.php",
                 [
                     "cheminVueBody" => "utilisateur/parametres.php",
-                    "login" => ConnexionUtilisateur::getLoginUtilisateurConnecte()
+                    "utilisateur" => (new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0]
                 ]
             );
         }
@@ -169,6 +172,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function miseAJourParametres(): void
     {
+        // TODO: refactorer
         $mdpActuel = $_GET["mdpActuel"];
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $repo = new UtilisateurRepository();
@@ -178,33 +182,43 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             echo "mauvais mot de passe";
             return;
         };
-        // TODO: refactorer
         if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
             $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
             $utilisateur->setMdpHache($nouveauMdp);
         }
-        if (isset($_GET["nom"]) && $_GET["nom"] != "") {
-            $utilisateur->setNom($_GET["nom"]);
+        if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
+            $utilisateur->setPrenom($_GET["prenom"]);
         }
         if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
             $utilisateur->setPrenom($_GET["prenom"]);
         }
-        $repo->mettreAJour($utilisateur);
-        if (isset($_GET["email"]) && $_GET["email"] != "") {
-            $repo->mettreAJourClePrimaire(["email" => $utilisateur->getEmail()], ["email" => $_GET["email"]]);
-            $utilisateur->setEmail($_GET["email"]);
-            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
-            $utilisateur->setEmailAValider($_GET["email"]);
-            ConnexionUtilisateur::setLoginUtilisateurConnecte($_GET["email"]);
-            sleep(2);
-            $repo->sauvegarder($utilisateur);
-        }
-        self::afficherVue(
-            "vueGenerale.php",
-            ["login" => $login,
-                "cheminVueBody" => "utilisateur/parametres.php"]
-        );
 
+        $email = $utilisateur->getEmail();
+        $nouveauEmail = $email;
+        if (isset($_GET["email"]) && $_GET["email"] != "") {
+            $nouveauEmail = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
+
+            if (!$nouveauEmail) {
+                (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                return;
+            }
+
+            if ((new UtilisateurRepository())->clePrimaireExiste([$nouveauEmail])) {
+                (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
+                return;
+            }
+
+            $utilisateur->setEmailAValider($nouveauEmail);
+            $nouveauEmail = $_GET["email"];
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+            ConnexionUtilisateur::setLoginUtilisateurConnecte($nouveauEmail);
+
+            VerificationEmail::envoiEmailValidation($utilisateur);
+        }
+        $repo->mettreAJour($utilisateur);
+        if ($nouveauEmail != $email) $repo->mettreAJourClePrimaire(["email" => $email], ["email" => $_GET["email"]]);
+        (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
+        (new ControleurProduit())->afficherCatalogue();
     }
 
 
@@ -213,6 +227,4 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         ConnexionUtilisateur::deconnecter();
         ControleurProduit::afficherCatalogue();
     }
-
-
 }
