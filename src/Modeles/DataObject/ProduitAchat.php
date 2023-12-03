@@ -52,11 +52,11 @@ class ProduitAchat extends AbstractDataObject {
     public function formatTableau()
     {
         return [
-            'idProduit' => $this->idProduit,
-            'idAchat' => $this->idAchat,
-            'nomProduit' => $this->nomProduit,
-            'quantite' => $this->quantite,
-            'prixProduitUnitaire' => $this->prixProduitUnitaire,
+            'idProduitTag' => $this->idProduit,
+            'idAchatTag' => $this->idAchat,
+            'nomProduitTag' => $this->nomProduit,
+            'quantiteTag' => $this->quantite,
+            'prixProduitUnitaireTag' => $this->prixProduitUnitaire,
         ];
     }
 }

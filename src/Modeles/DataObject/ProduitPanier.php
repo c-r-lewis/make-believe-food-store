@@ -22,16 +22,6 @@ class ProduitPanier extends Panier {
 
     }
 
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
-
     public function getIdPanier(): int
     {
         return $this->idPanier;
@@ -50,6 +40,16 @@ class ProduitPanier extends Panier {
     public function setQuantite(int $quantite): void
     {
         $this->quantite = $quantite;
+    }
+
+    public function getIdProduit(): string
+    {
+        return $this->idProduit;
+    }
+
+    public function setIdProduit(string $idProduit): void
+    {
+        $this->idProduit = $idProduit;
     }
 
 

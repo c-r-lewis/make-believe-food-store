@@ -24,11 +24,12 @@ class Cookie
         return isset($_COOKIE[$cle]);
     }
 
-    public static function supprimer($cle) : void
+    public static function supprimer($cle): void
     {
         if (self::contient($cle))
         {
             unset($_COOKIE[$cle]);
+            setcookie($cle);
         }
     }
 }

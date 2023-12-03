@@ -4,11 +4,16 @@ namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
+use App\Magasin\Modeles\DataObject\Achat;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
+use App\Magasin\Modeles\DataObject\ProduitAchat;
+use App\Magasin\Modeles\HTTP\Cookie;
 use App\Magasin\Modeles\Repository\AchatRepository;
 use App\Magasin\Modeles\Repository\ImageRepository;
+use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitAchatRepository;
+use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 use Exception;
@@ -280,4 +285,60 @@ class ControleurProduit extends ControleurGenerique
         self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat", "cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
     }
 
+    public static function validerAchat(): void {
+        try {
+            if (ConnexionUtilisateur::estConnecte()) {
+                $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+                $panier = [];
+
+                foreach ((new ProduitRepository())->recuperer() as $produit) {
+                    if ((new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]])) {
+                        $verifProduit = (new ProduitPanierRepository())->recupererParClePrimaire([$recupererPanier["idPanierTag"], ($produit->formatTableau())["idProduitTag"]]);
+                        $panier[] = $verifProduit;
+                    }
+                }
+
+                if (empty($panier)) {
+                    (new MessageFlash())->ajouter("warning", "Votre panier est vide");
+                    ControleurUtilisateurGenerique::afficherPanier();
+                    return;
+                }
+
+                $achat = new Achat(hexdec(uniqid()),date('Y-m-d'),ConnexionUtilisateur::getLoginUtilisateurConnecte());
+
+                (new AchatRepository())->sauvegarder($achat);
+
+                $idAchat = $achat->getIdAchat();
+
+                foreach ($panier as $produitsPanier) {
+                    foreach ($produitsPanier as $produitPanier) {
+                        $produit = (new ProduitRepository())->recupererParClePrimaire([$produitPanier->getIdProduit()])[0];
+                        $produitAchat = new ProduitAchat($produitPanier->getIdProduit(), $idAchat, $produit->getNomProduit(), $produitPanier->getQuantite(), $produit->getPrixProduit());
+
+                        (new ProduitAchatRepository())->sauvegarder($produitAchat);
+                        (new ProduitPanierRepository())->supprimerParAbstractDataObject($produitPanier);
+                    }
+                }
+            } else {
+                if (Cookie::contient("panier")) {
+                    $panier = Cookie::lire("panier");
+                    if ($panier == null) {
+                        (new MessageFlash())->ajouter("warning", "Votre panier est vide");
+                        ControleurUtilisateurGenerique::afficherPanier();
+                        return;
+                    }
+                    Cookie::supprimer("panier");
+                } else {
+                    (new MessageFlash())->ajouter("warning", "Votre panier est vide");
+                    ControleurUtilisateurGenerique::afficherPanier();
+                    return;
+                }
+            }
+            (new MessageFlash())->ajouter("success", "Votre achat a été validé !");
+            self::afficherCatalogue();
+        } catch (Exception $e) {
+            (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");
+            (new ControleurProduit())->afficherCatalogue();
+        }
+    }
 }

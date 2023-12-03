@@ -40,9 +40,9 @@ class Achat extends AbstractDataObject {
     public function formatTableau(): array
     {
         return [
-            'idAchat' => $this->idAchat,
-            'date' => $this->dateAchat,
-            'email' => $this->email
+            'idAchatTag' => $this->idAchat,
+            'dateAchatTag' => $this->dateAchat,
+            'emailTag' => $this->email
         ];
     }
 }

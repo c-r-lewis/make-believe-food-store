@@ -22,7 +22,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <p class="mb-1">Panier</p>
-                                    <p class="mb-0">Vous avez <span>' . sizeof($produits) . '</span> objet(s) dans votre panier</p>
+                                    <p class="mb-0">Vous avez <span>' . sizeof($produits) . '</span> objet(s) différent(s) dans votre panier</p>
                                 </div>
                             </div>';
 
@@ -70,14 +70,14 @@
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="typeName"
-                                                       class="form-control form-control-lg fs-6" placeholder="Nom"/>
+                                                       class="form-control form-control-lg fs-6" placeholder="Nom" required/>
                                                 <label class="form-label" for="typeName">Nom</label>
                                             </div>
 
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="typeText"
                                                        class="form-control form-control-lg fs-6"
-                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"/>
+                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required/>
                                                 <label class="form-label" for="typeText">Card Number</label>
                                             </div>
 
@@ -87,7 +87,7 @@
                                                         <input type="text" id="typeExp"
                                                                class="form-control form-control-lg fs-6"
                                                                placeholder="MM/YYYY" size="7" id="exp" minlength="7"
-                                                               maxlength="7"/>
+                                                               maxlength="7" required/>
                                                         <label class="form-label" for="typeExp">Expiration</label>
                                                     </div>
                                                 </div>
@@ -96,23 +96,22 @@
                                                         <input type="password" id="typeText"
                                                                class="form-control form-control-lg fs-6"
                                                                placeholder="&#9679;&#9679;&#9679;" size="1"
-                                                               minlength="3" maxlength="3"/>
+                                                               minlength="3" maxlength="3" required/>
                                                         <label class="form-label" for="typeText">Cvv</label>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr class="my-4">
+
+                                            <div class="d-flex justify-content-between mb-4">
+                                                <p class="mb-2">Total</p>
+                                                <p class="mb-2">' . $prixTotal . '€</p>
+                                            </div>
+                                   
+                                            <button type="submit" class="btn btn-info btn-block btn-lg" name="action" value="validerAchat">
+                                                <span class="fs-6">Valider</span>
+                                            </button>
                                         </form>
-
-                                        <hr class="my-4">
-
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <p class="mb-2">Total</p>
-                                            <p class="mb-2">' . $prixTotal . '€</p>
-                                        </div>
-                               
-                                        <button type="button" class="btn btn-info btn-block btn-lg">
-                                            <span class="fs-6">Valider</span>
-                                        </button>
                                     </div>'; ?>
                         </div>
                     </div>
