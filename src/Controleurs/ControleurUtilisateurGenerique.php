@@ -63,7 +63,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 ]
             );
         } catch (Exception $e) {
-            self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
+            (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de l'affichage du panier");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
@@ -114,7 +115,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             self::afficherComptes();
         } catch (Exception $e) {
             (new MessageFlash())->ajouter("danger", "Le compte n'a pas été supprimé !");
-            self::erreur("Vous ne pouvez pas supprimer un compte qui n'existe pas");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 
@@ -154,7 +155,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
             (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
 
-            $panierConnecte = new PanierConnecte(count((new PanierRepository())->recuperer()), $utilisateur->getEmail());
+            $panierConnecte = new PanierConnecte(hexdec(uniqid()), $utilisateur->getEmail());
             $panierRepository = new PanierRepository();
             $panierRepository->sauvegarder($panierConnecte);
 
