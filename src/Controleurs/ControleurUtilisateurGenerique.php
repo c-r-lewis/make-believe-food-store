@@ -9,7 +9,8 @@ use App\Magasin\Lib\VerificationEmail;
 use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
-use App\Magasin\Modeles\HTTP\Session;
+use App\Magasin\Modeles\Repository\ProduitPanierRepository;
+use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
 
