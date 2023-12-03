@@ -18,18 +18,18 @@ class ControleurProduit extends ControleurGenerique
     public static function afficherCatalogue(): void
     {
         $produits = (new ProduitRepository())->recuperer();
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "produit/catalogue.php",
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Affichage catalogue", "cheminVueBody" => "produit/catalogue.php",
             "produits" => $produits]);
     }
 
     public static function afficherCreationProduit(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/formulaireCreerProduit.php"]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Création produit", "cheminVueBody" => "utilisateur/admin/formulaireCreerProduit.php"]);
     }
 
     public static function afficherModificationProduit(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/formulaireMettreAJourProduit.php"]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Modifier produit", "cheminVueBody" => "utilisateur/admin/formulaireMettreAJourProduit.php"]);
     }
 
     public static function creerProduit(): void
@@ -125,7 +125,7 @@ class ControleurProduit extends ControleurGenerique
             }
 
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+            self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
         } catch (\Exception $e) {
             self::erreur($e->getMessage());
         }
@@ -254,7 +254,7 @@ class ControleurProduit extends ControleurGenerique
             }
         }
 
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/historique.php", "achats" => $achats]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Historique", "cheminVueBody" => "utilisateur/client/historique.php", "achats" => $achats]);
     }
 
     public static function afficherDetailAchat(): void {
@@ -268,7 +268,7 @@ class ControleurProduit extends ControleurGenerique
             }
         }
 
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat", "cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
     }
 
 }

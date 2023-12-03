@@ -9,11 +9,9 @@ use App\Magasin\Lib\VerificationEmail;
 use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
-use App\Magasin\Modeles\Repository\PanierRepository;
-use App\Magasin\Modeles\Repository\ProduitPanierRepository;
+use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
-use MongoDB\Driver\Exception\Exception;
 
 class ControleurUtilisateurGenerique extends ControleurGenerique
 {
@@ -88,7 +86,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function afficherComptes(): void
     {
         $comptes = (new UtilisateurRepository())->recuperer();
-        $i=0;
+        $i = 0;
         while (!$comptes[$i]->estAdmin()) {
             $i++;
         }
@@ -116,13 +114,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $email = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
 
-            /*
+
             if (!$email) {
                 (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
                 self::afficherInscription();
                 return;
             }
-            */
+
 
             if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
                 (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
@@ -137,12 +135,12 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             }
 
             $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
-            //$utilisateur->setEmailAValider($email);
-            //$utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+            $utilisateur->setEmailAValider($email);
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
 
             (new UtilisateurRepository())->sauvegarder($utilisateur);
 
-            //VerificationEmail::envoiEmailValidation($utilisateur);
+            VerificationEmail::envoiEmailValidation($utilisateur);
 
             (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
 
@@ -152,6 +150,11 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
             self::connexion();
         }
+    }
+
+    public static function validerEmail()
+    {
+        (new VerificationEmail())->validerEmail();
     }
 
 
@@ -170,12 +173,52 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         }
     }
 
+    public static function miseAJourParametres(): void
+    {
+        $mdpActuel = $_GET["mdpActuel"];
+        $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $repo = new UtilisateurRepository();
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = $repo->recupererParClePrimaire([$login])[0];
+        if (!MotDePasse::verifier($mdpActuel, $utilisateur->getMdpHache())) {
+            echo "mauvais mot de passe";
+            return;
+        };
+        // TODO: refactorer
+        if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
+            $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
+            $utilisateur->setMdpHache($nouveauMdp);
+        }
+        if (isset($_GET["nom"]) && $_GET["nom"] != "") {
+            $utilisateur->setNom($_GET["nom"]);
+        }
+        if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
+            $utilisateur->setPrenom($_GET["prenom"]);
+        }
+        $repo->mettreAJour($utilisateur);
+        if (isset($_GET["email"]) && $_GET["email"] != "") {
+            $repo->mettreAJourClePrimaire(["email" => $utilisateur->getEmail()], ["email" => $_GET["email"]]);
+            $utilisateur->setEmail($_GET["email"]);
+            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+            $utilisateur->setEmailAValider($_GET["email"]);
+            ConnexionUtilisateur::setLoginUtilisateurConnecte($_GET["email"]);
+            sleep(2);
+            $repo->sauvegarder($utilisateur);
+        }
+        self::afficherVue(
+            "vueGenerale.php",
+            ["login" => $login,
+                "cheminVueBody" => "utilisateur/parametres.php"]
+        );
+
+    }
+
+
     public static function deconnexion(): void
     {
         ConnexionUtilisateur::deconnecter();
         ControleurProduit::afficherCatalogue();
     }
-
 
 
 }

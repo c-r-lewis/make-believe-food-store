@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Magasin\Modeles\Repository;
+
+use App\Magasin\Controleurs\ControleurUtilisateurGenerique;
+use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Modeles\DataObject\AbstractDataObject as AbstractDataObject;
 use InvalidArgumentException;
 use PDOException;
@@ -59,23 +62,24 @@ abstract class AbstractRepository
         $pdoStatement->execute($values);
     }
 
-    public function getDerniereIdIncrementee(): int {
+    public function getDerniereIdIncrementee(): int
+    {
         return ConnexionBaseDeDonnee::getPdo()->lastInsertId();
     }
 
     public function sauvegarder(AbstractDataObject $object): bool
     {
         try {
-            $sql = "INSERT INTO " . $this -> getNomTable() . "(";
+            $sql = "INSERT INTO " . $this->getNomTable() . "(";
             $sqlTag = "";
-            $listeAttributs = $this -> getNomsColonnes();
-            for ($i=0; $i<sizeof($listeAttributs)-1; $i++) {
-                $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
+            $listeAttributs = $this->getNomsColonnes();
+            for ($i = 0; $i < sizeof($listeAttributs) - 1; $i++) {
                 $sql .= $listeAttributs[$i] . ", ";
+                $sqlTag .= ":" . $listeAttributs[$i] . "Tag, ";
             }
-            $sql .= $listeAttributs[sizeof($listeAttributs)-1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
+            $sql .= $listeAttributs[sizeof($listeAttributs) - 1] . ") VALUES (" . $sqlTag . ":" . $listeAttributs[$i] . "Tag)";
             $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-            $values = $object ->formatTableau();
+            $values = $object->formatTableau();
             $pdoStatement->execute($values);
         } catch (PDOException) {
             return false;
@@ -83,7 +87,7 @@ abstract class AbstractRepository
         return true;
     }
 
-    abstract protected function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
+    abstract protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject;
 
     public function recuperer(): array
     {
@@ -135,7 +139,8 @@ abstract class AbstractRepository
     }
 
 
-    public function clePrimaireExiste(array $clePrimaire): bool {
+    public function clePrimaireExiste(array $clePrimaire): bool
+    {
         $nomTable = $this->getNomTable();
         $nomsClePrimaire = $this->getClePrimaire();
 
@@ -157,5 +162,39 @@ abstract class AbstractRepository
         $pdoStatement->execute($values);
 
         return $pdoStatement->fetch() !== false;
+    }
+
+    public function mettreAJourClePrimaire(array $ancienneClePrimaire, array $nouvelleClePrimaire): bool
+    {
+        $tableauFusionne = array();
+        if (count($ancienneClePrimaire) != count($this->getClePrimaire())
+            || count($nouvelleClePrimaire) != count($this->getClePrimaire())) {
+            (new MessageFlash())->ajouter("warning", "jsp on verra plus tard");
+            header("Refresh:0");
+            return false;
+        }
+
+        foreach ($this->getClePrimaire() as $clePrimaire) {
+            $tableauFusionne[$clePrimaire . "TagOld"] = $ancienneClePrimaire[$clePrimaire];
+            $tableauFusionne[$clePrimaire . "TagNew"] = $nouvelleClePrimaire[$clePrimaire];
+        }
+
+        $sql = "UPDATE " . $this::getNomTable() . " SET ";
+        $listeClesPrimaires = $this->getClePrimaire();
+
+        for ($i = 0; $i < count($listeClesPrimaires); $i++) {
+            $sql .= $listeClesPrimaires[$i] . " = :" . $listeClesPrimaires[$i] . "TagNew, ";
+        }
+        $sql = rtrim($sql, ', ');
+
+        $sql .= " WHERE ";
+        foreach ($this->getClePrimaire() as $clePrimaire) {
+            $sql .= $clePrimaire . " = :" . $clePrimaire . "TagOld AND ";
+        }
+
+        $sql = rtrim($sql, 'AND ');
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $pdoStatement->execute($tableauFusionne);
+        return true;
     }
 }
