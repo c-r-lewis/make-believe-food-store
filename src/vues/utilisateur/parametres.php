@@ -6,46 +6,116 @@ use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
 use App\Magasin\Lib\MotDePasse;
 use App\Magasin\Lib\VerificationEmail;
-use \App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
-use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
+use App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
+use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
 
-/** @var Utilisateur $utilisateur */
+/** @var string $login */
 ?>
-<section>
-    <div>
-        <div style="display: flex; justify-content: space-between">
-            <p>Paramètres</p>
-            <?php
-            if (!ConnexionUtilisateur::estAdmin()) {
-                echo '<img src="../../../ressources/images/logo-supprimer.png" style="height: 40px; width: 40px"/>';
-            }
-            ?>
 
-        </div>
-        <form method="get" action="../web/controleurFrontal.php">
-            <div class="block-connexion">
-                <label for="mpdActuel">Mot de passe</label><br>
-                <input type="password" id="mpdActuel" name="mdpActuel" required><br>
-                <div style="margin-right: 15px">
-                    <label for="nom">Nom</label><br>
-                    <input type="text" id="nom" name="nom" placeholder="<?= $utilisateur->getNom() ?>"><br>
-                </div>
-                <div>
-                    <label for="prenom">Prenom</label><br>
-                    <input type="text" id="prenom" name="prenom" placeholder="<?= $utilisateur->getPrenom() ?>"><br>
-                </div>
+<main class="py-6 bg-surface-secondary">
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-xl-7 mx-auto">
+                <form method="get" action="../web/controleurFrontal.php" class="mb-6">
+                    <?php
+                    $utilisateur = (new UtilisateurRepository)->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+                    $utilisateur->setEmailAValider($utilisateur->getEmail());
+                    $email = $utilisateur->getEmail();
+
+                    if (!$email) {
+                        (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                        (new ControleurUtilisateurGenerique())->afficherParametres();
+                        return;
+                    }
+
+                    if ((new UtilisateurRepository())->clePrimaireExiste([$email])) {
+                        (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
+                        (new ControleurProduit())->afficherCatalogue();
+                        return;
+                    }
+
+                    if ($_GET["mdp"] != $_GET["mdp2"]) {
+                        (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
+                        (new ControleurProduit())->afficherCatalogue();
+                        return;
+                    }
+
+                    $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
+                    $utilisateur->setEmailAValider($email);
+                    $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
+
+                    (new UtilisateurRepository())->sauvegarder($utilisateur);
+
+                    VerificationEmail::envoiEmailValidation($utilisateur);
+
+                    (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
+                    (new ControleurProduit())->afficherCatalogue();
+                    ?>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-label" for="name">Nom</label>
+                                <input type="text" id="name" name="nom" class="form-control" value="<?= htmlspecialchars($utilisateur->getNom(), ENT_QUOTES, 'UTF-8') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="">
+                                <label class="form-label" for="first_name">Prénom</label>
+                                <input type="text" class="form-control" name="prenom" id="first_name" value="<?= htmlspecialchars($utilisateur->getPrenom(), ENT_QUOTES, 'UTF-8') ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-12">
+                            <div>
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" name="email" class="form-control" id="email" value="<?= htmlspecialchars($utilisateur->getEmail(), ENT_QUOTES, 'UTF-8')?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div >
+                            <label class="form-label" for="mdp">Mot de passe actuel</label>
+                            <input type="text" class="form-control" id="mdp" name="mdpActuel" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" for="mdp2">Nouveau mot de passe</label>
+                        <input type="text" class="form-control" id="mdp2" name="mdpNouveau">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" for="mdp3">Confirmation mot de passe</label>
+                        <input type="text" class="form-control" id="mdp3" name="mdpNouveau2">
+                    </div>
+                    <div class="text-end mt-2">
+                        <button type="button" class="btn btn-sm btn-neutral me-2">Annuler</button>
+                        <button type="submit" class="btn btn-sm btn-primary" value="Sauvegarder">Enregistrer</button>
+                    </div>
+                    <input type="hidden" name="action" value="miseAJourParametres">
+                    <input type="hidden" name="controleur" value="utilisateurGenerique">
+                </form>
+                <hr class="my-10"/>
+                <?php
+                if (!ConnexionUtilisateur::estAdmin()) {
+                    echo '
+                    <div class="col-md-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div>
+                                <h5 class="text-danger mb-2">Supprimer son compte</h5>
+                                <p class="text-sm text-muted">
+                                    Attention, une fois que vous supprimez votre compte il n\'y a pas de retour en arrière possible
+                                </p>
+                            </div>
+                            <div class="ms-auto">
+                                <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+                }
+                ?>
             </div>
-            <label for="email">Email</label><br>
-            <input type="text" id="email" name="email" placeholder="<?= $utilisateur->getEmail() ?>"><br>
-
-            <label for="mdpNouveau">Nouveau mot de passe</label><br>
-            <input type="password" id="mdpNouveau" name="mdpNouveau"><br>
-            <label for="mdpNouveau2">Confirmation mot de passe</label><br>
-            <input type="password" id="mdpNouveau2" name="mdpNouveau2"><br>
-            <input type="hidden" name="action" value="miseAJourParametres"><br>
-            <input type="hidden" name="controleur" value="utilisateurGenerique"><br>
-            <input class="button" type="submit" value="Sauvegarder"><br>
-
-        </form>
+        </div>
     </div>
-</section>
+</main>

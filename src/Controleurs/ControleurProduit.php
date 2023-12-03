@@ -152,6 +152,7 @@ class ControleurProduit extends ControleurGenerique
             self::erreur("Vous ne pouvez pas supprimer un produit qui n'existe pas");
         } else {
             Panier::supprimerItem((int)$_GET["idProduit"]);
+            (new MessageFlash())->ajouter("success","Le produit a bien été supprimé du panier !");
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
         }
     }

@@ -1,0 +1,103 @@
+:root {
+    --offcanvas-width: 230px;
+    --header-height: 4.45rem;
+}
+
+body {
+    height: fit-content;
+    display: flex;
+    width: 100dvw;
+}
+
+.sidebar-nav {
+    width: var(--offcanvas-width);
+    background-color: #242B3D;
+    height: 100dvh;
+}
+
+li:hover {
+    background-color: #C6C6C6;
+}
+
+li:hover span {
+    color: black;
+}
+
+li:hover .icon {
+    filter: invert(10%) sepia(7%) saturate(1239%) hue-rotate(169deg) brightness(96%) contrast(88%);
+}
+
+header, .card-header {
+    background-color: #B997DF;
+}
+
+nav, .filler, .login-btn {
+    background-color: #242B3D;
+}
+
+.data-entry {
+    height: 100%;
+    background-color: white;
+}
+
+main {
+    min-width: 100dvw;
+    position: relative;
+    top: var(--header-height);
+    background-color: #F3F4F9;
+    min-height: calc(100dvh - var(--header-height));
+}
+
+.flash-message {
+    top: var(--header-height);
+    position: fixed;
+    z-index: 1000;
+    width: 100dvw;
+}
+
+.product-tab {
+    margin-top: 1rem;
+}
+
+.white-divider {
+    border-color: white;
+}
+
+.icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(130deg) brightness(110%) contrast(101%);
+    height: 50px;
+}
+
+nav {
+    height: 100%;
+    max-width: var(--offcanvas-width);
+}
+
+
+@media (width >= 992px) {
+    .offcanvas-backdrop {
+        display: none !important;
+    }
+
+    .flash-message {
+        left: var(--offcanvas-width);
+    }
+
+    .sidebar-nav{
+        visibility: visible !important;
+        transform: none;
+        top: var(--header-height);
+        height: calc(100% - var(--header-height));
+        max-width: var(--offcanvas-width);
+        position: relative;
+    }
+
+    main {
+        margin-left: var(--offcanvas-width);
+        min-width: calc(100dvw - var(--offcanvas-width));
+    }
+
+    .navbar-toggler-icon, .navbar-toggler {
+        opacity: 0;
+    }
+}
