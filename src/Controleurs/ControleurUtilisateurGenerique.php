@@ -55,7 +55,14 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                     $totalPrix += $produit->getPrixProduit()*$quantite;
                 }
             }
-            self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/client/panier.php", "produits" => $produits, "prixTotal" => $totalPrix]);
+            self::afficherVue(
+                "vueGenerale.php",
+                [
+                    "cheminVueBody" => "utilisateur/client/panier.php",
+                    "produits" => $produits, "prixTotal" => $totalPrix,
+                    "pagetitle" => "Votre panier"
+                ]
+            );
         } catch (Exception $e) {
             self::erreur("Une erreur est survenue lors de l'affichage du panier : " . $e->getMessage());
         }
@@ -74,7 +81,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 "vueGenerale.php",
                 [
                     "cheminVueBody" => "utilisateur/parametres.php",
-                    "utilisateur" => (new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0]
+                    "utilisateur" => (new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0],
+                    "pagetitle"=>"Changer vos informations"
                 ]
             );
         }
