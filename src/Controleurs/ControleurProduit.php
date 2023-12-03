@@ -2,10 +2,16 @@
 
 namespace App\Magasin\Controleurs;
 
+use App\Magasin\Lib\ConnexionUtilisateur;
+use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
+use App\Magasin\Modeles\Repository\AchatRepository;
+use App\Magasin\Modeles\Repository\ImageRepository;
+use App\Magasin\Modeles\Repository\ProduitAchatRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
 use App\Magasin\Lib\MessageFlash;
+use Exception;
 
 class ControleurProduit extends ControleurGenerique
 {
@@ -55,7 +61,7 @@ class ControleurProduit extends ControleurGenerique
                 if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
                     $imagePath = self::deplacerImageProduit($_FILES['images'], $idProduit);
                     $image = new Image($idProduit, $imagePath);
-                    (new ImageRepository())->sauvegarder($image);
+                    (new ImageRepository())->sauvegarder(new Image($image));
                 }
 
 

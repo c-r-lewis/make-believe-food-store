@@ -42,6 +42,18 @@ class ProduitPanier extends Panier {
         $this->idPanier = $idPanier;
     }
 
+    public function getQuantite(): int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): void
+    {
+        $this->quantite = $quantite;
+    }
+
+
+
     public function formatTableau()
     {
         return ["idPanierTag"=>$this->idPanier,
