@@ -5,6 +5,7 @@
             use App\Magasin\Modeles\DataObject\Image;
             use App\Magasin\Modeles\DataObject\Produit;
             use App\Magasin\Modeles\Repository\ImageRepository;
+            use App\Magasin\Modeles\Repository\ProduitRepository;
 
             /** @var array $produits */
             /** @var Image $image */
@@ -13,12 +14,7 @@
             $action = "afficherDetailProduit";
 
             foreach ($produits as $produit):
-                $repo = new ImageRepository();
-                $cheminImage = "../ressources/images/placeholder.png";
-                if (count($repo->recupererParClePrimaire([$produit->getIdProduit()])) != 0) {
-                    $image = $repo->recupererParClePrimaire([$produit->getIdProduit()])[0];
-                    $cheminImage = $image->getImage();
-                }
+                $cheminImage = (new ProduitRepository())->getImageProduit($produit);
                 ?>
             <div class="col-md-3 mb-3">
                 <div class="card shadow text-center">

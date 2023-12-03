@@ -1,12 +1,17 @@
 <?php
 use App\Magasin\Modeles\DataObject\Produit as Produit;
+use App\Magasin\Modeles\Repository\ProduitRepository;
+
 /** @var Produit $produit */
 ?>
 <main class="d-flex align-items-start p-3 justify-content-end">
     <div class="container-fluid">
         <div class="row product-tab">
             <div class="col-lg-5 col-md-12 main-image d-flex justify-content-md-center">
-                <img src="https://picsum.photos/700" class="img-fluid"/>
+                <?php
+                    $cheminImage = (new ProduitRepository())->getImageProduit($produit);
+                ?>
+                <img src="<?=$cheminImage?>" class="img-fluid"/>
             </div>
             <div class="col-lg-7 col-md-12 d-flex flex-column justify-content-md-center justify-content-lg-start">
                 <span class="mb-lg-5 fs-1 d-flex justify-content-md-center justify-content-lg-start"><?php echo htmlspecialchars($produit->getNomProduit()); ?></span>
