@@ -1,13 +1,8 @@
 <?php
 
-use App\Magasin\Controleurs\ControleurProduit;
-use App\Magasin\Controleurs\ControleurUtilisateurGenerique;
 use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
-use App\Magasin\Lib\MessageFlash;
-use App\Magasin\Lib\MotDePasse;
-use App\Magasin\Lib\VerificationEmail;
-use App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
-use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
+use \App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
+use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
 
 /** @var string $login */
 /** @var Utilisateur $utilisateur */

@@ -2,16 +2,9 @@
 
 namespace App\Magasin\Controleurs;
 
-use App\Magasin\Lib\ConnexionUtilisateur;
-use App\Magasin\Lib\MessageFlash;
-use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
-use App\Magasin\Modeles\Repository\AchatRepository;
-use App\Magasin\Modeles\Repository\ImageRepository;
-use App\Magasin\Modeles\Repository\ProduitAchatRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
-use Exception;
 
 class ControleurProduit extends ControleurGenerique
 {

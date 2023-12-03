@@ -36,13 +36,13 @@
 <div class="offcanvas sidebar-nav" tabindex="-1" id="sidebar-nav">
     <div class="offcanvas-body p-0">
         <nav>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ">
             <?php
             if (ConnexionUtilisateur::estConnecte()) {
                 echo '<li class="nav-item">
                     <a class="nav-link px-3 my-3 text-white" href="controleurFrontal.php?action=afficherParametres&controleur=utilisateurGenerique">
                         <span class="me-2">
-                            <img src="person-circle.svg" class="icon" alt="Utilisateur">
+                            <img src="../ressources/images/logo-utilisateur.png" class="icon" alt="Utilisateur">
                         </span>
                         <span>
                             Utilisateur
@@ -50,16 +50,16 @@
                     </a>
                 </li>
                 <li>
-                    <hr class="dropdown-divider mt-0 mb-0 white-divider"/>
+                    <hr class="dropdown-divider mt-0 mb-0 text-white"/>
                 </li>';
             }
 
             /** @var array $onglets */
-            foreach($onglets as $onglet => $lien) {
+            foreach($onglets[0] as $onglet => $lien) {
                 echo '<li class="nav-item">
                     <a class="nav-link px-3 p-3 text-white" href="'.$lien .'">
                         <span class="me-2">
-                            <img src="catalogue.png" alt="' . $onglet. '" class="icon">
+                            <img src="../ressources/images/'.$onglets[1][$onglet].'" alt="' . $onglet. '" class="icon">
                         </span>
                         <span>
                             ' . $onglet. '
