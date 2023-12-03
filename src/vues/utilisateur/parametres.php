@@ -10,6 +10,7 @@ use App\Magasin\Modeles\DataObject\Utilisateur as Utilisateur;
 use App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurRepository;
 
 /** @var string $login */
+/** @var Utilisateur $utilisateur */
 ?>
 
 <main class="py-6 bg-surface-secondary">
