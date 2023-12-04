@@ -132,7 +132,13 @@ class ControleurProduit extends ControleurGenerique
             }
 
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
-            self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+
+            if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdmin()) {
+                self::afficherModificationProduit();
+            }
+            else {
+                self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+            }
         } catch (\Exception $e) {
             (new MessageFlash())->ajouter("danger", "Erreur lors de l'affichage des détails d'un produit");
             (new ControleurProduit())->afficherCatalogue();
@@ -276,16 +282,22 @@ class ControleurProduit extends ControleurGenerique
 
     public static function afficherDetailAchat(): void {
         $idAchat = $_POST["idAchat"];
-        $ToutProduitAchat = (new ProduitAchatRepository())->recuperer();
+        $toutProduitAchat = (new ProduitAchatRepository())->recuperer();
 
         $produitAchat = [];
-        foreach ($ToutProduitAchat as $produit) {
+        $prixTotalAchats = 0;
+
+        foreach ($toutProduitAchat as $produit) {
             if ($produit->getIdAchat()==$idAchat) {
                 $produitAchat[] = $produit;
+                $prixTotalAchats += $produit ->getPrixProduitUnitaire()*$produit->getQuantite();
             }
         }
 
-        self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat", "cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat",
+            "cheminVueBody" => "utilisateur/client/detailAchat.php",
+            "produits" => $produitAchat,
+            "prixTotalAchats" => $prixTotalAchats]);
     }
 
     public static function validerAchat(): void {

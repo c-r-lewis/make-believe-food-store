@@ -8,58 +8,64 @@
                             <?php
                             /** @var array $produits */
                             /** @var float $prixTotal */
-                            echo '
-                        <div class="row">
-                            <div class="col-lg-7">
-                            <h6 class="mb-3">
-                                <a href="controleurFrontal.php?action=afficherCatalogue" class="text-body">Continuer
-                                        vos achats
-                                </a>
-                            </h6>
-                            <hr>
-                                
-                           
+                            ?>
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <h6 class="mb-3">
+                                        <form action="../web/controleurFrontal.php" method="post">
+                                            <input type="hidden" name="action" value="afficherCatalogue">
+                                            <button type="submit" class="btn btn-link text-body">
+                                                Continuer vos achats
+                                            </button>
+                                        </form>
+                                    </h6>
+                                    <hr>
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <p class="mb-1">Panier</p>
-                                    <p class="mb-0">Vous avez <span>' . htmlspecialchars(sizeof($produits)) . '</span> objet(s) différent(s) dans votre panier</p>
+                                    <p class="mb-0">Vous avez <?=htmlspecialchars(sizeof($produits))?> objet(s) différent(s) dans votre panier</p>
                                 </div>
-                            </div>';
+                            </div>
 
-                            foreach ($produits as $item) {
-                                echo '
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div class="ms-3">
-                                                    <h5>' . htmlspecialchars($item["produit"]->getNomProduit()) . '</h5>
-                                                    <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">' . htmlspecialchars($item["produit"]->getDescriptionProduit()) . '</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <form action="../web/controleurFrontal.php" id="itemUpdate" class="d-flex flex-row align-items-center">
-                                                    <div class="me-4" style="width: 50px;">
-                                                        <input class="fw-normal" style="width: 60px" type="number" name="quantite" min="1" value="' . htmlspecialchars($item["quantite"]) . '" class="quantite" data-price="' . htmlspecialchars($item["produit"]->getPrixProduit()) . '" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
-                                                    </div>
-                                                    <div style="width: 80px;">
-                                                        <h5 class="mb-0" id="prixTotalItem">' . htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) . '€</h5>
-                                                    </div>
-                                                    <div>
-                                                        <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit=' . urlencode($item["produit"]->getIdProduit()) . '">
-                                                            <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px"/>
-                                                        </a>
-                                                    </div>
-                                                    <input type="hidden" name="action" value="modifierQuantitePanier">
-                                                    <input type="hidden" name="idProduit" value="' . urlencode($item["produit"]->getIdProduit()) . '">
-                                                </form>
+                            <?php
+                            foreach ($produits as $item):
+                            ?>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div class="ms-3">
+                                                <h5><?=htmlspecialchars($item["produit"]->getNomProduit())?></h5>
+                                                <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?=htmlspecialchars($item["produit"]->getDescriptionProduit())?></p>
                                             </div>
                                         </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <form action="../web/controleurFrontal.php" method="get" class="d-flex flex-row align-items-center">
+                                                <div class="me-4" style="width: 50px;">
+                                                    <input class="fw-normal quantite" style="width: 60px" type="number" name="quantite" min="1" value="<?= htmlspecialchars($item["quantite"]) ?>" data-price="<?= htmlspecialchars($item["produit"]->getPrixProduit()) ?>" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
+                                                </div>
+                                                <div style="width: 80px;">
+                                                    <h5 class="mb-0" id="prixTotalItem"><?= htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) ?>€</h5>
+                                                </div>
+                                                <div>
+                                                    <form action="../web/controleurFrontal.php" method="get">
+                                                        <button type="submit" name="action" value="supprimerProduitDuPanier" style="border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
+                                                            <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px" />
+                                                        </button>
+                                                        <input type="hidden" name="idProduit" value="<?= urlencode($item["produit"]->getIdProduit()) ?>">
+                                                    </form>
+                                                </div>
+                                                <input type="hidden" name="action" value="modifierQuantitePanier">
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>';
-                            }
-                            echo '
-                        </div>
+                                </div>
+                            </div>
+                            <?php endforeach;?>
+
                             <div class="col-lg-5">
 
                                 <div class="card bg-primary text-white rounded-3">
@@ -115,14 +121,16 @@
 
                                             <div class="d-flex justify-content-between mb-4">
                                                 <p class="mb-2">Total</p>
-                                                <p class="mb-2">' . $prixTotal . '€</p>
+                                                <p class="mb-2"><?=$prixTotal?>€</p>
                                             </div>
                                    
                                             <button type="submit" class="btn btn-info btn-block btn-lg" name="action" value="validerAchat">
                                                 <span class="fs-6">Valider</span>
                                             </button>
                                         </form>
-                                    </div>'; ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

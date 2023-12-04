@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <div class="col-md-4 mt-2">
                             <button id="singlebutton" type="submit" name="action" class="btn btn-primary" value="modifierProduit">Valider</button>
-                            <input type="hidden" name="idProduit" value="<?php echo urlencode($_POST["idProduit"]); ?>"/>
+                            <input type="hidden" name="idProduit" value="<?= urlencode($_POST["idProduit"]); ?>"/>
                         </div>
                     </div>
                 </div>
