@@ -1,4 +1,5 @@
 <?php
+
 use App\Magasin\Modeles\DataObject\Produit as Produit;
 use App\Magasin\Modeles\Repository\ProduitRepository;
 
