@@ -64,12 +64,12 @@ class ControleurProduit extends ControleurGenerique
 
                 (new ProduitRepository())->sauvegarder($produit);
 
-                $idProduit = (new ProduitRepository())->getDerniereIdIncrementee();
+                $idProduit = $produit->getIdProduit();
 
                 if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
                     $imagePath = self::deplacerImageProduit($_FILES['images'], $idProduit);
                     $image = new Image($idProduit, $imagePath);
-                    (new ImageRepository())->sauvegarder(new Image($image));
+                    (new ImageRepository())->sauvegarder($image);
                 }
 
 
