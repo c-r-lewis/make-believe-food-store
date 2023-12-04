@@ -77,7 +77,7 @@ class ControleurProduit extends ControleurGenerique
                     (new ImageRepository())->sauvegarder($image);
                 }
 
-
+                (new MessageFlash())->ajouter("success", "Le produits a bien été crée !");
                 self::afficherCatalogue();
             }
         } catch (Exception $e) {
