@@ -16,21 +16,34 @@
     <div class="container-fluid">
         <?php
         use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+
+        // Set the default action and text
         $action = "afficherConnexion";
         $text = "Se connecter";
+
+        // Update action and text if the user is connected
         if (ConnexionUtilisateur::estConnecte()) {
             $action = "deconnexion";
             $text = "Se déconnecter";
         }
-        echo '
-        <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-nav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="text-end">
-            <a class="btn btn-outline-light" href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique">'.$text.'</a>
-        </div>';
         ?>
+
+        <form action="controleurFrontal.php" method="post" class="d-flex justify-content-between" style="width: 100%">
+            <input type="hidden" name="action" value="<?= $action ?>">
+            <input type="hidden" name="controleur" value="utilisateurGenerique">
+
+            <button type="submit" class="navbar-toggler navbar-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-outline-light">
+                    <?= $text ?>
+                </button>
+            </div>
+        </form>
     </div>
+
 </header>
 
 <div class="offcanvas sidebar-nav" tabindex="-1" id="sidebar-nav">
@@ -57,12 +70,12 @@
             /** @var array $onglets */
             foreach($onglets[0] as $onglet => $lien) {
                 echo '<li class="nav-item">
-                    <a class="nav-link px-3 p-3 text-white" href="'.$lien .'">
+                    <a class="nav-link px-3 p-3 text-white" href="'.$lien.'">
                         <span class="me-2">
-                            <img src="../ressources/images/'.$onglets[1][$onglet].'" alt="' . $onglet. '" class="icon">
+                            <img src="../ressources/images/'.$onglets[1][$onglet].'" alt="' .htmlspecialchars( $onglet). '" class="icon">
                         </span>
                         <span>
-                            ' . $onglet. '
+                            ' . htmlspecialchars($onglet). '
                         </span>
                     </a>
                 </li>';

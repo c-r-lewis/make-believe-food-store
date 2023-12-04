@@ -11,7 +11,7 @@ use App\Magasin\Modeles\Repository\ProduitRepository;
                 <?php
                     $cheminImage = (new ProduitRepository())->getImageProduit($produit);
                 ?>
-                <img src="<?=$cheminImage?>" class="img-fluid"/>
+                <img src="<?=urlencode($cheminImage)?>" class="img-fluid"/>
             </div>
             <div class="col-lg-7 col-md-12 d-flex flex-column justify-content-md-center justify-content-lg-start">
                 <span class="mb-lg-5 fs-1 d-flex justify-content-md-center justify-content-lg-start"><?php echo htmlspecialchars($produit->getNomProduit()); ?></span>
@@ -25,7 +25,7 @@ use App\Magasin\Modeles\Repository\ProduitRepository;
                             <input name="quantite" min="1" type="number" value="1" id="quantite" class="m-3 ms-0" style="width: 8rem">
                             <input type="submit" value="Ajouter au panier" class="btn btn-lg btn-outline-secondary m-3 ms-0">
                             <input type="hidden" name="action" value="ajouterProduitAuPanier">
-                            <input type="hidden" name="idProduit" value="<?php echo htmlspecialchars($produit->getIdProduit()); ?>">
+                            <input type="hidden" name="idProduit" value="<?php echo urlencode($produit->getIdProduit()); ?>">
                         </form>
                     </div>
                 </form>

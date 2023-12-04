@@ -22,7 +22,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <p class="mb-1">Panier</p>
-                                    <p class="mb-0">Vous avez <span>' . sizeof($produits) . '</span> objet(s) différent(s) dans votre panier</p>
+                                    <p class="mb-0">Vous avez <span>' . htmlspecialchars(sizeof($produits)) . '</span> objet(s) différent(s) dans votre panier</p>
                                 </div>
                             </div>';
 
@@ -34,7 +34,7 @@
                                             <div class="d-flex flex-row align-items-center">
                                                 <div class="ms-3">
                                                     <h5>' . htmlspecialchars($item["produit"]->getNomProduit()) . '</h5>
-                                                    <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">' . $item["produit"]->getDescriptionProduit() . '</p>
+                                                    <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">' . htmlspecialchars($item["produit"]->getDescriptionProduit()) . '</p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
@@ -46,12 +46,12 @@
                                                         <h5 class="mb-0" id="prixTotalItem">' . htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) . '€</h5>
                                                     </div>
                                                     <div>
-                                                        <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit=' . htmlspecialchars($item["produit"]->getIdProduit()) . '">
+                                                        <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit=' . urlencode($item["produit"]->getIdProduit()) . '">
                                                             <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px"/>
                                                         </a>
                                                     </div>
                                                     <input type="hidden" name="action" value="modifierQuantitePanier">
-                                                    <input type="hidden" name="idProduit" value="' . htmlspecialchars($item["produit"]->getIdProduit()) . '">
+                                                    <input type="hidden" name="idProduit" value="' . urlencode($item["produit"]->getIdProduit()) . '">
                                                 </form>
                                             </div>
                                         </div>

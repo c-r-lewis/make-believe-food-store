@@ -14,7 +14,7 @@
 
                 foreach ($achats as $achat) {
                     echo '<tr>';
-                    echo '<td class="text-muted"><a style="color: black; text-decoration: none;" href="controleurFrontal.php?action=afficherDetailAchat&idAchat=' . $achat->getIdAchat() . '">' . htmlspecialchars($achat->getDate()) . '</a></td>';
+                    echo '<td class="text-muted"><a style="color: black; text-decoration: none;" href="controleurFrontal.php?action=afficherDetailAchat&idAchat=' . urlencode($achat->getIdAchat()) . '">' . urlencode($achat->getDate()) . '</a></td>';
                     echo '<td class="d-flex justify-content-end align-items-center">$52.9</td>';
                     echo '</tr>';
                 }

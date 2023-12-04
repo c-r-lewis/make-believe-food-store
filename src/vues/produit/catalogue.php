@@ -23,7 +23,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
-                        <a href="controleurFrontal.php?action=<?php echo $action.'&'.'idProduit='.$produit->getIdProduit()?>" class="btn btn-outline-secondary">
+                        <a href="controleurFrontal.php?action=<?php echo urlencode($action).'&idProduit='.urlencode($produit->getIdProduit());?>" class="btn btn-outline-secondary">
                             Voir produit
                         </a>
                     </div>
