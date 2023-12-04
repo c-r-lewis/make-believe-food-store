@@ -69,35 +69,45 @@
                                         </div>
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
-                                                <input type="text" id="typeName"
+                                                <input type="text" id="nom"
                                                        class="form-control form-control-lg fs-6" placeholder="Nom" required/>
-                                                <label class="form-label" for="typeName">Nom</label>
+                                                <label class="form-label" for="nom">Nom</label>
                                             </div>
 
                                             <div class="form-outline form-white mb-4">
-                                                <input type="text" id="typeText"
+                                                <input type="text" id="num"
                                                        class="form-control form-control-lg fs-6"
                                                        placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required/>
-                                                <label class="form-label" for="typeText">Card Number</label>
+                                                <label class="form-label" for="num">Numéro de carte</label>
                                             </div>
 
                                             <div class="row mb-4">
                                                 <div class="col-md-6">
                                                     <div class="form-outline form-white">
-                                                        <input type="text" id="typeExp"
+                                                        <input type="text" id="expire"
                                                                class="form-control form-control-lg fs-6"
                                                                placeholder="MM/YYYY" size="7" id="exp" minlength="7"
                                                                maxlength="7" required/>
-                                                        <label class="form-label" for="typeExp">Expiration</label>
+                                                        <label class="form-label" for="expire">Expiration</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-outline form-white">
-                                                        <input type="password" id="typeText"
+                                                        <input type="password" id="cvv"
                                                                class="form-control form-control-lg fs-6"
                                                                placeholder="&#9679;&#9679;&#9679;" size="1"
                                                                minlength="3" maxlength="3" required/>
-                                                        <label class="form-label" for="typeText">Cvv</label>
+                                                        <label class="form-label" for="cvv">CVV</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-md-12">
+                                                    <div class="form-outline form-white">
+                                                        <input type="text" id="email"
+                                                               class="form-control form-control-lg fs-6"
+                                                               placeholder="exemple@gmail.com" required/>
+                                                        <label class="form-label" for="email">Email</label>
                                                     </div>
                                                 </div>
                                             </div>
