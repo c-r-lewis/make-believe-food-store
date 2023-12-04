@@ -17,7 +17,7 @@
                         <td class="text-muted"><?= htmlspecialchars($compte->getEmail())?></td>
                         <td class="d-flex justify-content-end align-items-center">
                             <form action="../web/controleurFrontal.php" method="post">
-                                <input type="hidden" name="controleur" value="produit">
+                                <input type="hidden" name="controleur" value="utilisateurGenerique">
                                 <input type="hidden" name="action" value="supprimerCompte">
                                 <input type="hidden" name="email" value="<?= urlencode($compte->getEmail()); ?>">
                                 <button class="btn btn-link" type="submit">
