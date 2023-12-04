@@ -19,12 +19,12 @@
             foreach ($produits as $produit) :?>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-5">
                         <span>
                             <?php echo htmlspecialchars($produit->getNomProduit());?>
                         </span>
                     </div>
-                    <div class="col-2">
+                    <div class="col-4">
                         <?php echo htmlspecialchars($produit->getQuantite()).' x '.htmlspecialchars($produit->getPrixProduitUnitaire()).' €'; ?>
                     </div>
                     <div class="col-3">
