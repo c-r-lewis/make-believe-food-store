@@ -61,7 +61,7 @@
                                                         </div>
                                                         <div style="width: 80px;">
                                                             <h5 class="mb-0"
-                                                                id="prixTotalItem"><?= htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) ?>
+                                                                id="prixTotalItem"><?=htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit())?>
                                                                 €</h5>
                                                         </div>
                                                         <div>
@@ -73,7 +73,7 @@
                                                         <input type="hidden" name="action"
                                                                value="modifierQuantitePanier">
                                                         <input type="hidden" name="idProduit"
-                                                               value="<?= htmlspecialchars($item["produit"]->getIdProduit()) ?>'">
+                                                               value="<?=htmlspecialchars($item["produit"]->getIdProduit())?>'">
                                                     </form>
                                                 </div>
                                             </div>
@@ -128,6 +128,7 @@
                                                 </div>
 
                                                 <?php
+                                                use App\Magasin\Lib\ConnexionUtilisateur;
                                                 if (!ConnexionUtilisateur::estConnecte()) {
                                                     echo '<div class="row mb-4">
                                                     <div class="col-md-12">
