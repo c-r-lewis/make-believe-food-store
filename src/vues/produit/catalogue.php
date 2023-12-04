@@ -18,7 +18,7 @@
                 ?>
             <div class="col-md-3 mb-3">
                 <div class="card shadow text-center">
-                    <div style="min-height:164.883px;" class="d-flex align-items-center">
+                    <div style="min-height:164.883px;" class="d-flex align-items-center rounded">
                         <img src="<?=$cheminImage?>" class="card-img-top"  alt="..." >
                     </div>
                     <div class="card-body">
