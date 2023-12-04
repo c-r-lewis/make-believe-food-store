@@ -97,7 +97,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function afficherInscription(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/inscription.php"]);
+        self::afficherVue(
+            "vueGenerale.php",
+            [
+                "cheminVueBody" => "utilisateur/inscription.php",
+                "pagetitle" => "Inscription"
+            ]
+        );
     }
 
     public static function afficherComptes(): void
@@ -109,7 +115,14 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         }
         unset($comptes[$i]);
 
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/admin/comptes.php", "comptes" => $comptes]);
+        self::afficherVue(
+            "vueGenerale.php",
+            [
+                "cheminVueBody" => "utilisateur/admin/comptes.php",
+                "comptes" => $comptes,
+                "pagetitle" => "Utilisateurs Inscrits"
+            ]
+        );
     }
 
     public static function supprimerCompte(): void
