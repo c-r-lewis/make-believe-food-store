@@ -161,18 +161,18 @@ class ControleurProduit extends ControleurGenerique
         } else if (!filter_var($_POST["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if ($_GET["quantite"] > 0) {
+        } else if ($_POST["quantite"] <= 0) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
             (new ControleurProduit())->afficherCatalogue();
         } else {
             if (!ConnexionUtilisateur::estConnecte()) {
-                (new Panier())->enregistrerDansPanierEnTantQueCookie($_GET["idProduit"], $_GET["quantite"]);
+                (new Panier())->enregistrerDansPanierEnTantQueCookie($_POST["idProduit"], $_POST["quantite"]);
             } else {
                 $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
-                if (!(new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $_GET["idProduit"]])) {
+                if (!(new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $_POST["idProduit"]])) {
                     (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
                 }
-                Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
+                Panier::ajouterItem($_POST["idProduit"], $_POST["quantite"]);
                 self::afficherCatalogue();
             }
         }
@@ -197,10 +197,10 @@ class ControleurProduit extends ControleurGenerique
         if (!(new ProduitRepository())->clePrimaireExiste([$_POST["idProduit"]])) {
             (new MessageFlash())->ajouter("warning", "Modifiez la quantité d'un produit qui est dans votre panier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
+        } else if (!filter_var($_POST["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if ($_GET["quantite"] > 0) {
+        } else if ($_POST["quantite"] <= 0) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
             (new ControleurProduit())->afficherCatalogue();
             return;

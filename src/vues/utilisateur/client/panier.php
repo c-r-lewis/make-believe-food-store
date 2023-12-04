@@ -47,18 +47,18 @@
                                             <div class="d-flex flex-row align-items-center">
                                                 <form action="../web/controleurFrontal.php" id="itemUpdate" class="d-flex flex-row align-items-center">
                                                     <div class="me-4" style="width: 50px;">
-                                                        <input class="fw-normal" style="width: 60px" type="number" name="quantite" min="1" value="' . htmlspecialchars($item["quantite"]) . '" class="quantite" data-price="' . htmlspecialchars($item["produit"]->getPrixProduit()) . '" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
+                                                        <input class="fw-normal" style="width: 60px" type="number" name="quantite" min="1" value="<?=htmlspecialchars($item["quantite"])?>" class="quantite" data-price="<?=htmlspecialchars($item["produit"]->getPrixProduit()) ?>" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
                                                     </div>
                                                     <div style="width: 80px;">
-                                                        <h5 class="mb-0" id="prixTotalItem">' . htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) . '€</h5>
+                                                        <h5 class="mb-0" id="prixTotalItem"><?=htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit())?>€</h5>
                                                     </div>
                                                     <div>
-                                                        <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit=' . htmlspecialchars($item["produit"]->getIdProduit()) . '">
+                                                        <a href="controleurFrontal.php?action=supprimerProduitDuPanier&idProduit='<?=htmlspecialchars($item["produit"]->getIdProduit())?>'">
                                                             <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px"/>
                                                         </a>
                                                     </div>
                                                     <input type="hidden" name="action" value="modifierQuantitePanier">
-                                                    <input type="hidden" name="idProduit" value="' . htmlspecialchars($item["produit"]->getIdProduit()) . '">
+                                                    <input type="hidden" name="idProduit" value="<?=htmlspecialchars($item["produit"]->getIdProduit())?>'">
                                                 </form>
                                             </div>
                                         </div>
