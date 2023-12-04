@@ -139,8 +139,7 @@ class ControleurProduit extends ControleurGenerique
         }
     }
 
-    public
-    static function ajouterProduitAuPanier(): void
+    public static function ajouterProduitAuPanier(): void
     {
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             (new MessageFlash())->ajouter("danger", "Ajoutez un produit qui existe dans votre panier");

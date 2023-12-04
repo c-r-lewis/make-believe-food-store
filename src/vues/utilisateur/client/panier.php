@@ -116,20 +116,20 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>';
-                                            }
+                                            }?>
 
-                                            echo'<hr class="my-4">
+                                            <hr class="my-4">
 
                                             <div class="d-flex justify-content-between mb-4">
                                                 <p class="mb-2">Total</p>
-                                                <p class="mb-2">' . $prixTotal . '€</p>
+                                                <p class="mb-2"> <?=$prixTotal?> €</p>
                                             </div>
                                    
                                             <button type="submit" class="btn btn-info btn-block btn-lg" name="action" value="validerAchat">
                                                 <span class="fs-6">Valider</span>
                                             </button>
                                         </form>
-                                    </div>'; ?>
+                                    </div>
                         </div>
                     </div>
                 </div>
