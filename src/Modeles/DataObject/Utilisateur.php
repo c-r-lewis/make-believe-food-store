@@ -14,9 +14,12 @@ class Utilisateur extends AbstractDataObject
     private string $mdpHache;
     private bool $estAdmin;
 
-    public function __construct(string $email, string $nom, string $prenom, string $mdpHache, string $nonce=null, bool $estAdmin = false) {
+    public function __construct(string $email, string $emailAValider="Nan", string $nom, string $prenom, string $mdpHache, string $nonce=null, bool $estAdmin = false) {
         $this->email = $email;
-        $this->emailAValider = $email;
+        if ($emailAValider == "Nan") {
+            $emailAValider = $email;
+        }
+        $this->emailAValider = $emailAValider;
         if ($nonce == null) {
             $nonce = MotDePasse::genererChaineAleatoire(16);
         }
@@ -32,6 +35,7 @@ class Utilisateur extends AbstractDataObject
         $mdpHache = MotDePasse::hacher($tableauFormulaire["mdp"]);
         return new Utilisateur(
             $tableauFormulaire["email"],
+            $tableauFormulaire["emailAValider"],
             $tableauFormulaire["nom"],
             $tableauFormulaire["prenom"],
             $mdpHache

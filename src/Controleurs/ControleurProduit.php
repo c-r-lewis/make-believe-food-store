@@ -4,10 +4,12 @@ namespace App\Magasin\Controleurs;
 
 use App\Magasin\Lib\ConnexionUtilisateur;
 use App\Magasin\Lib\MessageFlash;
+use App\Magasin\Lib\VerificationEmail;
 use App\Magasin\Modeles\DataObject\Achat;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\DataObject\ProduitAchat;
+use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
 use App\Magasin\Modeles\Repository\AchatRepository;
 use App\Magasin\Modeles\Repository\ImageRepository;
@@ -16,6 +18,7 @@ use App\Magasin\Modeles\Repository\ProduitAchatRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository as ProduitRepository;
 use App\Magasin\Modeles\DataObject\Panier as Panier;
+use App\Magasin\Modeles\Repository\UtilisateurRepository;
 use Exception;
 
 class ControleurProduit extends ControleurGenerique
@@ -144,16 +147,20 @@ class ControleurProduit extends ControleurGenerique
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             (new MessageFlash())->ajouter("danger", "Ajoutez un produit qui existe dans votre panier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
+        } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
         } else {
-            $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
-            if (!(new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $_GET["idProduit"]])) {
-                (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
+            if (!ConnexionUtilisateur::estConnecte()) {
+                (new Panier())->enregistrerDansPanierEnTantQueCookie($_GET["idProduit"], $_GET["quantite"]);
+            } else {
+                $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+                if (!(new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $_GET["idProduit"]])) {
+                    (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
+                }
+                Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
+                self::afficherCatalogue();
             }
-            Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
-            self::afficherCatalogue();
         }
     }
 
@@ -289,7 +296,14 @@ class ControleurProduit extends ControleurGenerique
 
     public static function validerAchat(): void {
         try {
+            $produitMail = [];
             if (ConnexionUtilisateur::estConnecte()) {
+                $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0];
+                if ($utilisateur->getEmailAValider() != null) {
+                    (new MessageFlash())->ajouter("warning","Veuillez valider votre email !");
+                    ControleurUtilisateurGenerique::afficherPanier();
+                    return;
+                }
                 $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
                 $panier = [];
 
@@ -319,15 +333,22 @@ class ControleurProduit extends ControleurGenerique
 
                         (new ProduitAchatRepository())->sauvegarder($produitAchat);
                         (new ProduitPanierRepository())->supprimerParAbstractDataObject($produitPanier);
+                        $produitMail[] = $produitAchat;
                     }
                 }
             } else {
                 if (Cookie::contient("panier")) {
                     $panier = Cookie::lire("panier");
+                    $idAchat = hexdec(uniqid());
                     if ($panier == null) {
                         (new MessageFlash())->ajouter("warning", "Votre panier est vide");
                         ControleurUtilisateurGenerique::afficherPanier();
                         return;
+                    }
+                    foreach ($panier as $idProduit => $quantite) {
+                        $produitInfo = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
+                        $produitAchat = new ProduitAchat($produitInfo->getidProduit(), $idAchat, $idProduit,$quantite, $produitInfo->getPrixProduit());
+                        $produitMail[] = $produitAchat;
                     }
                     Cookie::supprimer("panier");
                 } else {
@@ -336,11 +357,13 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
             }
-            (new MessageFlash())->ajouter("success", "Votre achat a été validé !");
-            self::afficherCatalogue();
+            VerificationEmail::envoiAchatConnecte($produitMail);
+            //(new MessageFlash())->ajouter("success", "Votre achat a été validé. Un email vous a été envoyé !");
+            //self::afficherCatalogue();
         } catch (Exception $e) {
-            (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");
-            (new ControleurProduit())->afficherCatalogue();
+            echo $e;
+            //(new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");
+            //(new ControleurProduit())->afficherCatalogue();
         }
     }
 }

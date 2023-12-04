@@ -78,20 +78,24 @@ class Panier extends AbstractDataObject {
         }
     }
 
-    private static function enregistrerDansPanierEnTantQueCookie(int $idProduit, int $quantite) : void {
+    public static function enregistrerDansPanierEnTantQueCookie(int $idProduit, int $quantite) : void {
         if (!Cookie::contient("panier")){
             $panier[$idProduit] = $quantite;
         }
         else {
             $panier = Cookie::lire("panier");
             if(array_key_exists($idProduit, $panier)) {
-                $panier[$idProduit] += $quantite;
+                (new MessageFlash())->ajouter("warning", "Ce produit est déja dans votre panier !");
+                (new ControleurProduit())->afficherCatalogue();
+                return;
             }
             else {
                 $panier[$idProduit] = $quantite;
             }
         }
         Cookie::enregistrer("panier", $panier);
+        (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
+        (new ControleurProduit())->afficherCatalogue();
     }
 
     public function formatTableau()

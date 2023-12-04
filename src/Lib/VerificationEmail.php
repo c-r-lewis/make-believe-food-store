@@ -18,6 +18,47 @@ class VerificationEmail
         self::envoyerEmail($utilisateur->getEmail(), "Validation de l'adresse email", $contenuEmail);
     }
 
+    public static function envoiAchatConnecte(array $produits): void
+    {
+        $URLAbsolue = "https://webinfo.iutmontp.univ-montp2.fr/~renautj/make-believe-food/web/controleurFrontal.php";
+
+        $contenuEmail = '<main class="d-flex justify-content-center align-items-center">';
+        $contenuEmail .= '<div class="card p-4" style="width: 25rem; height: fit-content">';
+        $contenuEmail .= '<div class="card-header">Détail de la commande</div>';
+        $contenuEmail .= '<ul class="list-group list-group-flush">';
+        $contenuEmail .= '<li class="list-group-item"><div class="row">';
+        $contenuEmail .= '<div class="col-6"><span>Date</span><br><span>' . date('d F Y') . '</span></div>';
+        $contenuEmail .= '<div class="col-6 d-flex flex-column align-items-end"><span>Commande N°</span><br>';
+        $contenuEmail .= '<span>' . uniqid() . '</span></div></div></li>';
+
+        foreach ($produits as $produit) {
+            $contenuEmail .= '<li class="list-group-item"><div class="row">';
+            $contenuEmail .= '<div class="col-5"><span>' . htmlspecialchars($produit->getNomProduit()) . '</span></div>';
+            $contenuEmail .= '<div class="col-4">' . htmlspecialchars($produit->getQuantite()) . ' x ' . htmlspecialchars($produit->getPrixProduitUnitaire()) . ' €</div>';
+            $contenuEmail .= '<div class="col-3"><span>' . htmlspecialchars($produit->getPrixProduitUnitaire() * $produit->getQuantite()) . ' €</span></div>';
+            $contenuEmail .= '</div></li>';
+        }
+
+        $contenuEmail .= '<li class="list-group-item"><div class="row">';
+        $contenuEmail .= '<div class="col-9"><span><strong>Total</strong></span></div>';
+        $contenuEmail .= '<span class="col-3"><strong>';
+
+        $prixTotalHistorique = array_reduce(
+            $produits,
+            function ($total, $produit) {
+                return $total + $produit->getPrixProduitUnitaire() * $produit->getQuantite();
+            },
+            0
+        );
+
+        $contenuEmail .= '<p>' . htmlspecialchars($prixTotalHistorique) . ' €</p></strong></span></div></li>';
+        $contenuEmail .= '</ul></div></main>';
+
+        $lienValidationEmail = "$URLAbsolue?action=afficherDetailProduit";
+        self::envoyerEmail(ConnexionUtilisateur::getLoginUtilisateurConnecte(), "Validation de l'achat", $contenuEmail);
+    }
+
+
     public static function traiterEmailValidation($login, $nonce): bool
     {
         $utilisateurRepository = new UtilisateurRepository();
@@ -55,8 +96,9 @@ class VerificationEmail
 
     private static function envoyerEmail($destinataire, $sujet, $contenuHTML): void
     {
-        $enTete = "MIME-Version: 1.0" . "\r\n";
-        $enTete .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $enTete = "MIME-Version: 1.0\r\n";
+        $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
+        //$enTete .= "From: votre_adresse_email@example.com\r\n";
 
         mail($destinataire, $sujet, $contenuHTML, $enTete);
     }
