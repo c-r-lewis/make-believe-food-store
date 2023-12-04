@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_name">NOM PRODUIT</label>
                     <div class="col-md-4">
-                        <input id="product_name" name="nomProduit" placeholder="<?=htmlspecialchars($produit->getNomProduit())?>" class="form-control input-md" required type="text">
+                        <input id="product_name" name="nomProduit" value="<?=htmlspecialchars($produit->getNomProduit())?>" class="form-control input-md" required type="text">
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="price">PRIX</label>
                     <div class="col-md-4">
-                        <input class="form-control" id="price" name="prixProduit" type="number" placeholder="<?= htmlspecialchars($produit->getPrixProduit())?>">
+                        <input class="form-control" id="price" name="prixProduit" type="number" value="<?=htmlspecialchars($produit->getPrixProduit())?>">
                     </div>
                 </div>
 
