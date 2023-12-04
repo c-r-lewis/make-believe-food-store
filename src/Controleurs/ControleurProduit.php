@@ -34,9 +34,9 @@ class ControleurProduit extends ControleurGenerique
         self::afficherVue("vueGenerale.php", ["pagetitle" => "Création produit", "cheminVueBody" => "utilisateur/admin/formulaireCreerProduit.php"]);
     }
 
-    public static function afficherModificationProduit(): void
+    public static function afficherModificationProduit(Produit $produit): void
     {
-        self::afficherVue("vueGenerale.php", ["pagetitle" => "Modifier produit", "cheminVueBody" => "utilisateur/admin/formulaireMettreAJourProduit.php"]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Modifier produit", "cheminVueBody" => "utilisateur/admin/formulaireMettreAJourProduit.php", "produit"=>$produit]);
     }
 
     public static function creerProduit(): void
@@ -142,7 +142,7 @@ class ControleurProduit extends ControleurGenerique
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
 
             if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdmin()) {
-                self::afficherModificationProduit();
+                self::afficherModificationProduit($produit);
             }
             else {
                 self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
