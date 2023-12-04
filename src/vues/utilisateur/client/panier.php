@@ -26,64 +26,82 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <p class="mb-1">Panier</p>
-                                    <p class="mb-0">Vous avez <?=htmlspecialchars(sizeof($produits))?> objet(s) différent(s) dans votre panier</p>
+                                    <p class="mb-0">Vous avez <?= htmlspecialchars(sizeof($produits)) ?> objet(s)
+                                        différent(s) dans votre panier</p>
                                 </div>
                             </div>
 
                             <?php
                             foreach ($produits as $item):
-                            ?>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex flex-row align-items-center">
-                                            <div class="ms-3">
-                                                <h5><?=htmlspecialchars($item["produit"]->getNomProduit())?></h5>
-                                                <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?=htmlspecialchars($item["produit"]->getDescriptionProduit())?></p>
+                                ?>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div class="ms-3">
+                                                    <h5><?= htmlspecialchars($item["produit"]->getNomProduit()) ?></h5>
+                                                    <p class="small mb-0"
+                                                       style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?= htmlspecialchars($item["produit"]->getDescriptionProduit()) ?></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="d-flex flex-row align-items-center">
-                                            <form action="../web/controleurFrontal.php" method="get" class="d-flex flex-row align-items-center">
+                                            <div class="d-flex flex-row align-items-center">
                                                 <div class="me-4" style="width: 50px;">
-                                                    <input class="fw-normal quantite" style="width: 60px" type="number" name="quantite" min="1" value="<?= htmlspecialchars($item["quantite"]) ?>" data-price="<?= htmlspecialchars($item["produit"]->getPrixProduit()) ?>" oninput="mettreAJourPrixTotal(this)" onchange="this.form.submit()">
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0" id="prixTotalItem"><?= htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) ?>€</h5>
-                                                </div>
-                                                <div>
-                                                    <form action="../web/controleurFrontal.php" method="get">
-                                                        <button type="submit" name="action" value="supprimerProduitDuPanier" style="border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
-                                                            <img src="../../../../ressources/images/logo-fermer.png" alt="Supprimer" style="width: 30px" />
-                                                        </button>
-                                                        <input type="hidden" name="idProduit" value="<?= urlencode($item["produit"]->getIdProduit()) ?>">
+                                                    <form action="../web/controleurFrontal.php" method="post"
+                                                          class="d-flex flex-row align-items-center">
+                                                        <input class="fw-normal quantite" style="width: 60px"
+                                                               type="number" name="quantite" min="1"
+                                                               value="<?=htmlspecialchars($item["quantite"])?>"
+                                                               data-price="<?= htmlspecialchars($item["produit"]->getPrixProduit()) ?>"
+                                                               oninput="mettreAJourPrixTotal(this)"
+                                                               onchange="this.form.submit()">
+                                                        <input type="hidden" name="action" value="modifierQuantitePanier">
+                                                        <input type="hidden" name="idProduit" value="<?=$item["produit"]->getIdProduit()?>">
                                                     </form>
                                                 </div>
-                                                <input type="hidden" name="action" value="modifierQuantitePanier">
-                                            </form>
+                                                <div style="width: 80px;">
+                                                    <h5 class="mb-0"
+                                                        id="prixTotalItem"><?= htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) ?>
+                                                        €</h5>
+                                                </div>
+                                                <div>
+                                                    <form action="../web/controleurFrontal.php" method="post">
+                                                        <button type="submit" name="action"
+                                                                value="supprimerProduitDuPanier"
+                                                                style="border: none; background: none; padding: 0; margin: 0; cursor: pointer;">
+                                                            <img src="../../../../ressources/images/logo-fermer.png"
+                                                                 alt="Supprimer" style="width: 30px"/>
+                                                        </button>
+                                                        <input type="hidden" name="idProduit"
+                                                               value="<?= urlencode($item["produit"]->getIdProduit()) ?>">
+                                                    </form>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <?php endforeach;?>
+                            <?php endforeach; ?>
 
                             <div class="col-lg-5">
 
                                 <div class="card bg-primary text-white rounded-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <h5 class="mb-6">Détails d\'achat</h5>
+                                            <h5 class="mb-6">Détails d'achat</h5>
                                         </div>
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="nom"
-                                                       class="form-control form-control-lg fs-6" placeholder="Nom" required/>
+                                                       class="form-control form-control-lg fs-6" placeholder="Nom"
+                                                       required/>
                                                 <label class="form-label" for="nom">Nom</label>
                                             </div>
 
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="num"
                                                        class="form-control form-control-lg fs-6"
-                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required/>
+                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"
+                                                       required/>
                                                 <label class="form-label" for="num">Numéro de carte</label>
                                             </div>
 
@@ -121,10 +139,11 @@
 
                                             <div class="d-flex justify-content-between mb-4">
                                                 <p class="mb-2">Total</p>
-                                                <p class="mb-2"><?=$prixTotal?>€</p>
+                                                <p class="mb-2"><?= $prixTotal ?>€</p>
                                             </div>
-                                   
-                                            <button type="submit" class="btn btn-info btn-block btn-lg" name="action" value="validerAchat">
+
+                                            <button type="submit" class="btn btn-info btn-block btn-lg" name="action"
+                                                    value="validerAchat">
                                                 <span class="fs-6">Valider</span>
                                             </button>
                                         </form>
