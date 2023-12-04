@@ -13,15 +13,10 @@
                 /** @var array $achats */
 
                 foreach ($achats as $achat) {
-                    echo '
-                <a href="controleurFrontal.php?action=afficherDetailAchat&idAchat='.$achat->getIdAchat().'">
-                    <tr>
-                        <td class="text-muted">'.htmlspecialchars($achat->getDate()).'</td>
-                        <td class="d-flex justify-content-end align-items-center">
-                            $52.9
-                        </td>
-                    </tr>
-                </a>';
+                    echo '<tr>';
+                    echo '<td class="text-muted"><a href="controleurFrontal.php?action=afficherDetailAchat&idAchat=' . $achat->getIdAchat() . '">' . htmlspecialchars($achat->getDate()) . '</a></td>';
+                    echo '<td class="d-flex justify-content-end align-items-center">$52.9</td>';
+                    echo '</tr>';
                 }
                 ?>
                 </tbody>
