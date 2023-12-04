@@ -19,10 +19,13 @@
             <div class="col-md-3 mb-3">
                 <div class="card shadow text-center">
                     <div style="min-height:164.883px;" class="d-flex align-items-center rounded">
-                        <img src="<?=$cheminImage?>" class="card-img-top"  alt="..." >
+                        <img src="<?=urlencode($cheminImage)?>" class="card-img-top"  alt="..." >
                     </div>
                     <div class="card-body">
                         <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
+                        <form>
+
+                        </form>
                         <a href="controleurFrontal.php?action=<?php echo urlencode($action).'&idProduit='.urlencode($produit->getIdProduit());?>" class="btn btn-outline-secondary">
                             Voir produit
                         </a>
