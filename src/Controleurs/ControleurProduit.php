@@ -9,7 +9,6 @@ use App\Magasin\Modeles\DataObject\Achat;
 use App\Magasin\Modeles\DataObject\Image;
 use App\Magasin\Modeles\DataObject\Produit;
 use App\Magasin\Modeles\DataObject\ProduitAchat;
-use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
 use App\Magasin\Modeles\Repository\AchatRepository;
 use App\Magasin\Modeles\Repository\ImageRepository;
