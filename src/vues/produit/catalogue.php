@@ -11,21 +11,24 @@
             /** @var Image $image */
             /** @var Produit $produit */
 
-            $action = "afficherDetailProduit";
 
             foreach ($produits as $produit):
                 $cheminImage = (new ProduitRepository())->getImageProduit($produit);
-                ?>
+            ?>
             <div class="col-md-3 mb-3">
                 <div class="card shadow text-center">
                     <div style="min-height:164.883px;" class="d-flex align-items-center rounded">
-                        <img src="<?=$cheminImage?>" class="card-img-top"  alt="..." >
+                        <img src="<?=urlencode($cheminImage)?>" class="card-img-top"  alt="..." >
                     </div>
                     <div class="card-body">
                         <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
-                        <a href="controleurFrontal.php?action=<?php echo $action.'&'.'idProduit='.$produit->getIdProduit()?>" class="btn btn-outline-secondary">
-                            Voir produit
-                        </a>
+                        <form action="../web/controleurFrontal.php" method="post">
+                            <input type="hidden" name="action" value="afficherDetailProduit">
+                            <input type="hidden" name="idProduit" value="<?=urlencode($produit->getIdProduit());?>">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                Voir produit
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

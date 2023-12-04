@@ -1,3 +1,7 @@
+<?php
+/** @var array $produits */
+/** @var float $prixTotalAchats */
+?>
 <main class="d-flex justify-content-center align-items-center">
     <div class="card p-4" style="width: 25rem; height: fit-content">
         <div class="card-header">Détail de la commande</div>
@@ -10,12 +14,11 @@
                     </div>
                     <div class="col-6 d-flex flex-column align-items-end">
                         <span>Commande N°</span><br>
-                        <span>012j1gvs356c</span>
+                        <span><?= $produits[0]->getIdAchat()?></span>
                     </div>
                 </div>
             </li>
             <?php
-            /** @var array $produits */
             foreach ($produits as $produit) :?>
             <li class="list-group-item">
                 <div class="row">
@@ -42,18 +45,11 @@
                     </div>
                     <span class="col-3">
                         <strong>
-                            <?php
-                            $prixTotalHistorique = 0;
-                            foreach ($produits as $produit) {
-                                $prixTotalHistorique += $produit->getPrixProduitUnitaire()*$produit->getQuantite();
-                            }
-                            echo '<p>'.htmlspecialchars($prixTotalHistorique).' €</p>';
-                            ?>
+                            <?=$prixTotalAchats?>€
                         </strong>
                     </span>
                 </div>
             </li>
         </ul>
-
     </div>
 </main>

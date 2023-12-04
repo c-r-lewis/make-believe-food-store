@@ -129,19 +129,25 @@ class ControleurProduit extends ControleurGenerique
     public static function afficherDetailProduit(): void
     {
         try {
-            if (empty($_GET["idProduit"])) {
+            if (empty($_POST["idProduit"])) {
                 (new MessageFlash())->ajouter("danger", "L'identifiant du produit est manquant.");
                 (new ControleurProduit())->afficherCatalogue();
             }
 
-            $idProduit = $_GET["idProduit"];
+            $idProduit = $_POST["idProduit"];
             if (!(new ProduitRepository())->clePrimaireExiste([$idProduit])) {
                 (new MessageFlash())->ajouter("danger", "Ce produit n'existe pas.");
                 (new ControleurProduit())->afficherCatalogue();
             }
 
             $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
-            self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+
+            if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdmin()) {
+                self::afficherModificationProduit();
+            }
+            else {
+                self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail produit", "cheminVueBody" => "produit/detail.php", "produit" => $produit]);
+            }
         } catch (\Exception $e) {
             (new MessageFlash())->ajouter("danger", "Erreur lors de l'affichage des détails d'un produit");
             (new ControleurProduit())->afficherCatalogue();
@@ -150,10 +156,10 @@ class ControleurProduit extends ControleurGenerique
 
     public static function ajouterProduitAuPanier(): void
     {
-        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_POST["idProduit"]])) {
             (new MessageFlash())->ajouter("danger", "Ajoutez un produit qui existe dans votre panier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
+        } else if (!filter_var($_POST["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
         } else if ($_GET["quantite"] <= 0) {
@@ -176,11 +182,11 @@ class ControleurProduit extends ControleurGenerique
     public
     static function supprimerProduitDuPanier(): void
     {
-        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_POST["idProduit"]])) {
             (new MessageFlash())->ajouter("danger", "Vous ne pouvez pas supprimer un produit qui n'existe pas");
             (new ControleurProduit())->afficherCatalogue();
         } else {
-            Panier::supprimerItem((int)$_GET["idProduit"]);
+            Panier::supprimerItem((int)$_POST["idProduit"]);
             (new MessageFlash())->ajouter("success","Le produit a bien été supprimé du panier !");
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
         }
@@ -189,7 +195,7 @@ class ControleurProduit extends ControleurGenerique
     public
     static function modifierQuantitePanier(): void
     {
-        if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
+        if (!(new ProduitRepository())->clePrimaireExiste([$_POST["idProduit"]])) {
             (new MessageFlash())->ajouter("warning", "Modifiez la quantité d'un produit qui est dans votre panier");
             (new ControleurProduit())->afficherCatalogue();
         } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
@@ -200,15 +206,15 @@ class ControleurProduit extends ControleurGenerique
             (new ControleurProduit())->afficherCatalogue();
             return;
         } else {
-            Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
+            Panier::modifierQuantite($_POST["idProduit"], $_POST["quantite"]);
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
         }
     }
 
     public static function supprimerProduit(): void
     {
-        if (isset($_GET['idProduit'])) {
-            $idProduit = $_GET['idProduit'];
+        if (isset($_POST['idProduit'])) {
+            $idProduit = $_POST['idProduit'];
 
             $produitRepository = new ProduitRepository();
             $produit = $produitRepository->recupererParClePrimaire([$idProduit]);
@@ -230,11 +236,11 @@ class ControleurProduit extends ControleurGenerique
     public static function modifierProduit(): void
     {
         try {
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $idProduit = $_GET["idProduit"];
-                $nomProduit = $_GET["nomProduit"];
-                $descriptionProduit = $_GET["descriptionProduit"];
-                $prixProduit = $_GET["prixProduit"];
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $idProduit = $_POST["idProduit"];
+                $nomProduit = $_POST["nomProduit"];
+                $descriptionProduit = $_POST["descriptionProduit"];
+                $prixProduit = $_POST["prixProduit"];
 
                 if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
                     $imagePath = self::deplacerImageProduit($_FILES['images']);
@@ -305,17 +311,23 @@ class ControleurProduit extends ControleurGenerique
     }
 
     public static function afficherDetailAchat(): void {
-        $idAchat = $_GET["idAchat"];
-        $ToutProduitAchat = (new ProduitAchatRepository())->recuperer();
+        $idAchat = $_POST["idAchat"];
+        $toutProduitAchat = (new ProduitAchatRepository())->recuperer();
 
         $produitAchat = [];
-        foreach ($ToutProduitAchat as $produit) {
+        $prixTotalAchats = 0;
+
+        foreach ($toutProduitAchat as $produit) {
             if ($produit->getIdAchat()==$idAchat) {
                 $produitAchat[] = $produit;
+                $prixTotalAchats += $produit ->getPrixProduitUnitaire()*$produit->getQuantite();
             }
         }
 
-        self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat", "cheminVueBody" => "utilisateur/client/detailAchat.php", "produits" => $produitAchat]);
+        self::afficherVue("vueGenerale.php", ["pagetitle" => "Détail achat",
+            "cheminVueBody" => "utilisateur/client/detailAchat.php",
+            "produits" => $produitAchat,
+            "prixTotalAchats" => $prixTotalAchats]);
     }
 
     public static function validerAchat(): void {

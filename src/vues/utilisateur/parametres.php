@@ -12,7 +12,7 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
     <div class="container-fluid mt-4">
         <div class="row">
             <div class="col-xl-7 mx-auto">
-                <form method="get" action="../web/controleurFrontal.php" class="mb-6">
+                <form method="post" action="../web/controleurFrontal.php" class="mb-6">
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div>

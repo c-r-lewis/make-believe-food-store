@@ -16,9 +16,14 @@
                     <tr>
                         <td class="text-muted"><?= htmlspecialchars($compte->getEmail())?></td>
                         <td class="d-flex justify-content-end align-items-center">
-                            <a href="controleurFrontal.php?action=supprimerCompte&email=<?php echo urlencode($compte->getEmail()); ?>">
-                                <img src="../../../../ressources/images/logo-supprimer.png" height="50">
-                            </a>
+                            <form action="../web/controleurFrontal.php" method="post">
+                                <input type="hidden" name="controleur" value="utilisateurGenerique">
+                                <input type="hidden" name="action" value="supprimerCompte">
+                                <input type="hidden" name="email" value="<?= urlencode($compte->getEmail()); ?>">
+                                <button class="btn btn-link" type="submit">
+                                    <img src="../../../../ressources/images/logo-supprimer.png" height="50" alt="Supprimer">
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
