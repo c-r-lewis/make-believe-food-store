@@ -198,7 +198,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         /** @var Utilisateur $utilisateur */
         $utilisateur = $repo->recupererParClePrimaire([$login])[0];
         if (!MotDePasse::verifier($mdpActuel, $utilisateur->getMdpHache())) {
-            echo "mauvais mot de passe";
+            (new MessageFlash())->ajouter("warning", "Mot de passe incorrect");
+            self::afficherParametres();
             return;
         };
         if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
