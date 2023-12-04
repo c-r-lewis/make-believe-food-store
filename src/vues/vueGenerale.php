@@ -54,7 +54,7 @@
                     <form action="controleurFrontal.php" method="post">
                         <input type="hidden" name="action" value="afficherParametres">
                         <input type="hidden" name="controleur" value="utilisateurGenerique">
-                        <button class="nav-link px-3 my-3 text-white btn btn-link" type="submit" style="width=100%">
+                        <button class="nav-link px-3 my-3 text-white btn btn-link d-flex justify-content-start align-items-center" type="submit" style="width:100%">
                             <span class="me-2">
                                 <img src="../ressources/images/logo-utilisateur.png" class="icon" alt="Utilisateur">
                             </span>
