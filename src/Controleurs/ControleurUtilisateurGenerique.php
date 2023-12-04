@@ -109,7 +109,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function supprimerCompte(): void
     {
         try {
-            $user = (new UtilisateurRepository())->recupererParClePrimaire([$_GET["email"]])[0];
+            $user = (new UtilisateurRepository())->recupererParClePrimaire([$_POST["email"]])[0];
             (new UtilisateurRepository())->supprimerParAbstractDataObject($user);
             (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
             self::afficherComptes();
@@ -122,8 +122,8 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function inscription(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $email = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
 
 
             if (!$email) {
@@ -139,13 +139,13 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 return;
             }
 
-            if ($_GET["mdp"] != $_GET["mdp2"]) {
+            if ($_POST["mdp"] != $_POST["mdp2"]) {
                 (new MessageFlash())->ajouter("warning", "Les mots de passe ne sont pas identiques !");
                 self::afficherInscription();
                 return;
             }
 
-            $utilisateur = Utilisateur::construireDepuisFormulaire($_GET);
+            $utilisateur = Utilisateur::construireDepuisFormulaire($_POST);
             $utilisateur->setEmailAValider($email);
             $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
 
@@ -171,11 +171,11 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function connexion(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (
-                (new UtilisateurRepository())->clePrimaireExiste([$_GET["email"]])
+                (new UtilisateurRepository())->clePrimaireExiste([$_POST["email"]])
             ) {
-                ConnexionUtilisateur::connecter($_GET["email"], $_GET["mdp"]);
+                ConnexionUtilisateur::connecter($_POST["email"], $_POST["mdp"]);
                 ControleurProduit::afficherCatalogue();
             } else {
                 (new MessageFlash())->ajouter("warning", "Email ou mot de passe incorrect !");
@@ -187,7 +187,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
     public static function miseAJourParametres(): void
     {
         // TODO: refactorer
-        $mdpActuel = $_GET["mdpActuel"];
+        $mdpActuel = $_POST["mdpActuel"];
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $repo = new UtilisateurRepository();
         /** @var Utilisateur $utilisateur */
@@ -196,21 +196,21 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             echo "mauvais mot de passe";
             return;
         };
-        if ($_GET["mdpNouveau"] != "" && $_GET["mdpNouveau"] == $_GET["mdpNouveau2"]) {
-            $nouveauMdp = MotDePasse::hacher($_GET["mdpNouveau"]);
+        if ($_POST["mdpNouveau"] != "" && $_POST["mdpNouveau"] == $_POST["mdpNouveau2"]) {
+            $nouveauMdp = MotDePasse::hacher($_POST["mdpNouveau"]);
             $utilisateur->setMdpHache($nouveauMdp);
         }
-        if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
-            $utilisateur->setPrenom($_GET["prenom"]);
+        if (isset($_POST["prenom"]) && $_POST["prenom"] != "") {
+            $utilisateur->setPrenom($_POST["prenom"]);
         }
-        if (isset($_GET["prenom"]) && $_GET["prenom"] != "") {
-            $utilisateur->setPrenom($_GET["prenom"]);
+        if (isset($_POST["prenom"]) && $_POST["prenom"] != "") {
+            $utilisateur->setPrenom($_POST["prenom"]);
         }
 
         $email = $utilisateur->getEmail();
         $nouveauEmail = $email;
-        if (isset($_GET["email"]) && $_GET["email"] != "" && $_GET["email"] != $email) {
-            $nouveauEmail = filter_var($_GET["email"], FILTER_VALIDATE_EMAIL);
+        if (isset($_POST["email"]) && $_POST["email"] != "" && $_POST["email"] != $email) {
+            $nouveauEmail = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
 
             if (!$nouveauEmail) {
                 (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
@@ -226,14 +226,14 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             }
 
             $utilisateur->setEmailAValider($nouveauEmail);
-            $nouveauEmail = $_GET["email"];
+            $nouveauEmail = $_POST["email"];
             $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
             ConnexionUtilisateur::setLoginUtilisateurConnecte($nouveauEmail);
 
             VerificationEmail::envoiEmailValidation($utilisateur);
         }
         $repo->mettreAJour($utilisateur);
-        if ($nouveauEmail != $email) $repo->mettreAJourClePrimaire(["email" => $email], ["email" => $_GET["email"]]);
+        if ($nouveauEmail != $email) $repo->mettreAJourClePrimaire(["email" => $email], ["email" => $_POST["email"]]);
         (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
         (new ControleurProduit())->afficherCatalogue();
     }

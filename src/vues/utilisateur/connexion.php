@@ -5,7 +5,7 @@
             <div class="col-6 d-flex align-items-center flex-column
             justify-content-center data-entry rounded-start">
                 <span class="mb-5">Se connecter</span>
-                <form method="get" action="../web/controleurFrontal.php" class="d-flex align-items-center flex-column justify-content-center">
+                <form method="post" action="../web/controleurFrontal.php" class="d-flex align-items-center flex-column justify-content-center">
                     <input class="mb-4" name="email" type="text" placeholder="Email" required/>
                     <input class="mb-4" name="mdp" type="password" placeholder="Mot de passe" required/>
                     <input class="texte-white mb-3" type="submit" value="Se connecter">

@@ -9,7 +9,7 @@
             justify-content-center data-entry rounded-end">
                 <span class="mb-5">S'inscrire</span>
 
-                <form method="get" action="../web/controleurFrontal.php" class="d-flex align-items-center flex-column justify-content-center">
+                <form method="post" action="../web/controleurFrontal.php" class="d-flex align-items-center flex-column justify-content-center">
                     <input type="text" class="mb-4" placeholder="Email" name="email">
                     <input type="text" class="mb-4" placeholder="Nom" name="nom">
                     <input type="text" class="mb-4" placeholder="Prenom" name="prenom">
