@@ -85,7 +85,7 @@
     foreach ($messagesFlash as $type => $messagesFlashPourUnType) {
         foreach ($messagesFlashPourUnType as $messageFlash) {
             echo <<< HTML
-            <div class="alert alert-$type">
+            <div class="alert alert-$type" id="message-flash">
                 $messageFlash
             </div>
             HTML;

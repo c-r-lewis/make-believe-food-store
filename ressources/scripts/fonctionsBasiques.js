@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.querySelectorAll(".quantite").forEach(input => {
         mettreAJourPrixTotal(input);
     });
+
+    const flashMessage = document.querySelector('.alert');
+
+    if (flashMessage) {
+        setTimeout(hideMessage, 3000);
+    }
 });
 
 function mettreAJourPrixTotal(input) {
@@ -28,25 +34,10 @@ function checkScreenWidth() {
     offCanvas.setAttribute("data-bs-backdrop", screenWidth >= offcanvasWidth ? 'false' : 'true');
 }
 
-document.getElementById('itemUpdate').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
 
-    // Fetch API to submit the form data asynchronously
-    fetch(this.action, {
-        method: this.method,
-        body: new FormData(this),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Assuming your response is JSON, adjust accordingly
-        })
-        .then(data => {
-            // Handle the response data if needed
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-});
+function hideMessage() {
+    const messageDiv = document.getElementById('message-flash');
+    if (messageDiv) {
+        messageDiv.style.display = 'none';
+    }
+}
