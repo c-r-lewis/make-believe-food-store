@@ -161,7 +161,7 @@ class ControleurProduit extends ControleurGenerique
         } else if (!filter_var($_POST["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if ($_GET["quantite"] >= 0) {
+        } else if ($_GET["quantite"] > 0) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
             (new ControleurProduit())->afficherCatalogue();
         } else {
@@ -200,7 +200,7 @@ class ControleurProduit extends ControleurGenerique
         } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if ($_GET["quantite"] >= 0) {
+        } else if ($_GET["quantite"] > 0) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
             (new ControleurProduit())->afficherCatalogue();
             return;
