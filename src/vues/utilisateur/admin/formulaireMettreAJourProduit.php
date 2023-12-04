@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_name">NOM PRODUIT</label>
                     <div class="col-md-4">
-                        <input id="product_name" name="nomProduit" placeholder="<?=htmlspecialchars($produit->getNomProduit())?>" class="form-control input-md" required type="text">
+                        <input id="product_name" name="nomProduit" value="<?=htmlspecialchars($produit->getNomProduit())?>" class="form-control input-md" required type="text">
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="price">PRIX</label>
                     <div class="col-md-4">
-                        <input class="form-control" id="price" name="prixProduit" type="number" placeholder="<?= htmlspecialchars($produit->getPrixProduit())?>">
+                        <input class="form-control" id="price" name="prixProduit" type="number" value="<?=htmlspecialchars($produit->getPrixProduit())?>">
                     </div>
                 </div>
 
@@ -44,14 +44,23 @@
                         </div>
                     </div>
                     <!-- Button -->
-                    <div class="form-group">
-                        <div class="col-md-4 mt-2">
+                    <div class="form-group d-flex">
+                        <div class="col-md-2 mt-2">
                             <button id="singlebutton" type="submit" name="action" class="btn btn-primary" value="modifierProduit">Valider</button>
-                            <input type="hidden" name="idProduit" value="<?= urlencode($_POST["idProduit"]); ?>"/>
+                            <input type="hidden" name="idProduit" value="<?=urlencode($_POST["idProduit"])?>"/>
+                        </div>
+                        <div class="col-md-2 mt-2">
+                            <form action="../web/controleurFrontal.php" method="post">
+                                <button type="submit" name="action" value="supprimerProduit" class="btn btn-danger ms-3">
+                                    Supprimer
+                                </button>
+                                <input type="hidden" name="idProduit" value="<?=urlencode($_POST["idProduit"])?>"/>
+                            </form>
                         </div>
                     </div>
                 </div>
             </fieldset>
         </form>
+
     </div>
 </main>
