@@ -52,7 +52,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                     $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
                     $produits[] = ["produit" => $produit,
                         "quantite" => $quantite];
-                    $totalPrix += $produit->getPrixProduit()*$quantite;
+                    $totalPrix += $produit->getPrixProduit() * $quantite;
                 }
             }
             self::afficherVue(
@@ -71,7 +71,12 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function afficherConnexion(): void
     {
-        self::afficherVue("vueGenerale.php", ["cheminVueBody" => "utilisateur/connexion.php"]);
+        self::afficherVue("vueGenerale.php",
+            [
+                "cheminVueBody" => "utilisateur/connexion.php",
+                "pagetitle" => "Connexion"
+            ]
+        );
     }
 
     public static function afficherParametres(): void
@@ -82,7 +87,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                 [
                     "cheminVueBody" => "utilisateur/parametres.php",
                     "utilisateur" => (new UtilisateurRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0],
-                    "pagetitle"=>"Changer vos informations"
+                    "pagetitle" => "Changer vos informations"
                 ]
             );
         }
