@@ -60,21 +60,25 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
                 <?php
                 if (!ConnexionUtilisateur::estAdmin()) {
                     echo '
-                    <div class="col-md-12">
-                    <div class="card shadow border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <div>
-                                <h5 class="text-danger mb-2">Supprimer son compte</h5>
-                                <p class="text-sm text-muted">
-                                    Attention, une fois que vous supprimez votre compte il n\'y a pas de retour en arrière possible
-                                </p>
+                        <form method="post">
+                            <div class="col-md-12">
+                                <div class="card shadow border-0">
+                                    <div class="card-body d-flex align-items-center">
+                                        <div>
+                                            <h5 class="text-danger mb-2">Supprimer son compte</h5>
+                                            <p class="text-sm text-muted">
+                                                Attention, une fois que vous supprimez votre compte, il n\'y a pas de retour en arrière possible
+                                            </p>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <button type="submit" class="btn btn-sm btn-danger" name="action" value="supprimerCompte">Supprimer</button>
+                                            <input type="hidden" name="email" value="'. ConnexionUtilisateur::getLoginUtilisateurConnecte() .'">
+                                            <input type="hidden" name="controleur" value="utilisateurGenerique">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="ms-auto">
-                                <button type="button" class="btn btn-sm btn-danger">Supprimer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
+                        </form>';
                 }
                 ?>
             </div>

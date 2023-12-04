@@ -9,6 +9,7 @@ use App\Magasin\Lib\VerificationEmail;
 use App\Magasin\Modeles\DataObject\PanierConnecte;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\HTTP\Cookie;
+use App\Magasin\Modeles\HTTP\Session;
 use App\Magasin\Modeles\Repository\PanierRepository;
 use App\Magasin\Modeles\Repository\ProduitPanierRepository;
 use App\Magasin\Modeles\Repository\ProduitRepository;
@@ -117,7 +118,11 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             $user = (new UtilisateurRepository())->recupererParClePrimaire([$_POST["email"]])[0];
             (new UtilisateurRepository())->supprimerParAbstractDataObject($user);
             (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
-            self::afficherComptes();
+            if ($_POST["email"] == ConnexionUtilisateur::getLoginUtilisateurConnecte()) {
+                self::deconnexion();
+            } else {
+                self::afficherComptes();
+            }
         } catch (Exception $e) {
             (new MessageFlash())->ajouter("danger", "Le compte n'a pas été supprimé !");
             (new ControleurProduit())->afficherCatalogue();
