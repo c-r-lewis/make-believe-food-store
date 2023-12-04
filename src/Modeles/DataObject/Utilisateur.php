@@ -33,9 +33,12 @@ class Utilisateur extends AbstractDataObject
     public static function construireDepuisFormulaire(array $tableauFormulaire): Utilisateur
     {
         $mdpHache = MotDePasse::hacher($tableauFormulaire["mdp"]);
+
+        $emailAValider = isset($tableauFormulaire["emailAValider"]) ? $tableauFormulaire["emailAValider"] : $tableauFormulaire["email"];
+
         return new Utilisateur(
             $tableauFormulaire["email"],
-            $tableauFormulaire["emailAValider"],
+            $emailAValider,
             $tableauFormulaire["nom"],
             $tableauFormulaire["prenom"],
             $mdpHache
