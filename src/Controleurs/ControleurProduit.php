@@ -54,8 +54,8 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
 
-                if (!filter_var($prixProduit, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^\d+\.\d{2}$/")))) {
-                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre décimal avec deux chiffres après la virgule");
+                if (!filter_var($prixProduit, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^-?\d+(\.\d{2})?$/")))) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre décimal avec deux chiffres après la virgule ou un nombre entier");
                     self::afficherCreationProduit();
                     return;
                 }
@@ -242,11 +242,18 @@ class ControleurProduit extends ControleurGenerique
                     $imagePath = null;
                 }
 
-                if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
-                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
-                    self::afficherModificationProduit();
+                if (!filter_var($prixProduit, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^-?\d+(\.\d{2})?$/")))) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre décimal avec deux chiffres après la virgule ou un nombre entier");
+                    self::afficherCreationProduit();
                     return;
                 }
+
+                if ($prixProduit < 0) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre positif");
+                    self::afficherCreationProduit();
+                    return;
+                }
+
 
                 $produitRepository = new ProduitRepository();
                 $produit = $produitRepository->recupererParClePrimaire([$idProduit])[0];
