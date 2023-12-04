@@ -8,36 +8,40 @@
                             <?php
                             /** @var array $produits */
                             /** @var float $prixTotal */
+                            ?>
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <h6 class="mb-3">
+                                        <form action="../web/controleurFrontal.php" method="post">
+                                            <input type="hidden" name="action" value="afficherCatalogue">
+                                            <button type="submit" class="btn btn-link text-body">
+                                                Continuer vos achats
+                                            </button>
+                                        </form>
+                                    </h6>
+                                    <hr>
+                                </div>
+                            </div>
 
-                            use App\Magasin\Lib\ConnexionUtilisateur;
-
-                            echo '
-                        <div class="row">
-                            <div class="col-lg-7">
-                            <h6 class="mb-3">
-                                <a href="controleurFrontal.php?action=afficherCatalogue" class="text-body">Continuer
-                                        vos achats
-                                </a>
-                            </h6>
-                            <hr>
-                                
-                           
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
                                     <p class="mb-1">Panier</p>
-                                    <p class="mb-0">Vous avez <span>' . sizeof($produits) . '</span> objet(s) différent(s) dans votre panier</p>
+                                    <p class="mb-0">Vous avez <?= htmlspecialchars(sizeof($produits)) ?> objet(s)
+                                        différent(s) dans votre panier</p>
                                 </div>
-                            </div>';
+                            </div>
 
-                            foreach ($produits as $item) {
-                                echo '
+                            <?php
+                            foreach ($produits as $item):
+                                ?>
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div class="ms-3">
-                                                    <h5>' . htmlspecialchars($item["produit"]->getNomProduit()) . '</h5>
-                                                    <p class="small mb-0" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">' . $item["produit"]->getDescriptionProduit() . '</p>
+                                                    <h5><?= htmlspecialchars($item["produit"]->getNomProduit()) ?></h5>
+                                                    <p class="small mb-0"
+                                                       style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?= htmlspecialchars($item["produit"]->getDescriptionProduit()) ?></p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
@@ -59,28 +63,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>';
-                            }
-                            echo '
-                        </div>
+                                </div>
+                            <?php endforeach; ?>
+
                             <div class="col-lg-5">
 
                                 <div class="card bg-primary text-white rounded-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <h5 class="mb-6">Détails d\'achat</h5>
+                                            <h5 class="mb-6">Détails d'achat</h5>
                                         </div>
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="nom"
-                                                       class="form-control form-control-lg fs-6" placeholder="Nom" required/>
+                                                       class="form-control form-control-lg fs-6" placeholder="Nom"
+                                                       required/>
                                                 <label class="form-label" for="nom">Nom</label>
                                             </div>
 
                                             <div class="form-outline form-white mb-4">
                                                 <input type="text" id="num"
                                                        class="form-control form-control-lg fs-6"
-                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required/>
+                                                       placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"
+                                                       required/>
                                                 <label class="form-label" for="num">Numéro de carte</label>
                                             </div>
 
@@ -122,14 +127,17 @@
 
                                             <div class="d-flex justify-content-between mb-4">
                                                 <p class="mb-2">Total</p>
-                                                <p class="mb-2"> <?=$prixTotal?> €</p>
+                                                <p class="mb-2"><?= $prixTotal ?>€</p>
                                             </div>
-                                   
-                                            <button type="submit" class="btn btn-info btn-block btn-lg" name="action" value="validerAchat">
+
+                                            <button type="submit" class="btn btn-info btn-block btn-lg" name="action"
+                                                    value="validerAchat">
                                                 <span class="fs-6">Valider</span>
                                             </button>
                                         </form>
                                     </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

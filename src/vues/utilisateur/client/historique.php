@@ -5,20 +5,37 @@
                 <thead>
                 <tr>
                     <th scope="col">Date</th>
-                    <th scope="col" class="d-flex justify-content-end">Prix</th>
+                    <th scope="col" class="d-flex justify-content-end">N° Commande</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php
-                /** @var array $achats */
+                    <?php
+                    /** @var array $achats */
 
-                foreach ($achats as $achat) {
-                    echo '<tr>';
-                    echo '<td class="text-muted"><a style="color: black; text-decoration: none;" href="controleurFrontal.php?action=afficherDetailAchat&idAchat=' . $achat->getIdAchat() . '">' . htmlspecialchars($achat->getDate()) . '</a></td>';
-                    echo '<td class="d-flex justify-content-end align-items-center">$52.9</td>';
-                    echo '</tr>';
-                }
-                ?>
+                    foreach ($achats as $achat):
+                    ?>
+                    <tr>
+                        <td class="text-muted">
+                            <form action="../web/controleurFrontal.php" method="post">
+                                <input type="hidden" name="action" value="afficherDetailAchat">
+                                <input type="hidden" name="idAchat" value="<?=$achat->getIdAchat()?>">
+                                <button type="submit" class="btn btn-link nav-link p-0" style="color: black;">
+                                    <?= htmlspecialchars($achat->getDate())?>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="d-flex justify-content-end">
+                            <form action="../web/controleurFrontal.php" method="post">
+                                <input type="hidden" name="action" value="afficherDetailAchat">
+                                <input type="hidden" name="idAchat" value="<?=$achat->getIdAchat()?>">
+                                <button type="submit" class="btn btn-link nav-link p-0" style="color: black;">
+                                    <?=$achat->getIdAchat()?>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach;
+                    ?>
                 </tbody>
             </table>
         </div>

@@ -13,61 +13,80 @@
 <body>
 
 <header class="navbar fixed-top p-3">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-between">
         <?php
-        use App\Magasin\Lib\ConnexionUtilisateur as ConnexionUtilisateur;
+        use App\Magasin\Lib\ConnexionUtilisateur;
+        // Set the default action and text
         $action = "afficherConnexion";
         $text = "Se connecter";
+
         if (ConnexionUtilisateur::estConnecte()) {
             $action = "deconnexion";
             $text = "Se déconnecter";
         }
-        echo '
-        <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-nav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="text-end">
-            <a class="btn btn-outline-light" href="controleurFrontal.php?action='.$action.'&controleur=utilisateurGenerique">'.$text.'</a>
-        </div>';
         ?>
+            <button type="submit" class="navbar-toggler navbar-light" data-bs-toggle="offcanvas" data-bs-target="#sidebar-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <form action="controleurFrontal.php" method="post">
+            <input type="hidden" name="action" value="<?= urlencode($action) ?>">
+            <input type="hidden" name="controleur" value="utilisateurGenerique">
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-outline-light">
+                    <?= htmlspecialchars($text) ?>
+                </button>
+            </div>
+        </form>
     </div>
+
 </header>
 
 <div class="offcanvas sidebar-nav" tabindex="-1" id="sidebar-nav">
     <div class="offcanvas-body p-0">
         <nav>
             <ul class="navbar-nav ">
-            <?php
-            if (ConnexionUtilisateur::estConnecte()) {
-                echo '<li class="nav-item">
-                    <a class="nav-link px-3 my-3 text-white" href="controleurFrontal.php?action=afficherParametres&controleur=utilisateurGenerique">
-                        <span class="me-2">
-                            <img src="../ressources/images/logo-utilisateur.png" class="icon" alt="Utilisateur">
-                        </span>
-                        <span>
-                            Utilisateur
-                        </span>
-                    </a>
+                <?php
+                if (ConnexionUtilisateur::estConnecte()):
+                ?>
+                <li class="nav-item">
+                    <form action="controleurFrontal.php" method="post">
+                        <input type="hidden" name="action" value="afficherParametres">
+                        <input type="hidden" name="controleur" value="utilisateurGenerique">
+                        <button class="nav-link px-3 my-3 text-white btn btn-link" type="submit" style="width=100%">
+                            <span class="me-2">
+                                <img src="../ressources/images/logo-utilisateur.png" class="icon" alt="Utilisateur">
+                            </span>
+                            <span>
+                                Utilisateur
+                            </span>
+                        </button>
+                    </form>
                 </li>
                 <li>
                     <hr class="dropdown-divider mt-0 mb-0 text-white"/>
-                </li>';
-            }
+                </li>
+                <?php endif;
 
-            /** @var array $onglets */
-            foreach($onglets[0] as $onglet => $lien) {
-                echo '<li class="nav-item">
-                    <a class="nav-link px-3 p-3 text-white" href="'.$lien .'">
-                        <span class="me-2">
-                            <img src="../ressources/images/'.$onglets[1][$onglet].'" alt="' . $onglet. '" class="icon">
-                        </span>
-                        <span>
-                            ' . $onglet. '
-                        </span>
-                    </a>
-                </li>';
-            }
-            ?>
+                /** @var array $onglets */
+                foreach($onglets[0] as $onglet => $lien) :
+                ?>
+                <li class="nav-item">
+                    <form action="controleurFrontal.php" method="post">
+                        <button class="nav-link px-3 p-3 text-white btn btn-link d-flex justify-content-start align-items-center" type="submit" style="width:100%">
+                            <span class="me-2">
+                                <img src="../ressources/images/<?=$onglets[1][$onglet]?>" alt="<?=htmlspecialchars( $onglet)?>" class="icon">
+                            </span>
+                            <span>
+                                <?=htmlspecialchars($onglet)?>
+                            </span>
+                        </button>
+                        <input type="hidden" name="action" value="<?=$onglets[0][$onglet]["action"]?>">
+                        <input type="hidden" name="controleur" value="<?=$onglets[0][$onglet]["controleur"]?>">
+                    </form>
+                </li>
+                <?php endforeach; ?>
             </ul>
         </nav>
     </div>
