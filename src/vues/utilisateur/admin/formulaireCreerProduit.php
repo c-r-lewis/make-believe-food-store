@@ -22,7 +22,7 @@
                 <div class="form-group mt-2">
                     <label class="col-md-4 control-label" for="price">PRIX</label>
                     <div class="col-md-4">
-                        <input class="form-control" id="price" name="prixProduit" type="number">
+                        <input class="form-control" id="price" name="prixProduit" type="number" step="0.01">
                     </div>
                 </div>
 
