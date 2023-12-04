@@ -149,8 +149,11 @@ class ControleurProduit extends ControleurGenerique
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
         } else {
+            $recupererPanier = ((new PanierRepository())->recupererParClePrimaire([ConnexionUtilisateur::getLoginUtilisateurConnecte()])[0])->formatTableau();
+            if (!(new ProduitPanierRepository())->clePrimaireExiste([$recupererPanier["idPanierTag"], $_GET["idProduit"]])) {
+                (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
+            }
             Panier::ajouterItem($_GET["idProduit"], $_GET["quantite"]);
-            (new MessageFlash())->ajouter("success", "Le produit a été ajouté au panier !");
             self::afficherCatalogue();
         }
     }
