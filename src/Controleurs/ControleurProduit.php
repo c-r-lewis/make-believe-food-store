@@ -54,8 +54,14 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
 
-                if (!filter_var($prixProduit, FILTER_VALIDATE_INT)) {
-                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre");
+                if (!filter_var($prixProduit, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^\d+\.\d{2}$/")))) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre décimal avec deux chiffres après la virgule");
+                    self::afficherCreationProduit();
+                    return;
+                }
+
+                if ($prixProduit < 0) {
+                    (new MessageFlash())->ajouter("warning", "Le prix doit être un nombre positif");
                     self::afficherCreationProduit();
                     return;
                 }
@@ -150,6 +156,9 @@ class ControleurProduit extends ControleurGenerique
         } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
+        } else if ($_GET["quantite"] <= 0) {
+            (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
+            (new ControleurProduit())->afficherCatalogue();
         } else {
             if (!ConnexionUtilisateur::estConnecte()) {
                 (new Panier())->enregistrerDansPanierEnTantQueCookie($_GET["idProduit"], $_GET["quantite"]);
@@ -183,34 +192,42 @@ class ControleurProduit extends ControleurGenerique
         if (!(new ProduitRepository())->clePrimaireExiste([$_GET["idProduit"]])) {
             (new MessageFlash())->ajouter("warning", "Modifiez la quantité d'un produit qui est dans votre panier");
             (new ControleurProduit())->afficherCatalogue();
-        } else if (!filter_var($_GET["idProduit"], FILTER_VALIDATE_INT)) {
+        } else if (!filter_var($_GET["quantite"], FILTER_VALIDATE_INT)) {
             (new MessageFlash())->ajouter("warning", "La quantité doit être un entier");
             (new ControleurProduit())->afficherCatalogue();
+        } else if ($_GET["quantite"] <= 0) {
+            (new MessageFlash())->ajouter("warning", "La quantité doit être un entier positif");
+            (new ControleurProduit())->afficherCatalogue();
+            return;
         } else {
             Panier::modifierQuantite($_GET["idProduit"], $_GET["quantite"]);
             echo '<meta http-equiv="refresh" content="0;url=controleurFrontal.php?action=afficherPanier&controleur=utilisateurGenerique">';
         }
     }
 
-    public
-    static function supprimerProduit(): void
+    public static function supprimerProduit(): void
     {
         if (isset($_GET['idProduit'])) {
             $idProduit = $_GET['idProduit'];
 
-            $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
-
             $produitRepository = new ProduitRepository();
-            $produitRepository->supprimerParAbstractDataObject($produit);
+            $produit = $produitRepository->recupererParClePrimaire([$idProduit]);
 
+            if (!empty($produit)) {
+                $produitRepository->supprimerParAbstractDataObject($produit[0]);
+                (new MessageFlash())->ajouter("success", "Le produit a été supprimé avec succès.");
+            } else {
+                (new MessageFlash())->ajouter("warning", "Le produit avec l'ID $idProduit n'existe pas.");
+            }
         } else {
-            (new ControleurGenerique)::erreur("L'ID du produit n'est pas défini.");
+            (new MessageFlash())->ajouter("danger", "L'ID du produit n'est pas défini.");
         }
+
         self::afficherCatalogue();
     }
 
-    public
-    static function modifierProduit(): void
+
+    public static function modifierProduit(): void
     {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
