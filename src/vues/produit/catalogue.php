@@ -18,7 +18,9 @@
                 ?>
             <div class="col-md-3 mb-3">
                 <div class="card shadow text-center">
-                    <img src="<?=$cheminImage?>" class="card-img-top" alt="...">
+                    <div style="min-height:164.883px;" class="d-flex align-items-center">
+                        <img src="<?=$cheminImage?>" class="card-img-top"  alt="..." >
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
                         <a href="controleurFrontal.php?action=<?php echo $action.'&'.'idProduit='.$produit->getIdProduit()?>" class="btn btn-outline-secondary">
