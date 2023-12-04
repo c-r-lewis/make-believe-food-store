@@ -8,6 +8,9 @@
                             <?php
                             /** @var array $produits */
                             /** @var float $prixTotal */
+
+                            use App\Magasin\Lib\ConnexionUtilisateur;
+
                             echo '
                         <div class="row">
                             <div class="col-lg-7">
@@ -100,18 +103,22 @@
                                                         <label class="form-label" for="cvv">CVV</label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="col-md-12">
-                                                    <div class="form-outline form-white">
-                                                        <input type="text" id="email"
-                                                               class="form-control form-control-lg fs-6"
-                                                               placeholder="exemple@gmail.com" required/>
-                                                        <label class="form-label" for="email">Email</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr class="my-4">
+                                            </div>';
+
+                                            if (!ConnexionUtilisateur::estConnecte()) {
+                                                echo '<div class="row mb-4">
+                                                    <div class="col-md-12">
+                                                        <div class="form-outline form-white">
+                                                            <input type="text" id="email"
+                                                                class="form-control form-control-lg fs-6"
+                                                                   placeholder="exemple@gmail.com" required/>
+                                                                    <label class="form-label" for="email">Email</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>';
+                                            }
+
+                                            echo'<hr class="my-4">
 
                                             <div class="d-flex justify-content-between mb-4">
                                                 <p class="mb-2">Total</p>
