@@ -12,7 +12,7 @@ use App\Magasin\Modeles\Repository\ProduitRepository;
                 <?php
                 $cheminImage = (new ProduitRepository())->getImageProduit($produit);
                 ?>
-                <img src="<?= urlencode($cheminImage) ?>" class="img-fluid" alt="Image produit"/>
+                <img src="<?=$cheminImage?>" class="img-fluid" alt="Image produit"/>
             </div>
             <div class="col-lg-7 col-md-12 d-flex flex-column justify-content-md-center justify-content-lg-start">
                 <span class="mb-lg-5 fs-1 d-flex justify-content-md-center justify-content-lg-start"><?= htmlspecialchars($produit->getNomProduit()); ?></span>
