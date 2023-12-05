@@ -89,7 +89,7 @@
                                             <div class="d-flex justify-content-between align-items-center mb-4">
                                                 <h5 class="mb-6">Détails d'achat</h5>
                                             </div>
-                                            <form class="mt-4">
+                                            <form class="mt-4" method="post" action="../web/controleurFrontal.php">
                                                 <div class="form-outline form-white mb-4">
                                                     <input type="text" id="nom"
                                                            class="form-control form-control-lg fs-6" placeholder="Nom"
@@ -135,7 +135,7 @@
                                                     echo '<div class="row mb-4">
                                                     <div class="col-md-12">
                                                         <div class="form-outline form-white">
-                                                            <input type="text" id="email"
+                                                            <input type="text" id="email" name="email"
                                                                 class="form-control form-control-lg fs-6"
                                                                    placeholder="exemple@gmail.com" required/>
                                                                     <label class="form-label" for="email">Email</label>
@@ -151,10 +151,8 @@
                                                     <p class="mb-2"><?= $prixTotal ?>€</p>
                                                 </div>
 
-                                                <button type="submit" class="btn btn-info btn-block btn-lg"
-                                                        name="action"
-                                                        value="validerAchat">
-                                                    <span class="fs-6">Valider</span>
+                                                <button type="submit" class="btn btn-info btn-block btn-lg fs-6" name="action" value="validerAchat">
+                                                    Valider
                                                 </button>
                                             </form>
                                         </div>

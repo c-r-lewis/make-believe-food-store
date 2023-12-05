@@ -54,8 +54,13 @@ class VerificationEmail
         $contenuEmail .= '<p>' . htmlspecialchars($prixTotalHistorique) . ' €</p></strong></span></div></li>';
         $contenuEmail .= '</ul></div></main>';
 
-        $lienValidationEmail = "$URLAbsolue?action=afficherDetailProduit";
-        self::envoyerEmail(ConnexionUtilisateur::getLoginUtilisateurConnecte(), "Validation de l'achat", $contenuEmail);
+        if (ConnexionUtilisateur::estConnecte()) {
+            $destinataire = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        } else {
+            $destinataire = $_POST["email"];
+        }
+
+        self::envoyerEmail($destinataire, "Validation de l'achat", $contenuEmail);
     }
 
 
@@ -98,7 +103,6 @@ class VerificationEmail
     {
         $enTete = "MIME-Version: 1.0\r\n";
         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
-        //$enTete .= "From: votre_adresse_email@example.com\r\n";
 
         mail($destinataire, $sujet, $contenuHTML, $enTete);
     }
