@@ -106,7 +106,11 @@ class VerificationEmail
         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
 
         try {
-            mail($destinataire, $sujet, $contenuHTML, $enTete);
+            $envoiReussi = mail($destinataire, $sujet, $contenuHTML, $enTete);
+
+            if (!$envoiReussi) {
+                throw new Exception('Erreur lors de l\'envoi du courrier électronique.');
+            }
         } catch (Exception $e) {
 
         }
