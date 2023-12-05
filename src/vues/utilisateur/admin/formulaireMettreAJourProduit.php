@@ -21,9 +21,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="product_description">DESCRIPTION PRODUIT</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="product_description" name="descriptionProduit">
-                            <?= htmlspecialchars($produit->getDescriptionProduit())?>
-                        </textarea>
+                        <textarea class="form-control" id="product_description" name="descriptionProduit"><?=htmlspecialchars($produit->getDescriptionProduit())?></textarea>
                     </div>
                 </div>
 
