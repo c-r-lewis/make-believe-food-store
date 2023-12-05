@@ -14,7 +14,7 @@ class Utilisateur extends AbstractDataObject
     private string $mdpHache;
     private bool $estAdmin;
 
-    public function __construct(string $email, string $emailAValider="Nan", string $nom, string $prenom, string $mdpHache, string $nonce=null, bool $estAdmin = false) {
+    public function __construct(string $email, string $nom, string $prenom, string $mdpHache, string $nonce=null, string $emailAValider="Nan", bool $estAdmin = false) {
         $this->email = $email;
         if ($emailAValider == "Nan") {
             $emailAValider = $email;
@@ -38,10 +38,10 @@ class Utilisateur extends AbstractDataObject
 
         return new Utilisateur(
             $tableauFormulaire["email"],
-            $emailAValider,
             $tableauFormulaire["nom"],
             $tableauFormulaire["prenom"],
-            $mdpHache
+            $mdpHache,
+            $emailAValider
         );
     }
 
