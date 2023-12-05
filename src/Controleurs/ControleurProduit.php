@@ -384,6 +384,15 @@ class ControleurProduit extends ControleurGenerique
                     }
                 }
             } else {
+                $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
+
+
+                if (!$email) {
+                    (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
+                    ControleurUtilisateurGenerique::afficherPanier();
+                    return;
+                }
+
                 if (Cookie::contient("panier")) {
                     $panier = Cookie::lire("panier");
                     $idAchat = hexdec(uniqid());
@@ -404,9 +413,14 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
             }
-            VerificationEmail::envoiAchatConnecte($produitMail);
-            (new MessageFlash())->ajouter("success", "Votre achat a été validé. Un email vous a été envoyé !");
-            self::afficherCatalogue();
+            try {
+                VerificationEmail::envoiAchatConnecte($produitMail);
+                (new MessageFlash())->ajouter("success", "Votre achat a été validé. Un email vous a été envoyé !");
+                self::afficherCatalogue();
+            } catch (Exception $e) {
+                (new MessageFlash())->ajouter("warning", "Votre achat a été validé mais l'email n'a pas pu être envoyé !");
+                self::afficherCatalogue();
+            }
         } catch (Exception $e) {
             echo $e;
             (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");

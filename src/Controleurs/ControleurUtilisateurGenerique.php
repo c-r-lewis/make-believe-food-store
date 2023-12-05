@@ -178,9 +178,12 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
             (new UtilisateurRepository())->sauvegarder($utilisateur);
 
-            VerificationEmail::envoiEmailValidation($utilisateur);
-
-            (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
+            try {
+                VerificationEmail::envoiEmailValidation($utilisateur);
+                (new MessageFlash())->ajouter("success", "Votre compte a bien été créé ! Un email de validation a été envoyé !");
+            } catch (Exception $e) {
+                (new MessageFlash())->ajouter("warning", "Votre achat a été validé mais l'email n'a pas pu être envoyé !");
+            }
 
             $panierConnecte = new PanierConnecte(hexdec(uniqid()), $utilisateur->getEmail());
             $panierRepository = new PanierRepository();
