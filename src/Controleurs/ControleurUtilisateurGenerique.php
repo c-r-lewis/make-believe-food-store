@@ -213,7 +213,6 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
 
     public static function miseAJourParametres(): void
     {
-        // TODO: refactorer
         $mdpActuel = $_POST["mdpActuel"];
         $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $repo = new UtilisateurRepository();
@@ -224,45 +223,23 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
             self::afficherParametres();
             return;
         };
-        if ($_POST["mdpNouveau"] != "" && $_POST["mdpNouveau"] == $_POST["mdpNouveau2"]) {
-            $nouveauMdp = MotDePasse::hacher($_POST["mdpNouveau"]);
-            $utilisateur->setMdpHache($nouveauMdp);
+        if ($_POST["mdpNouveau"] != "") {
+            if ($_POST["mdpNouveau"] != $_POST["mdpNouveau2"]) {
+                (new MessageFlash())->ajouter("warning", "Les mots de passe ne correspondent pas.");
+                self::afficherParametres();
+                return;
+            }
+                $nouveauMdp = MotDePasse::hacher($_POST["mdpNouveau"]);
+                $utilisateur->setMdpHache($nouveauMdp);
         }
         if (isset($_POST["prenom"]) && $_POST["prenom"] != "") {
             $utilisateur->setPrenom($_POST["prenom"]);
         }
-        if (isset($_POST["prenom"]) && $_POST["prenom"] != "") {
-            $utilisateur->setPrenom($_POST["prenom"]);
-        }
-
-        $email = $utilisateur->getEmail();
-        $nouveauEmail = $email;
-        if (isset($_POST["email"]) && $_POST["email"] != "" && $_POST["email"] != $email) {
-            $nouveauEmail = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-
-            if (!$nouveauEmail) {
-                (new MessageFlash())->ajouter("warning", "Adresse email invalide !");
-                ControleurUtilisateurGenerique::afficherParametres();
-                return;
-
-            }
-
-            if ((new UtilisateurRepository())->clePrimaireExiste([$nouveauEmail])) {
-                (new MessageFlash())->ajouter("warning", "L'email est déjà utilisé !");
-                ControleurUtilisateurGenerique::afficherParametres();
-                return;
-            }
-
-            $utilisateur->setEmailAValider($nouveauEmail);
-            $nouveauEmail = $_POST["email"];
-            $utilisateur->setNonce(MotDePasse::genererChaineAleatoire());
-            ConnexionUtilisateur::setLoginUtilisateurConnecte($nouveauEmail);
-
-            VerificationEmail::envoiEmailValidation($utilisateur);
+        if (isset($_POST["nom"]) && $_POST["nom"] != "") {
+            $utilisateur->setNom($_POST["nom"]);
         }
         $repo->mettreAJour($utilisateur);
-        if ($nouveauEmail != $email) $repo->mettreAJourClePrimaire(["email" => $email], ["email" => $_POST["email"]]);
-        (new MessageFlash())->ajouter("success", "Vos modifications ont été enregistrées ! Un email de validation a été envoyé !");
+        (new MessageFlash())->ajouter("success", "Vos modifications ont été mises en attente. Veuillez vérifier votre boîte mail pour les valider.");
         (new ControleurProduit())->afficherCatalogue();
     }
 
