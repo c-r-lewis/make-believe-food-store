@@ -54,7 +54,6 @@
                                                                    type="number" name="quantite" min="1"
                                                                    value="<?= htmlspecialchars($item["quantite"]) ?>"
                                                                    data-price="<?= htmlspecialchars($item["produit"]->getPrixProduit()) ?>"
-                                                                   oninput="mettreAJourPrixTotal(this)"
                                                                    onchange="this.form.submit()">
                                                         </div>
                                                         <input type="hidden" name="action" value="modifierQuantitePanier">
