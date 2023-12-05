@@ -65,6 +65,18 @@ class ControleurProduit extends ControleurGenerique
                     return;
                 }
 
+                if (strlen($nomProduit) > 100) {
+                    (new MessageFlash())->ajouter("warning", "Le nom que vous essayez de donner est trop long");
+                    self::afficherCreationProduit();
+                    return;
+                }
+
+                if (strlen($descriptionProduit) > 500) {
+                    (new MessageFlash())->ajouter("warning", "La description est limitée à 500 caractères");
+                    self::afficherCreationProduit();
+                    return;
+                }
+
                 $produit = new Produit(hexdec(uniqid()), $nomProduit, $descriptionProduit, $prixProduit);
 
                 (new ProduitRepository())->sauvegarder($produit);
