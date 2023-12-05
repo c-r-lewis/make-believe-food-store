@@ -28,12 +28,6 @@ use \App\Magasin\Modeles\Repository\UtilisateurRepository as UtilisateurReposito
                         </div>
                     </div>
                     <div class="row g-4">
-                        <div class="col-md-12">
-                            <div>
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" value="<?= htmlspecialchars($utilisateur->getEmail(), ENT_QUOTES, 'UTF-8')?>">
-                            </div>
-                        </div>
                     </div>
                     <div class="col-12">
                         <div >
