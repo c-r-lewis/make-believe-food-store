@@ -46,6 +46,7 @@ class Panier extends AbstractDataObject {
                 $panier = Cookie::lire("panier");
                 if (array_key_exists($idProduit, $panier)) {
                     $panier[$idProduit] = $nvlleQuantite;
+                    (new MessageFlash())->ajouter("success", "Les modifications ont été enregistrées");
                     Cookie::enregistrer("panier", $panier);
                 }
             }
@@ -59,6 +60,7 @@ class Panier extends AbstractDataObject {
             $contenuPanier = ($contenuPanier[$i])->formatTableau();
             $nouvelleQuantite = new ProduitPanier($contenuPanier["idPanierTag"], $idProduit, $nvlleQuantite);
             (new ProduitPanierRepository())->mettreAJour($nouvelleQuantite);
+            (new MessageFlash())->ajouter("success", "Les modifications ont été enregistrées");
         }
     }
 
