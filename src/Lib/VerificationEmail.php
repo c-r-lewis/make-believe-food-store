@@ -105,7 +105,11 @@ class VerificationEmail
         $enTete = "MIME-Version: 1.0\r\n";
         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
 
-        mail($destinataire, $sujet, $contenuHTML, $enTete);
+        try {
+            mail($destinataire, $sujet, $contenuHTML, $enTete);
+        } catch (Exception $e) {
+
+        }
     }
 
     private function afficherPageDetailUtilisateur($login): void
