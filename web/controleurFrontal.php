@@ -17,13 +17,7 @@ if (isset($_POST["controleur"])) {
 $nomDeClasseControleur = '\App\Magasin\Controleurs\Controleur' . ucfirst($controleur);
 
 if (class_exists($nomDeClasseControleur)) {
-    if (isset($_POST["action"])) {
-        $action = $_POST["action"];
-    } elseif (isset($_GET["action"])) {
-        $action = $_GET["action"];
-    } else {
-        $action = "afficherCatalogue";
-    }
+    $action = $_POST["action"] ?? "afficherCatalogue";
 
     if (method_exists($nomDeClasseControleur, $action)) {
         $nomDeClasseControleur::$action();
