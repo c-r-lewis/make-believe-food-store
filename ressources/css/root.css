@@ -9,6 +9,19 @@ body {
     width: 100dvw;
 }
 
+.w-100 {
+    max-width: 100%;
+}
+
+.w-80 {
+    max-width: 80%;
+}
+
+.w-50 {
+    max-width: 50%;
+}
+
+
 .sidebar-nav {
     width: var(--offcanvas-width);
     background-color: #242B3D;
