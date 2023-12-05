@@ -130,10 +130,12 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
         try {
             $user = (new UtilisateurRepository())->recupererParClePrimaire([$_POST["email"]])[0];
             (new UtilisateurRepository())->supprimerParAbstractDataObject($user);
-            (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
             if ($_POST["email"] == ConnexionUtilisateur::getLoginUtilisateurConnecte()) {
-                self::deconnexion();
+                ConnexionUtilisateur::deconnecter();
+                (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
+                ControleurProduit::afficherCatalogue();
             } else {
+                (new MessageFlash())->ajouter("success", "Le compte a bien été supprimé !");
                 self::afficherComptes();
             }
         } catch (Exception $e) {

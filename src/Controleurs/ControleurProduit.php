@@ -393,12 +393,12 @@ class ControleurProduit extends ControleurGenerique
                 }
             }
             VerificationEmail::envoiAchatConnecte($produitMail);
-            //(new MessageFlash())->ajouter("success", "Votre achat a été validé. Un email vous a été envoyé !");
-            //self::afficherCatalogue();
+            (new MessageFlash())->ajouter("success", "Votre achat a été validé. Un email vous a été envoyé !");
+            self::afficherCatalogue();
         } catch (Exception $e) {
             echo $e;
-            //(new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");
-            //(new ControleurProduit())->afficherCatalogue();
+            (new MessageFlash())->ajouter("danger", "Une erreur est survenue lors de la validation du panier");
+            (new ControleurProduit())->afficherCatalogue();
         }
     }
 }
