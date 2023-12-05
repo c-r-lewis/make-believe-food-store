@@ -11,27 +11,27 @@
             /** @var Image $image */
             /** @var Produit $produit */
 
-
             foreach ($produits as $produit):
                 $cheminImage = (new ProduitRepository())->getImageProduit($produit);
-            ?>
-            <div class="col-md-3 mb-3">
-                <div class="card shadow text-center">
-                    <div style="min-height:164.883px;" class="d-flex align-items-center rounded">
-                        <img src="<?=$cheminImage?>" class="card-img-top"  alt="..." >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
-                        <form action="../web/controleurFrontal.php" method="post">
-                            <input type="hidden" name="action" value="afficherDetailProduit">
-                            <input type="hidden" name="idProduit" value="<?=urlencode($produit->getIdProduit());?>">
-                            <button type="submit" class="btn btn-outline-secondary">
-                                Voir produit
-                            </button>
-                        </form>
+                ?>
+                <div class="col-md-3 mb-3">
+                    <div class="card shadow text-center">
+                        <div style="min-height:164.883px;" class="d-flex align-items-center rounded">
+                            <img src="<?=$cheminImage?>" class="card-img-top custom-image" alt="..." style="height: 30vh; object-fit: cover;">
+                            <!-- Adjust the height value as needed -->
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fs-6"><?=htmlspecialchars($produit->getNomProduit())?></h5>
+                            <form action="../web/controleurFrontal.php" method="post">
+                                <input type="hidden" name="action" value="afficherDetailProduit">
+                                <input type="hidden" name="idProduit" value="<?=urlencode($produit->getIdProduit());?>">
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    Voir produit
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach;?>
         </div>
     </div>
