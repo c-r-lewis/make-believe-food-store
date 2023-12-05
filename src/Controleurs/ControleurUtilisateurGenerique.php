@@ -49,7 +49,7 @@ class ControleurUtilisateurGenerique extends ControleurGenerique
                     $panier = Cookie::lire("panier");
                 }
                 foreach ($panier as $idProduit => $quantite) {
-                    $produit = (new ProduitRepository())->recupererParClePrimaire([$idProduit])[0];
+                    $produit = ((new ProduitRepository())->recupererParClePrimaire([$idProduit]))[0];
                     $produits[] = ["produit" => $produit,
                         "quantite" => $quantite];
                     $totalPrix += $produit->getPrixProduit() * $quantite;

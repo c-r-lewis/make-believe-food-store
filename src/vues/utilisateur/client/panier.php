@@ -38,17 +38,17 @@
                                     as $item): ?>
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <div class="d-flex justify-content-between">
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <div class="ms-3">
+                                            <div class="d-flex justify-content-between w-100">
+                                                <div class="d-flex flex-row align-items-center w-60">
+                                                    <div class="ms-3 w-80">
                                                         <h5><?= htmlspecialchars($item["produit"]->getNomProduit()) ?></h5>
-                                                        <p class="small mb-0"
+                                                        <p class="small mb-0 w-100"
                                                            style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?= htmlspecialchars($item["produit"]->getDescriptionProduit()) ?></p>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-row align-items-center">
                                                     <form action="../web/controleurFrontal.php" id="itemUpdate"
-                                                          class="d-flex flex-row align-items-center" method="post">
+                                                          class="d-flex flx-row align-items-center" method="post">
                                                         <div class="me-4" style="width: 50px;">
                                                             <input class="fw-normal quantite" style="width: 60px"
                                                                    type="number" name="quantite" min="1"
