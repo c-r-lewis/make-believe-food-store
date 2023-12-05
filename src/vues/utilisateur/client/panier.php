@@ -39,14 +39,14 @@
                                     <div class="card mb-3">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between w-100">
-                                                <div class="d-flex flex-row align-items-center w-60">
+                                                <div class="d-flex flex-row align-items-center w-50">
                                                     <div class="ms-3 w-80">
                                                         <h5><?= htmlspecialchars($item["produit"]->getNomProduit()) ?></h5>
                                                         <p class="small mb-0 w-100"
                                                            style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;"><?= htmlspecialchars($item["produit"]->getDescriptionProduit()) ?></p>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex flex-row align-items-center">
+                                                <div class="d-flex flex-row align-items-center w-50">
                                                     <form action="../web/controleurFrontal.php" id="itemUpdate"
                                                           class="d-flex flx-row align-items-center" method="post">
                                                         <div class="me-4" style="width: 50px;">
@@ -64,18 +64,16 @@
                                                             id="prixTotalItem"><?= htmlspecialchars($item["quantite"] * $item["produit"]->getPrixProduit()) ?>
                                                             €</h5>
                                                     </div>
-                                                    <div>
-                                                        <form action="../web/controleurFrontal.php" method="post">
-                                                            <button type="submit" class="btn btn-link">
-                                                                <img src="../../../../ressources/images/logo-fermer.png"
-                                                                     alt="Supprimer" style="width: 30px"/>
-                                                            </button>
-                                                            <input type="hidden" name="action"
-                                                                   value="supprimerProduitDuPanier">
-                                                            <input type="hidden" name="idProduit"
-                                                                   value="<?= rawurlencode($item["produit"]->getIdProduit()) ?>">
-                                                        </form>
-                                                    </div>
+                                                    <form action="../web/controleurFrontal.php" method="post">
+                                                        <button type="submit" class="btn btn-link">
+                                                            <img src="../../../../ressources/images/logo-fermer.png"
+                                                                 alt="Supprimer" style="width: 30px"/>
+                                                        </button>
+                                                        <input type="hidden" name="action"
+                                                               value="supprimerProduitDuPanier">
+                                                        <input type="hidden" name="idProduit"
+                                                               value="<?= rawurlencode($item["produit"]->getIdProduit()) ?>">
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

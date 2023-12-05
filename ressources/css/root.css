@@ -17,9 +17,10 @@ body {
     max-width: 80%;
 }
 
-.w-60 {
-    max-width: 60%;
+.w-50 {
+    max-width: 50%;
 }
+
 
 .sidebar-nav {
     width: var(--offcanvas-width);
