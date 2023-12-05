@@ -5,6 +5,7 @@ use App\Magasin\Configuration\ConfigurationSite;
 use App\Magasin\Controleurs\ControleurProduit;
 use App\Magasin\Modeles\DataObject\Utilisateur;
 use App\Magasin\Modeles\Repository\UtilisateurRepository;
+use Exception;
 
 class VerificationEmail
 {
